@@ -28,8 +28,15 @@ options, commands,  mappings, etc.,  and isn't  meant to be  read from  start to
 finish.
 
 ## Credits & Acknowledgements
-Vim user manual and reference manual by Bram Moolenaar. Parts of the user manual
-come from the book "Vi IMproved - Vim" by Steve Oualline.
+The Vim user manual and reference manual is by Bram Moolenaar. Parts of the user
+manual come from the book "Vi IMproved - Vim" by Steve Oualline.
+
+The icons for the visual settings come from [Font Awesome](https://fontawesome.com).
+
+Colorschemes:
+  * [Solarized Light](https://ethanschoonover.com/solarized) by [Ethan Schoonover](https://github.com/altercation)
+  * [Ayu Dark](https://github.com/dempfi/ayu) by [Ike Ku](https://github.com/dempfi)
+  * "Rust" & "Coal" taken from the [mdBook](https://github.com/rust-lang/mdBook) project
 
 ## Licenses
 The Vim  user manual and  reference manual are  Copyright (c) 1988-2003  by Bram
