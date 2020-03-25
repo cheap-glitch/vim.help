@@ -3,7 +3,8 @@
  * src/helpers.js
  */
 
-const fs = require('fs');
+const fs   = require('fs');
+const path = require('path');
 
 module.exports = {
 
@@ -61,9 +62,9 @@ module.exports = {
 	/**
 	 * Return the array of lines from a raw text file and remove trailing whitespace
 	 */
-	getRawFileContents(path)
+	getRawFileContents(filename)
 	{
-		return fs.readFileSync(path).toString().replace(/[ \t]+$/gm, '').split('\n');
+		return fs.readFileSync(path.resolve(__dirname, `../raw/${filename}`)).toString().replace(/[ \t]+$/gm, '').split('\n');
 	},
 
 	/**

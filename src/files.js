@@ -23,7 +23,7 @@ walk('raw').filter(file => file.path.endsWith('.txt')).forEach(function(file)
 	{
 		files[filename] = isUserManual(filename)
 			// For the pages of the user manual, the title is always on the fourth line
-			? getRawFileContents(file.path)[4].trim()
+			? getRawFileContents(`${filename}.txt`)[4].trim()
 			// Else, just take the name of the raw file
 			: filename;
 	}

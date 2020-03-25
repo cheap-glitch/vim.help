@@ -8,14 +8,20 @@
 const { basename } = require('./src/helpers.js');
 
 const fs           = require('fs');
+const path         = require('path');
 const rm           = require('rimraf');
 const walk         = require('klaw-sync');
-const minify       = require('html-minifier').minify;
 
-const BUILD_DIR    = `${__dirname}/public`;
+const minify       = require('html-minifier').minify;
+const terser       = require('terser');
+const postcss      = require('postcss');
+const autoprefixer = require('autoprefixer');
+const cssnano      = require('cssnano');
+
+const BUILD_DIR    = path.resolve(__dirname, './public');
 const TIMESTAMP    = Date.now();
 const TARGET       = process.argv[2]
-const PRODUCTION   = process.NODE_ENV === 'production';
+const PRODUCTION   = process.env.NODE_ENV === 'production';
 
 // Do nothing if no argument is given
 if (process.argv.length <= 2) process.exit(0);
@@ -57,27 +63,35 @@ walk(BUILD_DIR).forEach(function(file)
 /**
  * Post-processing
  */
-if (PRODUCTION) walk(BUILD_DIR).filter(file => file.path.split('.').pop() == TARGET).forEach(function(file)
+if (PRODUCTION) walk(BUILD_DIR).filter(file => file.path.split('.').pop() == TARGET).forEach(async function(file)
 {
+	const source = fs.readFileSync(file.path).toString();
+
 	switch(TARGET)
 	{
 		// Minify the HTML
 		case 'html':
-			fs.writeFileSync(file.path, minify(fs.readFileSync(file.path).toString(), {
-				minifyJS:           true,
-				removeComments:     true,
-				collapseWhitespace: true,
-			}));
+			try {
+				fs.writeFileSync(file.path, minify(source, {
+					minifyJS:           true,
+					removeComments:     true,
+					collapseWhitespace: true,
+				}));
+			}
+			catch (error) {
+				console.info(`${file.path}`);
+				console.error(error);
+			}
 			break;
 
 		// Minify and auto-prefix the CSS
 		case 'css':
-			// @TODO
+			fs.writeFileSync(file.path, await postcss([autoprefixer, cssnano]).process(source));
 			break;
 
 		// Minify the JS
 		case 'js':
-			// @TODO
+			fs.writeFileSync(file.path, terser.minify(source).code);
 			break;
 	}
 });

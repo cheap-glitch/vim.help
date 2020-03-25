@@ -18,6 +18,8 @@
 		"smarter-tabs/smarter-tabs":  "warn"
 	},
 
+  "ignorePatterns": ["public/"],
+
 	"overrides": [{
 		"files": ["test/*.test.js", "tests/unit/*.spec.js"],
 		"env": {

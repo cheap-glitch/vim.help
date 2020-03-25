@@ -11,7 +11,7 @@ const { getRawFileContents } = require('../helpers.js');
 const files = require('../files.js');
 
 // Read the tags file to get the list of tags
-const tags = getRawFileContents('raw/tags').filter(line => line.length).reduce(function(result, line)
+const tags = getRawFileContents('tags').filter(line => line.length).reduce(function(result, line)
 {
 	const [tag, file] = line.split('\t');
 	result[tag] = basename(file);
@@ -52,7 +52,7 @@ function createTags(filename, text)
 		{
 			// Get the title of the section from the file contents
 			const file  = tags[tag];
-			const title = getRawFileContents(`raw/${file}.txt`).find(line => line.startsWith(`*${tag}*`))
+			const title = getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`))
 				// Remove potential targets from the section title
 				.replace(/\*[^*]+\*/g, '').trim();
 
@@ -110,7 +110,7 @@ function wrapKeyBindings(text)
 	/**
 	 * Key bindings (<Key>, <S-Key>, etc.)
 	 */
-	.replace(/&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding, 'kbd'))
+	.replace(/(^|\b)&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding, 'kbd'))
 
 	/**
 	 * Control-based key bindings (CTRL-*)
@@ -121,7 +121,7 @@ function wrapKeyBindings(text)
 	 * Also replace the hyphen with a non-breaking hyphen
 	 * to prevent the key binding from being split between two lines
 	 */
-	.replace(/(?:(?:^|\b)CTRL-(?:.|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace('-', '&#8209;'), 'kbd'))
+	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace('-', '&#8209;'), 'kbd'))
 }
 
 /**

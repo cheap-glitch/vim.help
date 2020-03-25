@@ -44,6 +44,7 @@
  */
 
 const fs                     = require('fs');
+const path                   = require('path');
 
 const files                  = require('./files.js');
 const fixes                  = require('./fixes.js');
@@ -53,12 +54,12 @@ const { toKebabCase        } = require('./helpers.js');
 const { isUserManual       } = require('./helpers.js');
 const { getRawFileContents } = require('./helpers.js');
 
-const BUILD_DIR              = 'public';
+const BUILD_DIR              = path.resolve(__dirname, '../public');
 const HTML_LAYOUT            = fs.readFileSync('src/layouts/page.html').toString();
 
 for (const [filename, title] of Object.entries(files))
 {
-	const contents = getRawFileContents(`raw/${filename}.txt`);
+	const contents = getRawFileContents(`${filename}.txt`);
 
 	// Optionally apply some fixes to the raw text
 	if (filename in fixes)
@@ -96,10 +97,12 @@ for (const [filename, title] of Object.entries(files))
 function callProcessor(filename, lines)
 {
 	// User manual
-	if (isUserManual(filename)) return require('./processors/usr.js')(filename, lines);
+	if (isUserManual(filename))
+		return require('./processors/usr.js')(filename, lines);
 
 	// Specially formatted file
-	if (fs.existsSync(`src/processors/${filename}.js`)) return require(`./processors/${filename}.js`)(lines);
+	if (fs.existsSync(path.resolve(__dirname, `./processors/${filename}.js`)))
+		return require(`./processors/${filename}.js`)(lines);
 
 	// Common help file
 	return require('./processors/help.js')(filename, lines);
