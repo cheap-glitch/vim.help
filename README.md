@@ -18,9 +18,9 @@ While there's plenty of excellent articles, tutorials and books on Vim out there
 best sources to learn about Vim.  Sadly, it's often overlooked by both beginners
 and regular users alike.
 
-There already  exists a  mirror of  the doc online,  but it  doesn't do  much to
-improve the reading  experience. The goal of **vim.help** is  to make Vim's docs
-more pleasant to browse and peruse.
+There already exists  [a mirror of the doc  online](https://vimhelp.org), but it
+doesn't do much  to improve the reading experience. The  goal of **vim.help** is
+to make Vim's docs pleasant to both browse and peruse.
 
 ## About Vim's help
 Vim's help is split into two sections: a user manual and a reference manual.
@@ -41,6 +41,11 @@ Contributions are welcomed! While the parser  for the user manual is functional,
 there are still  plenty of edge cases  to catch. Furthermore, many  pages of the
 reference manual have a unique format and  need a special processor to turn them
 into legible web pages.
+
+Other features that would be nice to have:
+  * full-site search ([DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch) seems pretty nice)
+  * better mobile and small-screen support
+  * better a11y (maybe a specific colorscheme?)
 
 If   you're   interested    in   helping   out,   please   take    a   look   at
 [CONTRIBUTING.md](https://github.com/cheap-glitch/vim.help/blob/master/CONTRIBUTING.md).
