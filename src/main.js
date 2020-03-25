@@ -10,7 +10,7 @@
  *                                                                      888
  *                                                                     o888o
  *
- * Vim's built-in documentation, made nicer to read.
+ * Vim built-in documentation, made nicer to read.
  *
  *
  * Copyright (c) 1988-2003, Bram Moolenaar

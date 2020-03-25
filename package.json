@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "vim-help",
-  "description": "Vim's built-in documentation, made nicer to read.",
+  "description": "Vim built-in documentation, made nicer to read.",
   "version": "0.0.1",
   "license": "ISC",
   "repository": {

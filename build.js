@@ -12,7 +12,7 @@ const rm           = require('rimraf');
 const walk         = require('klaw-sync');
 const minify       = require('html-minifier').minify;
 
-const BUILD_DIR    = 'public';
+const BUILD_DIR    = `${__dirname}/public`;
 const TIMESTAMP    = Date.now();
 const TARGET       = process.argv[2]
 const PRODUCTION   = process.NODE_ENV === 'production';
