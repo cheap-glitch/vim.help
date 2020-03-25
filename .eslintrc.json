@@ -1,0 +1,27 @@
+{
+	"extends": "eslint:recommended",
+
+	"plugins": [
+		"smarter-tabs"
+	],
+
+	"parserOptions": {
+		"ecmaVersion": 2018
+	},
+
+	"env": {
+		"node": true
+	},
+
+	"rules": {
+		"no-mixed-spaces-and-tabs":   ["warn", "smart-tabs"],
+		"smarter-tabs/smarter-tabs":  "warn"
+	},
+
+	"overrides": [{
+		"files": ["test/*.test.js", "tests/unit/*.spec.js"],
+		"env": {
+			"mocha": true
+		}
+	}]
+}

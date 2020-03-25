@@ -1,0 +1,306 @@
+
+/**
+ * styles/colorschemes.css
+ */
+
+/**
+ * Classic
+ * {{{
+ * =============================================================================
+ */
+
+:root[data-colorscheme="classic"]
+{
+	--color--body--bg: white;
+	--color--body--text: #222222;
+
+	--color--button--text: #dddddd;
+	--color--button--text--hover: steelblue;
+
+	--color--header--border: lightgray;
+	--color--header-anchor--text: darkgray;
+
+	--color--note--bg: beige;
+
+	--color--pre--border: lightgray;
+	--color--command-block--border: teal;
+	--color--message-error--border: lightcoral;
+	--color--message-warning--border: gold;
+
+	--color--anchor--text: steelblue;
+
+	--color--inline-code--bg: #f0f0f0;
+
+	--color--tag--border: lightgray;
+	--color--tag--border--note: lightgray;
+
+	--color--option--text: blueviolet;
+	--color--command--text: lightseagreen;
+	--color--keybinding--text: orangered;
+}
+
+/**
+ * }}}
+ */
+
+/**
+ * Solarized Light
+ * {{{
+ * =============================================================================
+ */
+
+/**
+ * Copyright (c) 2011 Ethan Schoonover
+ * <https://ethanschoonover.com/solarized>
+ *
+ * #002b36  base03
+ * #073642  base02
+ * #586e75  base01
+ * #657b83  base00
+ * #839496  base0
+ * #93a1a1  base1
+ * #eee8d5  base2
+ * #fdf6e3  base3
+ * #b58900  yellow
+ * #cb4b16  orange
+ * #dc322f  red
+ * #d33682  magenta
+ * #6c71c4  violet
+ * #268bd2  blue
+ * #2aa198  cyan
+ * #859900  green
+ */
+:root[data-colorscheme="solarized-light"]
+{
+	--color--body--bg: #fdf6e3;
+	--color--body--text: #657b83;
+
+	--color--button--text: #eee8d5;
+	--color--button--text--hover: #2aa198;
+
+	--color--header--border: #eee8d5;
+	--color--header-anchor--text: #93a1a1;
+
+	--color--note--bg: #d5d5cd;
+
+	--color--pre--border: #eee8d5;
+	--color--command-block--border: #2aa198;
+	--color--message-error--border: #dc322f;
+	--color--message-warning--border: #b58900;
+
+	--color--anchor--text: #268bd2;
+
+	--color--inline-code--bg: #eee8d5;
+
+	--color--tag--border: #eee8d5;
+	--color--tag--border--note: #fdf6e3;
+
+	--color--option--text: #6c71c4;
+	--color--command--text: #859900;
+	--color--keybinding--text: #cb4b16;
+}
+
+/**
+ * }}}
+ */
+
+/**
+ * Rust
+ * {{{
+ * =============================================================================
+ */
+
+/**
+ * Taken from the mdBook project
+ * <https://github.com/rust-lang/mdBook#readme>
+ *
+ * #000000
+ * #262625
+ * #2b79a2
+ * #3b2e2a
+ * #45373a
+ * #505254
+ * #666666
+ * #6e6b5e
+ * #737480
+ * #888888
+ * #99908a
+ * #aaaaaa
+ * #b38f6b
+ * #b3a497
+ * #b6b6af
+ * #c2c2bc
+ * #c8c9db
+ * #d5d5cd
+ * #dec2a2
+ * #e1e1db
+ * #e69f67
+ * #fafafa
+ */
+:root[data-colorscheme="rust"]
+{
+	--color--body--bg: #e1e1db;
+	--color--body--text: #262625;
+
+	--color--button--text: #c2c2bc;
+	--color--button--text--hover: #2b79a2;
+
+	--color--header--border: #c2c2bc;
+	--color--header-anchor--text: #b6b6af;
+
+	--color--note--bg: #d5d5cd;
+
+	--color--pre--border: #c2c2bc;
+	--color--command-block--border: #737480;
+	--color--message-error--border: indianred;
+	--color--message-warning--border: #dec2a2;
+
+	--color--anchor--text: #2b79a2;
+
+	--color--inline-code--bg: #c2c2bc;
+
+	--color--tag--border: #d5d5cd;
+	--color--tag--border--note: #c2c2bc;
+
+	--color--option--text: plum;
+	--color--command--text: slategray;
+	--color--keybinding--text: #e69f67;
+}
+
+/**
+ * }}}
+ */
+
+/**
+ * Ayu Dark
+ * {{{
+ * =============================================================================
+ */
+
+/**
+ * Copyright (c) 2016 Ike Ku
+ * <https://github.com/dempfi/ayu#readme>
+ *
+ * #0f1419  bg
+ * #5c6773  comment
+ * #f07178  markup
+ * #ffee99  constant
+ * #e7c547  operator
+ * #36a3d9  tag
+ * #95e6cb  regexp
+ * #b8cc52  string
+ * #ffb454  function
+ * #e6b673  special
+ * #ff7733  keyword
+ * #ff3333  error
+ * #f29718  accent
+ * #14191f  panel
+ * #2d3640  guide
+ * #151a1e  line
+ * #253340  selection
+ * #e6e1cf  fg
+ * #c5c5c5  fg_text
+ * #3e4b59  fg_idle
+ */
+:root[data-colorscheme="ayu-dark"]
+{
+	--color--body--bg: #0f1419;
+	--color--body--text: #c5c5c5;
+
+	--color--button--text: #2d3640;
+	--color--button--text--hover: #f29718;
+
+	--color--header--border: #14191f;
+	--color--header-anchor--text: #3e4b59;
+
+	--color--note--bg: #253340;
+
+	--color--pre--border: #5c6773;
+	--color--command-block--border: #e6b673;
+	--color--message-error--border: #ff3333;
+	--color--message-warning--border: #f29718;
+
+	--color--anchor--text: #36a3d9;
+
+	--color--inline-code--bg: #3e4b59;
+
+	--color--tag--border: #253340;
+	--color--tag--border--note: #5c6773;
+
+	--color--option--text: #f07178;
+	--color--command--text: #b8cc52;
+	--color--keybinding--text: #ff7733;
+}
+
+/**
+ * }}}
+ */
+
+/**
+ * Coal
+ * {{{
+ * =============================================================================
+ */
+
+/**
+ * Taken from the mdBook project
+ * <https://github.com/rust-lang/mdBook#readme>
+ *
+ * #000000
+ * #131516
+ * #141617
+ * #1a1d1e
+ * #1f2124
+ * #1f2223
+ * #242638
+ * #292c2f
+ * #2b2b2f
+ * #2b79a2
+ * #2e3147
+ * #3473ad
+ * #355c7d
+ * #393939
+ * #42494c
+ * #43484d
+ * #505254
+ * #666666
+ * #98a3ad
+ * #a1adb8
+ * #aaaaaa
+ * #b3c0cc
+ * #b7b7b7
+ * #c5c8c6
+ */
+:root[data-colorscheme="coal"]
+{
+	--color--body--bg: #131516;
+	--color--body--text: #98a3ad;
+
+	--color--button--text: #1f2124;
+	--color--button--text--hover: #3473ad;
+
+	--color--header--border: #242638;
+	--color--header-anchor--text: #2e3147;
+
+	--color--note--bg: #292c2f;
+
+	--color--pre--border: #242638;
+	--color--command-block--border: #e6b673;
+	--color--message-error--border: #ff3333;
+	--color--message-warning--border: #f29718;
+
+	--color--anchor--text: #2b79a2;
+
+	--color--inline-code--bg: #2b2b2f;
+
+	--color--tag--border: #253340;
+	--color--tag--border--note: #253340;
+
+	--color--option--text: #f07178;
+	--color--command--text: #2aa198;
+	--color--keybinding--text: #ffb454;
+}
+
+/**
+ * }}}
+ */

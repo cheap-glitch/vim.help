@@ -1,0 +1,7 @@
+
+#
+# .nowignore
+#
+
+/.debug/
+/public/.htaccess

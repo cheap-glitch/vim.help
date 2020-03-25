@@ -1,0 +1,79 @@
+
+/**
+ * styles/text.css
+ */
+
+/**
+ * Font family
+ * {{{
+ * =============================================================================
+ */
+
+/**
+ * Sans serif
+ */
+:root[data-font-family="sans-serif"]
+{
+	--font--body: "Fira Sans", "Open Sans", Helvetica, sans-serif;
+
+	--font-size--body: 1.6rem;
+	--font-size--h1:   3.1rem;
+	--font-size--h2:   2.1rem;
+	--font-size--h3:   1.6rem;
+
+	--line-spacing--body: 1.4;
+}
+
+/**
+ * Serif
+ */
+:root[data-font-family="serif"]
+{
+	--font--body: "Garamond", "EB Garamond", "Palatino", "Georgia", serif;
+
+	--font-size--body: 2.0rem;
+	--font-size--h1:   3.5rem;
+	--font-size--h2:   2.5rem;
+	--font-size--h3:   2.0rem;
+
+	--line-spacing--body: 1.1;
+}
+
+/**
+ * }}}
+ */
+
+/**
+ * Font size
+ * {{{
+ * =============================================================================
+ */
+
+:root[data-font-size="small"]                { font-size: 10px;  }
+:root[data-font-size="normal"]               { font-size: 11px;  }
+:root[data-font-size="big"]                  { font-size: 12px;  }
+
+:root[data-font-size="small"]  .page-wrapper { max-width: 700px; }
+:root[data-font-size="normal"] .page-wrapper { max-width: 750px; }
+:root[data-font-size="big"]    .page-wrapper { max-width: 800px; }
+
+/**
+ * }}}
+ */
+
+/**
+ * Text alignement
+ * {{{
+ * =============================================================================
+ */
+
+:root[data-text-align="justify"] {
+	text-align: justify;
+}
+
+:root[data-text-align="justify"] #option--text-align--left    { display: none; }
+:root[data-text-align="left"]    #option--text-align--justify { display: none; }
+
+/**
+ * }}}
+ */
