@@ -1,11 +1,12 @@
 
 /**
- * scripts/setting-buttons.js
+ * scripts/buttons.js
  */
 
-"use strict";
 /* eslint-env browser */
 /* global settings    */
+
+"use strict";
 
 (function()
 {

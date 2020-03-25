@@ -19,23 +19,7 @@
 		<link rel="stylesheet" href="colorschemes-0000000000000.css">
 
 		<!-- Load the user preferences -->
-		<script>
-			"use strict";
-
-			const settings = {
-				'colorscheme': ['classic', 'solarized-light', 'rust', 'ayu-dark', 'coal'],
-				'font-family': ['sans-serif', 'serif'],
-				'font-size':   ['normal', 'big', 'small'],
-				'text-align':  ['justify', 'left'],
-			};
-
-			for (const [setting, options] of Object.entries(settings))
-			{
-				const option = window.localStorage.getItem(setting);
-				if (option) document.documentElement.setAttribute(`data-${setting}`, option);
-			}
-		</script>
-
+		<script src="settings-0000000000000.js"></script>
 	</head>
 	<body>
 		<!-- ======================================================= -->
@@ -83,6 +67,6 @@
 			{{ contents }}
 		</section>
 
-		<script src="setting-buttons-0000000000000.js"></script>
+		<script src="buttons-0000000000000.js"></script>
 	</body>
 </html>
