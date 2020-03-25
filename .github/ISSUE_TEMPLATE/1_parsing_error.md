@@ -1,5 +1,5 @@
 ---
-name: Parsing bug
+name: Parsing error
 about: Something on the page doesn't look right...
 labels: bug, parser
 ---

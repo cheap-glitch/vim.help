@@ -1,4 +1,8 @@
-# vim.help
+<p align="center">
+	<a href="https://vim.help" target="_blank" rel="external nofollow noopener noreferrer">
+		<img src="https://raw.githubusercontent.com/cheap-glitch/fretboarder/master/docs/banner.png" alt="banner">
+	</a>
+</p>
 
 ## Why this project?
 While there's plenty of excellent articles, tutorials and books on Vim out there
@@ -7,11 +11,8 @@ best sources to learn about Vim.  Sadly, it's often overlooked by both beginners
 and regular users alike.
 
 There already  exists a  mirror of  the doc online,  but it  doesn't do  much to
-improve the reading  experience. The goal of **vim.help** is  to make Vim's docs
-more pleasant to browse and peruse. Features:
-  * 📖 improved readability (nice colorschemes, decent typography, various display options, etc.)
-  * 🗺️ painless navigation (tag links, ToCs, header anchors, etc.)
-  * 🔍 flexible searching powered by [DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch)
+improve the reading experience.  The goal of **[vim.help](https://vim.help)** is
+to make Vim's docs more pleasant to browse and peruse.
 
 ## About Vim's help
 Vim's help is split into two sections: a user manual and a reference manual.
@@ -19,7 +20,7 @@ Vim's help is split into two sections: a user manual and a reference manual.
 The **user manual**  is a thorough guide meant to  accompany your journey from
 novice to Vim  master. The first part  is an introduction to  the basic features
 and should be read  in order. The second and third  parts are respectively about
-editing text efficiently  and fine-tuning Vim --- their chapters  can be read in
+editing text efficiently  and fine-tuning Vim — their chapters  can be read in
 any order. Finally, there's  also a chapter on installing Vim  and getting it to
 run properly.
 
@@ -29,7 +30,7 @@ finish.
 
 ## Credits & Acknowledgements
 The Vim user manual and reference manual is by Bram Moolenaar. Parts of the user
-manual come from the book "Vi IMproved - Vim" by Steve Oualline.
+manual come from the book "Vi IMproved – Vim" by Steve Oualline.
 
 The icons for the visual settings come from [Font Awesome](https://fontawesome.com).
 
@@ -39,12 +40,12 @@ Colorschemes:
   * "Rust" & "Coal" taken from the [mdBook](https://github.com/rust-lang/mdBook) project
 
 ## Licenses
-The Vim  user manual and  reference manual are  Copyright (c) 1988-2003  by Bram
+The Vim  user manual and  reference manual are  Copyright © 1988-2003  by Bram
 Moolenaar.  This material  may  be distributed  only subject  to  the terms  and
 conditions set forth in the Open  Publication License, v1.0 or later. The latest
 version is presently available at: http://www.opencontent.org/openpub/.
 
-Parts  of the  user manual  come from  the  book "Vi  IMproved -  Vim" by  Steve
+Parts  of the  user manual  come from  the  book "Vi  IMproved –  Vim" by  Steve
 Oualline  (published  by New  Riders  Publishing,  ISBN: 0735710015).  The  Open
 Publication License applies  to this book. Only selected parts  are included and
 these have been modified (e.g., by  removing the pictures, updating the text for
