@@ -26,6 +26,9 @@ const PRODUCTION   = process.env.NODE_ENV === 'production';
 // Do nothing if no argument is given
 if (process.argv.length <= 2) process.exit(0);
 
+// Create 'public/' if it doesn't exist
+if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
+
 /**
  * Build
  */
