@@ -3,13 +3,5 @@
 # .gitignore
 #
 
-# Builds
-/.debug/
-/public/*
-
-# NPM
-/node_modules/
-npm-debug.log
-
-# Coverage
 /.nyc_output/
+/node_modules/
