@@ -1,5 +1,7 @@
 {
   "cleanUrls": true,
+  "trailingSlash": false,
+
   "headers": [{
     "source": "/(.*)",
     "headers": [
@@ -24,6 +26,5 @@
         "value": "1; mode=block"
       }
     ]
-  }],
-  "trailingSlash": false
+  }]
 }

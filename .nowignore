@@ -1,7 +1,0 @@
-
-#
-# .nowignore
-#
-
-/.debug/
-/public/.htaccess
