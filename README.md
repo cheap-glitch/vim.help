@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://vim.help" target="_blank" rel="external nofollow noopener noreferrer">
-		<img src="https://raw.githubusercontent.com/cheap-glitch/fretboarder/master/docs/banner.png" alt="banner">
+		<img src="https://raw.githubusercontent.com/cheap-glitch/vim.help/master/docs/banner.png" alt="banner">
 	</a>
 </p>
 
