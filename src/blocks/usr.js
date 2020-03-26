@@ -18,7 +18,7 @@ const RE_SPECIAL_MESSAGE   = /^[WE]\d{1,3}: /;
 const RE_START_OL          = /^\d{1,2}[.)] /;
 const RE_START_UL          = /^- (?=\S)/;
 const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
-const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*[^*]+\*)*$/;
+const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
 const RE_TABLE_START       = /^\t[^\t]+\t+[^\t]+(?:\t~)?$/;
 
 /**

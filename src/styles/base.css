@@ -10,7 +10,7 @@
  */
 
 body {
-	padding: 20px;
+	padding: 20px 20px 40px 20px;
 
 	color: var(--color--body--text);
 	background-color: var(--color--body--bg);
@@ -120,6 +120,7 @@ button:hover, .navlink:hover { color: var(--color--button--text--hover); }
 
 h1, h2, h3 {
 	position: relative;
+
 	font-weight: bold;
 }
 
@@ -130,6 +131,12 @@ h3      { font-size: var(--font-size--h3); }
 h2      { margin-top: 60px; }
 h3      { margin-top: 40px; }
 h1 + h2 { margin-top: 40px; }
+
+h1.logo {
+	font-size: 5rem;
+
+	text-align: center;
+}
 
 h2 {
 	padding-bottom: 2px;
@@ -218,6 +225,10 @@ ul {
 	list-style-type: '⬩ ';
 }
 
+p + ol, p + ul {
+	margin-top: 10px;
+}
+
 li {
 	margin-left: 40px;
 }
@@ -270,8 +281,12 @@ table + .note {
  * =============================================================================
  */
 
-     p { margin-top: 20px; }
+p      { margin-top: 20px; }
 h3 + p { margin-top: 10px; }
+
+p.centered {
+	text-align: center;
+}
 
 /**
  * }}}
