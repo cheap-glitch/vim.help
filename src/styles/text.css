@@ -14,7 +14,7 @@
  */
 :root[data-font-family="sans-serif"]
 {
-	--font--body: "Fira Sans", "Open Sans", Helvetica, sans-serif;
+	--font--body: "Fira Sans", "Open Sans", "Helvetica", sans-serif;
 
 	--font-size--body: 1.6rem;
 	--font-size--h1:   3.1rem;

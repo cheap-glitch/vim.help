@@ -54,7 +54,7 @@ function createTags(filename, text)
 			const file  = tags[tag];
 			const title = getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`))
 				// Remove potential targets from the section title
-				.replace(/\*[^*]+\*/g, '').trim();
+				.replace(/\*.+?\*/g, '').trim();
 
 			return wrapHTML(`${tag}: "${title}"`, 'a', { href: `/${toKebabCase(files[file])}` });
 		}

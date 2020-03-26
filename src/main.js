@@ -45,51 +45,181 @@
 
 const fs                     = require('fs');
 const path                   = require('path');
+const rm                     = require('rimraf');
+const walk                   = require('klaw-sync');
+
+const { basename           } = require('./helpers.js');
+const { getRawFileContents } = require('./helpers.js');
+const { isUserManual       } = require('./helpers.js');
+const { toKebabCase        } = require('./helpers.js');
+const { wrapHTML           } = require('./helpers.js');
 
 const files                  = require('./files.js');
 const fixes                  = require('./fixes.js');
 
-const { wrapHTML           } = require('./helpers.js');
-const { toKebabCase        } = require('./helpers.js');
-const { isUserManual       } = require('./helpers.js');
-const { getRawFileContents } = require('./helpers.js');
-
+const PRODUCTION             = process.env.NODE_ENV === 'production';
+const TARGET                 = process.argv[2]
+const TIMESTAMP              = Date.now();
 const BUILD_DIR              = path.resolve(__dirname, '../public');
-const HTML_LAYOUT            = fs.readFileSync('src/layouts/page.html').toString();
+const HTML_LAYOUT            = fs.readFileSync(path.resolve(__dirname, './layouts/page.html')).toString();
 
-for (const [filename, title] of Object.entries(files))
+// Do nothing if no argument is given
+if (process.argv.length <= 2) process.exit(0);
+
+// Create 'public/' if it doesn't exist
+if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
+
+/**
+ * Build
+ * =============================================================================
+ */
+
+switch (TARGET)
 {
-	const contents = getRawFileContents(`${filename}.txt`);
+	case 'html':
+		for (const [filename, title] of Object.entries(files))
+		{
+			const contents = getRawFileContents(`${filename}.txt`);
 
-	// Optionally apply some fixes to the raw text
-	if (filename in fixes)
-		for (const [lineNb, fix] of Object.entries(fixes[filename]))
-			contents[lineNb - 1] = fix(contents[lineNb - 1]);
+			// Optionally apply some fixes to the raw text
+			if (filename in fixes)
+				for (const [lineNb, fix] of Object.entries(fixes[filename]))
+					contents[lineNb - 1] = fix(contents[lineNb - 1]);
 
-	const output = {
-		title:    title,
-		contents: callProcessor(filename, contents),
+			writeHTMLPage(toKebabCase(title), {
+				title: title,
+				contents: callProcessor(filename, contents),
 
-		// Add an anchor with the number of the chapter in front of the main header of the user manual's pages
-		header: (isUserManual(filename) ? wrapHTML(filename.slice(4), 'a', { class: 'header-anchor', href: '#' }) : '') + title,
+				// Add an anchor with the number of the chapter in front of the main header of the user manual's pages
+				header: wrapHTML((isUserManual(filename) ? wrapHTML(filename.slice(4), 'a', { class: 'header-anchor', href: '#' }) : '') + title, 'h1'),
 
-		// Build the navigation links at the top of the page
-		navlinkToc:  (filename != 'usr_toc')                          ? wrapHTML('↑', 'a', { class: 'navlink', title: 'Table of contents',                                                   href: '/table-of-contents' })                             : '',
-		navlinkPrev: (isUserManual(filename) && filename != 'usr_01') ? wrapHTML('←', 'a', { class: 'navlink', title: 'Previous chapter: &quot;' + getChapterTitle(filename, -1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename, -1)) }) : '',
-		navlinkNext: (isUserManual(filename) && filename != 'usr_90') ? wrapHTML('→', 'a', { class: 'navlink', title: 'Next chapter: &quot;'     + getChapterTitle(filename,  1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename,  1)) }) : '',
-	};
+				// Build the navigation links at the top of the page
+				navlinkToc:  wrapHTML('↑', 'a', { class: 'navlink', ...(filename == 'usr_toc' ? { title: 'Homepage', href: '/' } : { title: 'Table of contents', href: '/table-of-contents' }) }),
+				navlinkPrev: (isUserManual(filename) && filename != 'usr_01') ? wrapHTML('←', 'a', { class: 'navlink', title: 'Previous chapter: &quot;' + getChapterTitle(filename, -1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename, -1)) }) : '',
+				navlinkNext: (isUserManual(filename) && filename != 'usr_90') ? wrapHTML('→', 'a', { class: 'navlink', title: 'Next chapter: &quot;'     + getChapterTitle(filename,  1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename,  1)) }) : '',
+			});
+		}
+		break;
 
-	// Inject each value in the HTML layout
-	const html = Object.keys(output).reduce((result, placeholder) => result.replace(RegExp(`{{ ${placeholder} }}`, 'g'), output[placeholder]), HTML_LAYOUT)
+	case 'css':
+		rm.sync(`${BUILD_DIR}/*.css`);
+		walk(path.resolve(__dirname,  './styles')).forEach(file => fs.copyFileSync(file.path, `${BUILD_DIR}/${basename(file.path)}-${TIMESTAMP}.css`));
+		break;
 
-	// Write the final HTML to the disk
-	fs.writeFileSync(`${BUILD_DIR}/${toKebabCase(output.title)}.html`, html);
+	case 'js':
+		rm.sync(`${BUILD_DIR}/*.js`);
+		walk(path.resolve(__dirname, './scripts')).forEach(file => fs.copyFileSync(file.path, `${BUILD_DIR}/${basename(file.path)}-${TIMESTAMP}.js`));
+		break;
+
+	case 'static':
+		const gm = require('gray-matter');
+		const mi = require('markdown-it')({
+			html:        true,
+			typographer: true,
+		})
+		.use(require('markdown-it-mark'))
+		.use(require('markdown-it-bracketed-spans'))
+		.use(require('markdown-it-attrs'))
+		.use(require('markdown-it-front-matter'), () => {});
+
+		walk(path.resolve(__dirname, './static')).forEach(function(file)
+		{
+			const contents    = fs.readFileSync(file.path).toString();
+			const frontmatter = gm(contents).data;
+
+			// Process the inclusion directives
+			const md = contents.replace(/<!-- include (.+?):(.+?) -->/g, function(_, source, fragment)
+			{
+				return fs.readFileSync(path.resolve(file.path, `../${source}`))
+					.toString()
+					.match(RegExp(`<!-- fragment:${fragment} -->((?:.|\n)+?)<!-- /fragment -->`))[1];
+			});
+
+			writeHTMLPage(basename(file.path), {
+				title:    frontmatter.title,
+				contents: mi.render(md),
+			});
+		});
+		break;
 }
+
+/**
+ * Timestamps
+ * =============================================================================
+ */
+
+walk(BUILD_DIR).forEach(function(file)
+{
+	// Update the timestamps in the source code
+	fs.writeFileSync(file.path, fs.readFileSync(file.path).toString().replace(/-\d{13}/g, `-${TIMESTAMP}`));
+
+	// Update the timestamp in the filename
+	if (/\.(?:css|js)$/.test(file.path))
+		fs.renameSync(file.path, file.path.replace(/-\d{13}/, `-${TIMESTAMP}`));
+});
+
+/**
+ * Post-processing
+ * =============================================================================
+ */
+
+if (PRODUCTION) walk(BUILD_DIR).filter(file => file.path.split('.').pop() == TARGET).forEach(async function(file)
+{
+	const minify       = require('html-minifier').minify;
+	const terser       = require('terser');
+	const postcss      = require('postcss');
+	const autoprefixer = require('autoprefixer');
+	const cssnano      = require('cssnano');
+
+	const source = fs.readFileSync(file.path).toString();
+
+	switch(TARGET)
+	{
+		// Minify the HTML
+		case 'html':
+			try {
+				fs.writeFileSync(file.path, minify(source, {
+					minifyJS:           true,
+					removeComments:     true,
+					collapseWhitespace: true,
+				}));
+			}
+			catch (error) {
+				console.info(`${file.path}`);
+				console.error(error);
+			}
+			break;
+
+		// Minify and auto-prefix the CSS
+		case 'css':
+			fs.writeFileSync(file.path, await postcss([autoprefixer, cssnano]).process(source));
+			break;
+
+		// Minify the JS
+		case 'js':
+			fs.writeFileSync(file.path, terser.minify(source).code);
+			break;
+	}
+});
 
 /**
  * Helpers
  * =============================================================================
  */
+
+/**
+ * Inject some content in the HTML and write it to the disk
+ */
+function writeHTMLPage(filename, values)
+{
+	const html = Object.keys(values)
+		// Inject each value in the HTML layout
+		.reduce((result, placeholder) => result.replace(`{{ ${placeholder} }}`, values[placeholder]), HTML_LAYOUT)
+		// Remove unused placeholders
+		.replace(/{{ \w+ }}/g, '');
+
+	fs.writeFileSync(`${BUILD_DIR}/${filename}.html`, html);
+}
 
 /**
  * Call the correct processor to convert the raw text to HTML

@@ -10,7 +10,7 @@
  */
 
 body {
-	padding: 20px;
+	padding: 20px 20px 40px 20px;
 
 	color: var(--color--body--text);
 	background-color: var(--color--body--bg);
@@ -120,6 +120,7 @@ button:hover, .navlink:hover { color: var(--color--button--text--hover); }
 
 h1, h2, h3 {
 	position: relative;
+
 	font-weight: bold;
 }
 
@@ -159,6 +160,19 @@ h2 {
  */
 h3 .header-anchor                                { opacity: 0; }
 h3:hover .header-anchor, h3 .header-anchor:hover { opacity: 1; }
+
+/**
+ * Homepage logo
+ */
+h1.logo {
+	font-size: 5rem;
+	text-align: center;
+	color: gray;
+}
+
+.logo__emphasis {
+	color: #007f00;
+}
 
 /**
  * }}}
@@ -218,6 +232,10 @@ ul {
 	list-style-type: '⬩ ';
 }
 
+p + ol, p + ul {
+	margin-top: 10px;
+}
+
 li {
 	margin-left: 40px;
 }
@@ -270,8 +288,12 @@ table + .note {
  * =============================================================================
  */
 
-     p { margin-top: 20px; }
+p      { margin-top: 20px; }
 h3 + p { margin-top: 10px; }
+
+p.centered {
+	text-align: center;
+}
 
 /**
  * }}}
