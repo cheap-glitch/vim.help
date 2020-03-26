@@ -121,7 +121,7 @@ function wrapKeyBindings(text)
 	 * Also replace the hyphen with a non-breaking hyphen
 	 * to prevent the key binding from being split between two lines
 	 */
-	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace('-', '&#8209;'), 'kbd'))
+	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }
 
 /**
