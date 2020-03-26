@@ -4,8 +4,6 @@
 	</a>
 </p>
 
-<p>&nbsp;</p>
-
 **[vim.help](https://vim.help)** is a  mirror of Vim built-in  help, adapted and
 improved for the web.
 

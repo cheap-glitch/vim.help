@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "vim-help",
-  "description": "Vim built-in documentation, made nicer to read.",
+  "description": "A mirror of Vim’s built-in documentation, adapted and improved for the web.",
   "version": "0.0.1",
   "license": "ISC",
   "repository": {
@@ -15,15 +15,17 @@
   "homepage": "https://github.com/cheap-glitch/vim-help#readme",
   "main": "src/main.js",
   "scripts": {
-    "build": "rm -r public && cross-env NODE_ENV=production run-s 'build:*'",
+    "build": "cross-env NODE_ENV=production run-s clean 'build:*' postprocess",
     "build:css": "node src/main.js css",
     "build:html": "run-s lint test && node src/main.js html",
     "build:js": "node src/main.js js",
     "build:static": "node src/main.js static",
+    "clean": "rimraf public",
     "coverage": "nyc npm run test",
     "lint": "eslint '**/*.js'",
     "local-server": "ws --config-file .lws.config.js",
-    "serve": "rm -r public && run-p local-server 'serve:*'",
+    "postprocess": "node src/postprocess.js",
+    "serve": "npm run clean && run-p local-server 'serve:*'",
     "serve:css": "nodemon --watch src/styles --ext css --exec npm run build:css",
     "serve:html": "nodemon --watch src/main.js --watch src --watch test --ext html,js --exec npm run build:html",
     "serve:js": "nodemon --watch src/scripts --exec npm run build:js",
@@ -37,6 +39,7 @@
     "cssnano": "^4.1.10",
     "eslint": "^6.8.0",
     "eslint-plugin-smarter-tabs": "^1.1.0",
+    "gray-matter": "^4.0.2",
     "html-minifier": "^4.0.0",
     "klaw-sync": "^6.0.0",
     "markdown-it": "^10.0.0",
@@ -51,8 +54,5 @@
     "postcss-cli": "^7.1.0",
     "rimraf": "^3.0.2",
     "terser": "^4.6.7"
-  },
-  "dependencies": {
-    "gray-matter": "^4.0.2"
   }
 }
