@@ -1,7 +1,8 @@
 ---
 title: vim.help
-header: vim.help
 ---
+
+# vim[.help]{.logo__emphasis} {.logo}
 
 A mirror of Vim's built-in documentation, adapted and improved for the web.
 {.centered}
@@ -11,10 +12,10 @@ A mirror of Vim's built-in documentation, adapted and improved for the web.
 
 <!-- include ../../README.md:about-vim-help -->
 
-_Note: the goal is to ultimately format all the help files, but for now only the
-user manual  is considered, as many  pages of the reference  manual need special
-processing to be made legible. If you want to help, check out the "Contributing"
-section below._
+_==Note==: the goal is to ultimately format all the help files, but for now only
+the  user manual  is considered,  as  many pages  of the  reference manual  need
+special  processing to  be made  legible. If  you want  to help,  check out  the
+"Contributing" section below._
 
 <!-- include ../../README.md:why-this-project -->
 

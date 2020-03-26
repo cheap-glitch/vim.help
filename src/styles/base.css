@@ -132,12 +132,6 @@ h2      { margin-top: 60px; }
 h3      { margin-top: 40px; }
 h1 + h2 { margin-top: 40px; }
 
-h1.logo {
-	font-size: 5rem;
-
-	text-align: center;
-}
-
 h2 {
 	padding-bottom: 2px;
 
@@ -166,6 +160,19 @@ h2 {
  */
 h3 .header-anchor                                { opacity: 0; }
 h3:hover .header-anchor, h3 .header-anchor:hover { opacity: 1; }
+
+/**
+ * Homepage logo
+ */
+h1.logo {
+	font-size: 5rem;
+	text-align: center;
+	color: gray;
+}
+
+.logo__emphasis {
+	color: #007f00;
+}
 
 /**
  * }}}

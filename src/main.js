@@ -117,7 +117,9 @@ switch (TARGET)
 			html:        true,
 			typographer: true,
 		})
-		.use(require('markdown-it-attrs'),        {})
+		.use(require('markdown-it-mark'))
+		.use(require('markdown-it-bracketed-spans'))
+		.use(require('markdown-it-attrs'))
 		.use(require('markdown-it-front-matter'), () => {});
 
 		walk(path.resolve(__dirname, './static')).forEach(function(file)
@@ -135,7 +137,6 @@ switch (TARGET)
 
 			writeHTMLPage(basename(file.path), {
 				title:    frontmatter.title,
-				header:   wrapHTML(frontmatter.header, 'h1', { class: 'logo' }),
 				contents: mi.render(md),
 			});
 		});
