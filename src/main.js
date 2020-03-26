@@ -10,7 +10,7 @@
  *                                                                      888
  *                                                                     o888o
  *
- * Vim built-in documentation, made nicer to read.
+ * A mirror of Vim’s built-in documentation, adapted and improved for the web.
  *
  *
  * Copyright (c) 1988-2003, Bram Moolenaar
