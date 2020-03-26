@@ -165,7 +165,7 @@ h3:hover .header-anchor, h3 .header-anchor:hover { opacity: 1; }
  * Homepage logo
  */
 h1.logo {
-	font-size: 5rem;
+	font-size: 7rem;
 	text-align: center;
 	color: gray;
 }
