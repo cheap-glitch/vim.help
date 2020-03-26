@@ -10,7 +10,7 @@
  */
 
 body {
-	padding: 20px 20px 40px 20px;
+	padding: 20px;
 
 	color: var(--color--body--text);
 	background-color: var(--color--body--bg);
@@ -122,6 +122,8 @@ h1, h2, h3 {
 	position: relative;
 
 	font-weight: bold;
+
+	text-align: left;
 }
 
 h1      { font-size: var(--font-size--h1); }
@@ -398,6 +400,36 @@ kbd {
 .tag.option     { color: var(--color--option--text);     }
 .tag.command    { color: var(--color--command--text);    }
 .tag.keybinding { color: var(--color--keybinding--text); }
+
+/**
+ * }}}
+ */
+
+/**
+ * Mobile
+ * {{{
+ * =============================================================================
+ */
+
+@media(max-width: 56.25em)
+{
+	.page-header {
+		display: none;
+	}
+
+	.page-wrapper {
+		display: block;
+	}
+
+	table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	:not(h3) > .header-anchor {
+		position: static;
+	}
+}
 
 /**
  * }}}
