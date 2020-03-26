@@ -49,13 +49,13 @@
  * =============================================================================
  */
 
-:root[data-font-size="small"]                { font-size: 10px;  }
-:root[data-font-size="normal"]               { font-size: 11px;  }
-:root[data-font-size="big"]                  { font-size: 12px;  }
+:root[data-font-size="small"]                { font-size: 62.5%;  }
+:root[data-font-size="normal"]               { font-size: 68.75%; }
+:root[data-font-size="big"]                  { font-size: 75%;    }
 
-:root[data-font-size="small"]  .page-wrapper { max-width: 700px; }
-:root[data-font-size="normal"] .page-wrapper { max-width: 750px; }
-:root[data-font-size="big"]    .page-wrapper { max-width: 800px; }
+:root[data-font-size="small"]  .page-wrapper { max-width: 700px;  }
+:root[data-font-size="normal"] .page-wrapper { max-width: 750px;  }
+:root[data-font-size="big"]    .page-wrapper { max-width: 800px;  }
 
 /**
  * }}}
