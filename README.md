@@ -10,7 +10,7 @@ improved for the web.
 > The goal  is to ultimately  format all  the help files,  but for now  only the
 > user  manual  is considered,  as  many  pages  of  the reference  manual  need
 > special  processing  to be  made  legible.  If you  want  to  help, check  out
-> [Contributing](#contributing).
+> [Contributing](#-contributing).
 
 <!-- fragment:why-this-project -->
 ## 🔍 Why this project?
