@@ -30,7 +30,10 @@ module.exports = {
 
 	/**
 	 * Document
+	 * {{{
+	 * ---------------------------------------------------------------------
 	 */
+
 	document: {
 		start: () => true,
 		end:   () => false,
@@ -54,6 +57,10 @@ module.exports = {
 
 		wrapper: lines => lines.join('')
 	},
+
+	/**
+	 * }}}
+	 */
 
 	/**
 	 * Headers
@@ -275,12 +282,17 @@ module.exports = {
 	 * Command block
 	 */
 	commandBlock: {
-		start: ct => (ct.previousLine.endsWith(' >') || ct.previousLine == '>') && (ct.line.startsWith('\t') || ct.nextLine.startsWith('\t')),
-		end:   ct => isEmpty(ct.nextLine) || ct.nextLine.startsWith('<') || ct.nextLine == '<' || !ct.nextLine.startsWith('\t'),
+		start: ct => (ct.previousLine.endsWith(' >') || ct.previousLine == '>')
+		          && (ct.line.startsWith('\t') || ct.nextLine.startsWith('\t')),
+
+		end:   ct => isEmpty(ct.nextLine)
+			  || ct.nextLine == '<'
+			  || !/^<?\t/.test(ct.nextLine),
 
 		containedBlocks: [],
 		disableInlineParsing: true,
 
+		transformLines:  line => line.replace(/^&lt;(?=\t)/, ''),
 		transformBlock: lines => removeBlockIndentation(lines),
 
 		wrapper: lines => wrapHTML(wrapHTML(lines.join('\n'), 'code'), 'pre', { class: 'command-block' })

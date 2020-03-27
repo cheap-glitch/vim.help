@@ -542,6 +542,7 @@ describe("command blocks", () => {
 
 	/**
 	 * With paragraphs
+	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
 	describe("after a paragraph", () => {
@@ -631,9 +632,13 @@ describe("command blocks", () => {
 		);
 
 	});
+	/**
+	 * }}}
+	 */
 
 	/**
 	 * With list items
+	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
 	describe("inside a list item", () => {
@@ -747,6 +752,43 @@ describe("command blocks", () => {
 		);
 
 	});
+	/**
+	 * }}}
+	 */
+
+	/**
+	 * With formatted text blocks
+	 * ---------------------------------------------------------------------
+	 */
+	describe("adjoining a formatted text block", () => {
+
+		// usr_10 (675)
+		it("before", () => expect(getAST(`
+
+			The "gu" operator does exactly the opposite: >
+
+						     guw
+			<	SECTION header	    ---->      section header
+
+			`, 3)).to.deep.equal(wrapNodes([
+				{
+					type: 'paragraph',
+					children: ['The "gu" operator does exactly the opposite: >']
+				},
+				{
+					type: 'commandBlock',
+					children: [
+						'\t\t\t     guw',
+						'<\tSECTION header\t    ---->      section header',
+					]
+				}
+			]))
+		);
+
+	});
+	/**
+	 * }}}
+	 */
 
 });
 /**

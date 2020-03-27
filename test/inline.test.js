@@ -7,8 +7,8 @@ require('chai').should();
 
 const { escapeHTML      } = require('../src/helpers.js');
 const { wrapKeyBindings } = require('../src/parser/inline.js');
-const { createTags      } = require('../src/parser/inline.js');
 const { wrapInlineCode  } = require('../src/parser/inline.js');
+// const { createTags      } = require('../src/parser/inline.js');
 
 // Helpers
 const wrapKB = text => wrapKeyBindings(escapeHTML(text));
@@ -92,15 +92,30 @@ describe("inline code & commands", () => {
 
 	describe("double-quoted text", () => {
 
-		it("should wrap double-quoted text", () => {
+		it("should wrap double-quoted text with no spaces in it", () => {
 			wrapIC('"foo"'        ).should.equal('<code>foo</code>');
 			wrapIC('"q{register}"').should.equal('<code>q{register}</code>');
+		});
+
+		it("should wrap double-quoted text with spaces in it but starting with a special character", () => {
+			wrapIC('":command arg"').should.equal('<code>:command arg</code>');
+
+			// usr_29 (489)
+			wrapIC('after "#if NEVER".').should.equal('after <code>#if NEVER</code>.');
+		});
+
+		it("should NOT wrap other instances of double-quoted text with spaces in it", () => {
+			wrapIC('"foo bar"').should.equal('&quot;foo bar&quot;');
+
+			// usr_04 (405)
+			wrapIC('Thus "daw" is "Delete A Word".').should.equal('Thus <code>daw</code> is &quot;Delete A Word&quot;.');
 		});
 
 		it("should take register commands into account", () => {
 
 			// usr_24 (350)
-			wrapIC('"v is the register specification, "yiw" is yank-inner-word').should.equal('<code>&quot;v</code> is the register specification, <code>yiw</code> is yank-inner-word');
+			wrapIC('"v is the register specification, "yiw" is yank-inner-word')
+			.should.equal('<code>&quot;v</code> is the register specification, <code>yiw</code> is yank-inner-word');
 		});
 
 	});

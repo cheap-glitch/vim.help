@@ -140,9 +140,9 @@ function wrapInlineCode(text)
 	.replace(/(?:&quot;|`)([^ ]+?)(?:&quot;|`)/g, (_, text) => wrapHTML(text.replace(/ $/, '&nbsp;'), 'code'))
 
 	/**
-	 * Double-quoted text starting with ':' and spaces in it (":command arg")
+	 * Double-quoted text starting with ':' or '#' and spaces in it (":command arg", "#ifdef FOO")
 	 */
-	.replace(/&quot;(:[^<>]+?)&quot;/g, (_, text) => wrapHTML(text, 'code'))
+	.replace(/&quot;([:#][^<>]+?)&quot;/g, (_, text) => wrapHTML(text, 'code'))
 
 	/**
 	 * Register names ("a, "b, "=, etc.)
@@ -165,9 +165,16 @@ function wrapInlineCode(text)
 	.replace(/(?<=(press |register ))[a-zA-Z]\b/g, key => wrapHTML(key, 'code'))
 
 	/**
-	 * Other special characters
+	 * Special characters used alone or in matching pairs
 	 */
 	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
+
+	/**
+	 * Other special snippets
+	 */
+
+	// usr_29 (428)
+	.replace('&quot;/* - */&quot;', wrapHTML('/* - */', 'code'))
 
 }
 
