@@ -79,8 +79,6 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		transformLines: line => removeTagTargets(line),
-
 		wrapper(lines)
 		{
 			const line = lines[0];
@@ -89,7 +87,7 @@ module.exports = {
 			const number = line.match(RE_HEADER_NB)[1].trim();
 			const anchor = wrapHTML(number, 'a', { id: number, href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + line.replace(RE_HEADER_NB, ''), 'h2');
+			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2');
 		}
 	},
 

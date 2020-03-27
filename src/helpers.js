@@ -43,7 +43,7 @@ module.exports = {
 	 */
 	removeTagTargets(text)
 	{
-		return text.replace(/\*[a-z-]+\*/g).trim();
+		return text.replace(/\*[^ ]+?\*/g, '').trim();
 	},
 
 	/**

@@ -8,7 +8,7 @@ require('chai').should();
 const { escapeHTML      } = require('../src/helpers.js');
 const { wrapKeyBindings } = require('../src/parser/inline.js');
 const { wrapInlineCode  } = require('../src/parser/inline.js');
-// const { createTags      } = require('../src/parser/inline.js');
+const { createTags      } = require('../src/parser/inline.js');
 
 // Helpers
 const wrapKB = text => wrapKeyBindings(escapeHTML(text));
@@ -21,9 +21,35 @@ describe("inline formatting", () => {
  * {{{
  * =============================================================================
  */
-describe("key bindings", () => {
+describe("tags", () => {
 
-	it("@TODO", () => {
+	describe("Vim tags", () => {
+
+		it("should convert vim tags to anchors", () => {
+			createTags('usr_01', "|notation|").should.equal('<a href="/intro#notation" class="tag link">notation</a>');
+			createTags('intro',  "|notation|").should.equal('<a href="#notation" class="tag link">notation</a>');
+		});
+
+		it("should replace links to other files by their title", () => {
+			createTags('usr_01', "|usr_02.txt|").should.equal('“<a href="/02-the-first-steps-in-vim">The first steps in Vim</a>”');
+		});
+
+		it("should replace links to sections of the user manual by their title", () => {
+			createTags('usr_01', "|02.1|").should.equal('“<a href="/02-the-first-steps-in-vim#02.1">Running Vim for the First Time</a>”');
+		});
+
+	});
+
+	describe("supplementary tags", () => {
+
+		it("should create tags from option names", () => {
+			createTags('usr_01', "'wildmenu'").should.equal(`<a href="/options#'wildmenu'" class="tag option">wildmenu</a>`);
+		});
+
+		it("should NOT create tags from unrecognized option names", () => {
+			createTags('usr_01', "'thisisnotanoption'").should.equal("<code>'thisisnotanoption'</code>");
+		});
+
 	});
 
 });

@@ -199,16 +199,12 @@ function callProcessor(filename, lines)
  */
 function getNavLinkParent(filename)
 {
-	// User manual ToC
-	if (filename == 'usr_toc')
-		return wrapHTML('↑', 'a', { class: 'navlink', title: 'Homepage', href: '/' });
-
 	// User manual page
 	if (isUserManual(filename))
 		return wrapHTML('↑', 'a', { class: 'navlink', title: 'Table of contents', href: '/table-of-contents' });
 
-	// Other page
-	return '';
+	// Other help page
+	return wrapHTML('↑', 'a', { class: 'navlink', title: 'Homepage', href: '/' });
 }
 
 /**
