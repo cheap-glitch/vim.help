@@ -4,8 +4,10 @@
  */
 
 const { basename           } = require('../helpers.js');
+const { isUserManual       } = require('../helpers.js');
 const { toKebabCase        } = require('../helpers.js');
 const { wrapHTML           } = require('../helpers.js');
+const { removeTagTargets   } = require('../helpers.js');
 const { getRawFileContents } = require('../helpers.js');
 
 const files = require('../files.js');
@@ -44,7 +46,7 @@ function createTags(filename, text)
 		// Page
 		if (tag.endsWith('.txt') && (tag.slice(0, -4) in files))
 		{
-			return wrapHTML(`${tag.slice(4, -4)}. "${files[tag.slice(0, -4)]}"`, 'a', { href: `/${toKebabCase(files[tag.slice(0,-4)])}` });
+			return '“' + wrapHTML(files[tag.slice(0, -4)], 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
 
 		// User manual section
@@ -52,11 +54,9 @@ function createTags(filename, text)
 		{
 			// Get the title of the section from the file contents
 			const file  = tags[tag];
-			const title = getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`))
-				// Remove potential targets from the section title
-				.replace(/\*.+?\*/g, '').trim();
+			const title = removeTagTargets(getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`)));
 
-			return wrapHTML(`${tag}: "${title}"`, 'a', { href: `/${toKebabCase(files[file])}` });
+			return '“' + wrapHTML(title, 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
 
 		/**
@@ -121,7 +121,7 @@ function wrapKeyBindings(text)
 	 * Also replace the hyphen with a non-breaking hyphen
 	 * to prevent the key binding from being split between two lines
 	 */
-	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace('-', '&#8209;'), 'kbd'))
+	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }
 
 /**
@@ -137,12 +137,12 @@ function wrapInlineCode(text)
 	 * Also turn a potential trailing space into a non-breaking space
 	 * to prevent it from collapsing with a space in the text after the <code> tag
 	 */
-	.replace(/(?:&quot;|`)([^ <>]+?)(?:&quot;|`)/g, (_, text) => wrapHTML(text.replace(/ $/, '&nbsp;'), 'code'))
+	.replace(/(?:&quot;|`)([^ ]+?)(?:&quot;|`)/g, (_, text) => wrapHTML(text.replace(/ $/, '&nbsp;'), 'code'))
 
 	/**
-	 * Double-quoted text starting with ':' and spaces in it (":command arg")
+	 * Double-quoted text starting with ':' or '#' and spaces in it (":command arg", "#ifdef FOO")
 	 */
-	.replace(/&quot;(:[^<>]+?)&quot;/g, (_, text) => wrapHTML(text, 'code'))
+	.replace(/&quot;([:#][^<>]+?)&quot;/g, (_, text) => wrapHTML(text, 'code'))
 
 	/**
 	 * Register names ("a, "b, "=, etc.)
@@ -160,14 +160,21 @@ function wrapInlineCode(text)
 	.replace(/(^|\b)\$\w+/g, name => wrapHTML(name, 'code'))
 
 	/**
-	 * Single-character key bindings
+	 * Single-character key bindings & register names
 	 */
-	.replace(/(?<=press )[a-zA-Z]\b/g, key => wrapHTML(key, 'code'))
+	.replace(/(?<=(press |register ))[a-zA-Z]\b/g, key => wrapHTML(key, 'code'))
 
 	/**
-	 * Other special characters
+	 * Special characters used alone or in matching pairs
 	 */
 	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
+
+	/**
+	 * Other special snippets
+	 */
+
+	// usr_29 (428)
+	.replace('&quot;/* - */&quot;', wrapHTML('/* - */', 'code'))
 
 }
 
@@ -189,7 +196,13 @@ function getLinkToTag(filename, tag)
 
 		// The target is in a different file
 		: files[tags[tag]]
-			? `/${toKebabCase(files[tags[tag]])}${tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : ''}`
+			? '/'
+				// Chapter number (only for the user manual pages)
+				+ (isUserManual(tags[tag]) ? `${tags[tag].slice(4)}-` : '')
+				// Page title
+				+ toKebabCase(files[tags[tag]])
+				// Tag anchor
+				+ (tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : '')
 			: null;
 }
 

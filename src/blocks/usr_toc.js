@@ -63,7 +63,7 @@ module.exports = {
 			const header = lines[0].split('  ')[1];
 			const number = lines[0].match(RE_SUB_HEADER)[1];
 
-			return wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${toKebabCase(header)}` }), 'h3')
+			return wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` }), 'h3')
 		}
 	},
 
@@ -91,12 +91,7 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		wrapper(lines)
-		{
-			const link = getLinkToTag('usr_toc', lines[0].match(RE_TOC_ITEM_NB)[1]);
-
-			return wrapHTML(wrapHTML(lines[0].replace(RE_TOC_ITEM_NB, ''), 'a', { href: link }), 'li');
-		}
+		wrapper: lines => wrapHTML(wrapHTML(lines[0].replace(RE_TOC_ITEM_NB, ''), 'a', { href: getLinkToTag('usr_toc', lines[0].match(RE_TOC_ITEM_NB)[1]) }), 'li')
 	},
 
 	/**

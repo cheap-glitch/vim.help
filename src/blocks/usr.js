@@ -6,6 +6,7 @@
 const { wrapHTML         } = require('../helpers.js');
 const { generateStr      } = require('../helpers.js');
 const { toKebabCase      } = require('../helpers.js');
+const { removeTagTargets } = require('../helpers.js');
 
 const { isEmpty          } = require('./helpers.js');
 const { isSeparator      } = require('./helpers.js');
@@ -16,7 +17,7 @@ const STR_NOTE_START       = '\tNote:';
 const RE_HEADER_NB         = /^\*(\d{2}\.\d{1,2})\*\s/;
 const RE_SPECIAL_MESSAGE   = /^[WE]\d{1,3}: /;
 const RE_START_OL          = /^\d{1,2}[.)] /;
-const RE_START_UL          = /^- (?=\S)/;
+const RE_START_UL          = /^- {1,2}(?=\S)/;
 const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
 const RE_TABLE_START       = /^\t[^\t]+\t+[^\t]+(?:\t~)?$/;
@@ -30,7 +31,10 @@ module.exports = {
 
 	/**
 	 * Document
+	 * {{{
+	 * ---------------------------------------------------------------------
 	 */
+
 	document: {
 		start: () => true,
 		end:   () => false,
@@ -56,6 +60,10 @@ module.exports = {
 	},
 
 	/**
+	 * }}}
+	 */
+
+	/**
 	 * Headers
 	 * {{{
 	 * ---------------------------------------------------------------------
@@ -79,7 +87,7 @@ module.exports = {
 			const number = line.match(RE_HEADER_NB)[1].trim();
 			const anchor = wrapHTML(number, 'a', { id: number, href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + line.replace(RE_HEADER_NB, ''), 'h2');
+			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2');
 		}
 	},
 
@@ -95,10 +103,12 @@ module.exports = {
 
 		transformLines(line)
 		{
-			// Fix the capitalisation of the header text
-			return line[0] + line.slice(1).toLowerCase()
+			return removeTagTargets(
+				// Fix the capitalisation of the header text
+				line[0] + line.slice(1).toLowerCase()
 				// Make some words uppercase
-				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase());
+				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase())
+			);
 		},
 
 		wrapper(lines)
@@ -131,7 +141,9 @@ module.exports = {
 	 */
 	orderedList: {
 		start: ct => RE_START_OL.test(ct.line),
-		end:   ct => isSeparator(ct.nextLine) || ct.emptyLines >= 2 || (ct.emptyLines == 1 && !RE_START_OL.test(ct.nextLine)),
+		end:   ct => isSeparator(ct.nextLine)
+			  || ct.emptyLines >= 2
+			  || (ct.emptyLines == 1 && !RE_START_OL.test(ct.nextLine)),
 
 		containedBlocks: [
 			'listItem',
@@ -145,7 +157,9 @@ module.exports = {
 	 */
 	unorderedList: {
 		start: ct => RE_START_UL.test(ct.line),
-		end:   ct => isSeparator(ct.nextLine) || ct.emptyLines >= 2 || (ct.emptyLines == 1 && !RE_START_UL.test(ct.nextLine)),
+		end:   ct => isSeparator(ct.nextLine)
+			  || ct.emptyLines >= 2
+			  || (ct.emptyLines == 1 && !RE_START_UL.test(ct.nextLine)),
 
 		containedBlocks: [
 			'listItem',
@@ -259,7 +273,8 @@ module.exports = {
 				case 'note':     return ct.nextLine.startsWith('\t\t');
 				case 'listItem': return ct.nextLine.startsWith('\t')
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
-				                     || RE_START_OL.test(ct.nextLine);
+				                     || RE_START_OL.test(ct.nextLine)
+				                     || RE_START_UL.test(ct.nextLine);
 				default:         return /^\s/.test(ct.nextLine);
 			}
 		},
@@ -275,12 +290,17 @@ module.exports = {
 	 * Command block
 	 */
 	commandBlock: {
-		start: ct => (ct.previousLine.endsWith(' >') || ct.previousLine == '>') && (ct.line.startsWith('\t') || ct.nextLine.startsWith('\t')),
-		end:   ct => isEmpty(ct.nextLine) || ct.nextLine.startsWith('<') || ct.nextLine == '<' || !ct.nextLine.startsWith('\t'),
+		start: ct => (ct.previousLine.endsWith(' >') || ct.previousLine == '>')
+		          && (ct.line.startsWith('\t') || ct.nextLine.startsWith('\t')),
+
+		end:   ct => isEmpty(ct.nextLine)
+			  || ct.nextLine == '<'
+			  || !/^<?\t/.test(ct.nextLine),
 
 		containedBlocks: [],
 		disableInlineParsing: true,
 
+		transformLines:  line => line.replace(/^&lt;(?=\t)/, ''),
 		transformBlock: lines => removeBlockIndentation(lines),
 
 		wrapper: lines => wrapHTML(wrapHTML(lines.join('\n'), 'code'), 'pre', { class: 'command-block' })

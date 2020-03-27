@@ -218,7 +218,7 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_03 ("Moving around", 03.6: "Telling where you are")
+	// usr_03 (232)
 	it("embedded formatted text blocks", () => expect(getAST(`
 
 		1.  Use the CTRL-G command.  You get a message like this (assuming the 'ruler'
@@ -283,7 +283,7 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_22 ("Finding the file to edit", 22.1: "The file browser")
+	// usr_22 (50)
 	it("multiple single-line items with no space between them", () => expect(getAST(`
 
 		1.  The name of the browsing tool and its version number
@@ -330,6 +330,51 @@ describe("ordered lists", () => {
  */
 describe("unordered lists", () => {
 
+	// usr_09 (221)
+	it("starting with a dash and two spaces", () => expect(getAST(`
+
+		-  Select two words in Visual mode.
+		-  Use the Edit/Paste menu item.  What will happen is that the single selected
+		   word is replaced with the two words from the clipboard.
+		-  Move the mouse pointer somewhere else and click the middle button.  You
+		   will see that the word you just overwrote with the clipboard is inserted
+		   here.
+
+		`)).to.deep.equal(wrapNodes({
+			type: 'unorderedList',
+			children: [
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: ['-  Select two words in Visual mode.']
+					}]
+				},
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: [
+							'-  Use the Edit/Paste menu item.  What will happen is that the single selected',
+							'   word is replaced with the two words from the clipboard.',
+						],
+					}]
+				},
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: [
+							'-  Move the mouse pointer somewhere else and click the middle button.  You',
+							'   will see that the word you just overwrote with the clipboard is inserted',
+							'   here.',
+						]
+					}]
+				}
+			]
+		}))
+	);
+
 });
 /**
  * }}}
@@ -342,7 +387,7 @@ describe("unordered lists", () => {
  */
 describe("tables of contents", () => {
 
-	// usr_01.txt ("About the manuals")
+	// usr_01 (11)
 	it("simple table of contents", () => expect(getAST(`
 
 		|01.1|	Two manuals
@@ -540,6 +585,7 @@ describe("command blocks", () => {
 
 	/**
 	 * With paragraphs
+	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
 	describe("after a paragraph", () => {
@@ -629,9 +675,13 @@ describe("command blocks", () => {
 		);
 
 	});
+	/**
+	 * }}}
+	 */
 
 	/**
 	 * With list items
+	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
 	describe("inside a list item", () => {
@@ -745,6 +795,44 @@ describe("command blocks", () => {
 		);
 
 	});
+	/**
+	 * }}}
+	 */
+
+	/**
+	 * With formatted text blocks
+	 * {{{
+	 * ---------------------------------------------------------------------
+	 */
+	describe("adjoining a formatted text block", () => {
+
+		// usr_10 (675)
+		it("before", () => expect(getAST(`
+
+			The "gu" operator does exactly the opposite: >
+
+						     guw
+			<	SECTION header	    ---->      section header
+
+			`, 3)).to.deep.equal(wrapNodes([
+				{
+					type: 'paragraph',
+					children: ['The "gu" operator does exactly the opposite: >']
+				},
+				{
+					type: 'commandBlock',
+					children: [
+						'\t\t\t     guw',
+						'<\tSECTION header\t    ---->      section header',
+					]
+				}
+			]))
+		);
+
+	});
+	/**
+	 * }}}
+	 */
 
 });
 /**
@@ -844,7 +932,7 @@ describe("formatted text blocks", () => {
 		}))
 	);
 
-	// usr_03 ("Moving around", 03.7: "Scrolling around")
+	// usr_03 (310)
 	it("text block with some tabulations inside the lines", () => expect(getAST(`
 
 			+------------------+		 +------------------+
@@ -943,7 +1031,7 @@ describe("formatted text blocks", () => {
  */
 describe("tables", () => {
 
-	// usr_08 ("Splitting windows", 08.8: "Various")
+	// usr_08 (480)
 	it("simple table with single-line rows", () => expect(getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a

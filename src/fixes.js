@@ -29,4 +29,12 @@ module.exports = {
 		447: line => line.replace('"$A XXX<Esc>', '"$A XXX<Esc>"'),
 	},
 
+	/**
+	 * "Moving through programs"
+	 */
+	usr_29: {
+		// Add double quotes around comment delimiters
+		428: line => line.replace('/* - */', '"/* - */"'),
+	},
+
 };

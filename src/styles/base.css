@@ -234,16 +234,13 @@ ul {
 	list-style-type: '⬩ ';
 }
 
-p + ol, p + ul {
-	margin-top: 10px;
-}
-
 li {
 	margin-left: 40px;
 }
 
-:not(.table-of-contents) > li:not(:first-child) { margin-top: 10px;  }
-:not(.table-of-contents) > li::marker           { font-weight: bold; }
+:not(.table-of-contents) > li::marker {
+	font-weight: bold;
+}
 
 .li-contents {
 	display: flex;
