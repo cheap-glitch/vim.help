@@ -78,6 +78,8 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
+		transformLines: line => line.replace(/\*[a-z-]+\*/g, ''),
+
 		wrapper(lines)
 		{
 			const line = lines[0];
