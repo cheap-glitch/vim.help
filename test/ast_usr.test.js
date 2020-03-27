@@ -330,7 +330,49 @@ describe("ordered lists", () => {
  */
 describe("unordered lists", () => {
 
-	it("@TODO", () => {});
+	it("starting with a dash and two spaces", () => expect(getAST(`
+
+		-  Select two words in Visual mode.
+		-  Use the Edit/Paste menu item.  What will happen is that the single selected
+		   word is replaced with the two words from the clipboard.
+		-  Move the mouse pointer somewhere else and click the middle button.  You
+		   will see that the word you just overwrote with the clipboard is inserted
+		   here.
+
+		`)).to.deep.equal(wrapNodes({
+			type: 'unorderedList',
+			children: [
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: ['-  Select two words in Visual mode.']
+					}]
+				},
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: [
+							'-  Use the Edit/Paste menu item.  What will happen is that the single selected',
+							'   word is replaced with the two words from the clipboard.',
+						],
+					}]
+				},
+				{
+					type: 'listItem',
+					children: [{
+						type: 'paragraph',
+						children: [
+							'-  Move the mouse pointer somewhere else and click the middle button.  You',
+							'   will see that the word you just overwrote with the clipboard is inserted',
+							'   here.',
+						]
+					}]
+				}
+			]
+		}))
+	);
 
 });
 /**
@@ -758,6 +800,7 @@ describe("command blocks", () => {
 
 	/**
 	 * With formatted text blocks
+	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
 	describe("adjoining a formatted text block", () => {

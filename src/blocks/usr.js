@@ -16,7 +16,7 @@ const STR_NOTE_START       = '\tNote:';
 const RE_HEADER_NB         = /^\*(\d{2}\.\d{1,2})\*\s/;
 const RE_SPECIAL_MESSAGE   = /^[WE]\d{1,3}: /;
 const RE_START_OL          = /^\d{1,2}[.)] /;
-const RE_START_UL          = /^- (?=\S)/;
+const RE_START_UL          = /^- {1,2}(?=\S)/;
 const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
 const RE_TABLE_START       = /^\t[^\t]+\t+[^\t]+(?:\t~)?$/;
@@ -138,7 +138,9 @@ module.exports = {
 	 */
 	orderedList: {
 		start: ct => RE_START_OL.test(ct.line),
-		end:   ct => isSeparator(ct.nextLine) || ct.emptyLines >= 2 || (ct.emptyLines == 1 && !RE_START_OL.test(ct.nextLine)),
+		end:   ct => isSeparator(ct.nextLine)
+			  || ct.emptyLines >= 2
+			  || (ct.emptyLines == 1 && !RE_START_OL.test(ct.nextLine)),
 
 		containedBlocks: [
 			'listItem',
@@ -152,7 +154,9 @@ module.exports = {
 	 */
 	unorderedList: {
 		start: ct => RE_START_UL.test(ct.line),
-		end:   ct => isSeparator(ct.nextLine) || ct.emptyLines >= 2 || (ct.emptyLines == 1 && !RE_START_UL.test(ct.nextLine)),
+		end:   ct => isSeparator(ct.nextLine)
+			  || ct.emptyLines >= 2
+			  || (ct.emptyLines == 1 && !RE_START_UL.test(ct.nextLine)),
 
 		containedBlocks: [
 			'listItem',
@@ -266,7 +270,8 @@ module.exports = {
 				case 'note':     return ct.nextLine.startsWith('\t\t');
 				case 'listItem': return ct.nextLine.startsWith('\t')
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
-				                     || RE_START_OL.test(ct.nextLine);
+				                     || RE_START_OL.test(ct.nextLine)
+				                     || RE_START_UL.test(ct.nextLine);
 				default:         return /^\s/.test(ct.nextLine);
 			}
 		},
