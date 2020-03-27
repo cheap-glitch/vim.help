@@ -105,9 +105,9 @@ module.exports = {
 		{
 			return removeTagTargets(
 				// Fix the capitalisation of the header text
-				line[0] + line.slice(1).toLowerCase()
+				(line[0] + line.slice(1).toLowerCase())
 				// Make some words uppercase
-				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase())
+				.replace(/(?:^|\b)(?:i|ms|mswin)\b/i, match => match.toUpperCase())
 			);
 		},
 
@@ -226,7 +226,7 @@ module.exports = {
 	 */
 
 	/**
-	 * Blocks
+	 * Text blocks
 	 * {{{
 	 * ---------------------------------------------------------------------
 	 */
@@ -350,7 +350,7 @@ module.exports = {
 	 * Table
 	 */
 	table: {
-		start: ct => /^\S+\t[^\t]+$/.test(ct.line) || (RE_TABLE_START.test(ct.line) && (RE_TABLE_START.test(ct.nextLine) || ct.nextLine.startsWith('\t\t'))),
+		start: ct => /^[^\t]+\t{1,2}[^\t]+$/.test(ct.line) || (RE_TABLE_START.test(ct.line) && (RE_TABLE_START.test(ct.nextLine) || ct.nextLine.startsWith('\t\t'))),
 		end:   ct => isEmpty(ct.nextLine),
 
 		containedBlocks: [
