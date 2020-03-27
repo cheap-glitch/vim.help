@@ -65,7 +65,7 @@ function createTags(filename, text)
 		 */
 		const link = getLinkToTag(filename, tag);
 
-		// Don't create a tag if the target doesn't exists
+		// Don't create a tag if the target doesn't exist
 		if (!link) return tag;
 
 		// Compute the type of tag
@@ -86,7 +86,7 @@ function createTags(filename, text)
 	/**
 	 * Option names ('option')
 	 */
-	.replace(/(?:^|\b)'([a-z]+)'/g, function(option, name)
+	.replace(/(?:^|(?<= ))'([a-z]+)'/g, function(option, name)
 	{
 		const link = getLinkToTag(filename, option);
 
@@ -148,6 +148,11 @@ function wrapInlineCode(text)
 	 * Register names ("a, "b, "=, etc.)
 	 */
 	.replace(/&quot;[a-z=](?= )/g, register => wrapHTML(register, 'code'))
+
+	/**
+	 * Marks
+	 */
+	.replace(/(?:^|(?<= ))['`](?:&quot;|.)(?:(?= )|$)/g, mark => wrapHTML(mark, 'code'))
 
 	/**
 	 * Filenames (file.c, script.vim, etc.)

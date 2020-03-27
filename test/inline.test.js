@@ -155,6 +155,16 @@ describe("inline code & commands", () => {
 
 	});
 
+	describe("marks", () => {
+
+		it("should wrap marks", () => {
+
+			// usr_07 (223)
+			wrapIC('in the file `" and `. will take').should.equal('in the file <code>`&quot;</code> and <code>`.</code> will take');
+		});
+
+	});
+
 	describe("filenames", () => {
 
 		it("should wrap filenames", () => {
