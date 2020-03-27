@@ -218,7 +218,7 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_03 ("Moving around", 03.6: "Telling where you are")
+	// usr_03 (232)
 	it("embedded formatted text blocks", () => expect(getAST(`
 
 		1.  Use the CTRL-G command.  You get a message like this (assuming the 'ruler'
@@ -283,7 +283,7 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_22 ("Finding the file to edit", 22.1: "The file browser")
+	// usr_22 (50)
 	it("multiple single-line items with no space between them", () => expect(getAST(`
 
 		1.  The name of the browsing tool and its version number
@@ -330,6 +330,8 @@ describe("ordered lists", () => {
  */
 describe("unordered lists", () => {
 
+	it("@TODO", () => {});
+
 });
 /**
  * }}}
@@ -342,7 +344,7 @@ describe("unordered lists", () => {
  */
 describe("tables of contents", () => {
 
-	// usr_01.txt ("About the manuals")
+	// usr_01 (11)
 	it("simple table of contents", () => expect(getAST(`
 
 		|01.1|	Two manuals
@@ -844,7 +846,7 @@ describe("formatted text blocks", () => {
 		}))
 	);
 
-	// usr_03 ("Moving around", 03.7: "Scrolling around")
+	// usr_03 (310)
 	it("text block with some tabulations inside the lines", () => expect(getAST(`
 
 			+------------------+		 +------------------+
@@ -943,7 +945,7 @@ describe("formatted text blocks", () => {
  */
 describe("tables", () => {
 
-	// usr_08 ("Splitting windows", 08.8: "Various")
+	// usr_08 (480)
 	it("simple table with single-line rows", () => expect(getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a

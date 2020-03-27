@@ -137,7 +137,7 @@ function wrapInlineCode(text)
 	 * Also turn a potential trailing space into a non-breaking space
 	 * to prevent it from collapsing with a space in the text after the <code> tag
 	 */
-	.replace(/(?:&quot;|`)([^ <>]+?)(?:&quot;|`)/g, (_, text) => wrapHTML(text.replace(/ $/, '&nbsp;'), 'code'))
+	.replace(/(?:&quot;|`)([^ ]+?)(?:&quot;|`)/g, (_, text) => wrapHTML(text.replace(/ $/, '&nbsp;'), 'code'))
 
 	/**
 	 * Double-quoted text starting with ':' and spaces in it (":command arg")
@@ -160,9 +160,9 @@ function wrapInlineCode(text)
 	.replace(/(^|\b)\$\w+/g, name => wrapHTML(name, 'code'))
 
 	/**
-	 * Single-character key bindings
+	 * Single-character key bindings & register names
 	 */
-	.replace(/(?<=press )[a-zA-Z]\b/g, key => wrapHTML(key, 'code'))
+	.replace(/(?<=(press |register ))[a-zA-Z]\b/g, key => wrapHTML(key, 'code'))
 
 	/**
 	 * Other special characters
