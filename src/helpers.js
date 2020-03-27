@@ -39,6 +39,14 @@ module.exports = {
 	 */
 
 	/**
+	 * Remove tag targets (*foo-bar*) from a blob of text
+	 */
+	removeTagTargets(text)
+	{
+		return text.replace(/\*[a-z-]+\*/g).trim();
+	},
+
+	/**
 	 * Generate a string containing the same character repeated n times
 	 */
 	generateStr(n, character)

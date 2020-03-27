@@ -6,6 +6,7 @@
 const { wrapHTML         } = require('../helpers.js');
 const { generateStr      } = require('../helpers.js');
 const { toKebabCase      } = require('../helpers.js');
+const { removeTagTargets } = require('../helpers.js');
 
 const { isEmpty          } = require('./helpers.js');
 const { isSeparator      } = require('./helpers.js');
@@ -78,7 +79,7 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		transformLines: line => line.replace(/\*[a-z-]+\*/g, ''),
+		transformLines: line => removeTagTargets(line),
 
 		wrapper(lines)
 		{
@@ -104,14 +105,12 @@ module.exports = {
 
 		transformLines(line)
 		{
-			// Fix the capitalisation of the header text
-			return line[0] + line.slice(1).toLowerCase()
-
+			return removeTagTargets(
+				// Fix the capitalisation of the header text
+				line[0] + line.slice(1).toLowerCase()
 				// Make some words uppercase
 				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase())
-
-				// Remove tag targets
-				.replace(/\*[a-z-]+\*/g);
+			);
 		},
 
 		wrapper(lines)

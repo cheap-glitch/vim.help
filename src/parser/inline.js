@@ -7,6 +7,7 @@ const { basename           } = require('../helpers.js');
 const { isUserManual       } = require('../helpers.js');
 const { toKebabCase        } = require('../helpers.js');
 const { wrapHTML           } = require('../helpers.js');
+const { removeTagTargets   } = require('../helpers.js');
 const { getRawFileContents } = require('../helpers.js');
 
 const files = require('../files.js');
@@ -53,9 +54,7 @@ function createTags(filename, text)
 		{
 			// Get the title of the section from the file contents
 			const file  = tags[tag];
-			const title = getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`))
-				// Remove tag targets from the section title
-				.replace(/\*.+?\*/g, '').trim();
+			const title = removeTagTargets(getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`)));
 
 			return '“' + wrapHTML(title, 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
