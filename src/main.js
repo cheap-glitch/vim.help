@@ -82,17 +82,16 @@ switch (process.argv[2])
 				for (const [lineNb, fix] of Object.entries(fixes[filename]))
 					contents[lineNb - 1] = fix(contents[lineNb - 1]);
 
-			writeHTMLPage(toKebabCase(title), {
-				title: title,
+			writeHTMLPage((isUserManual(filename) ? `${filename.slice(4)}-` : '') + toKebabCase(title), {
+				title:    title,
 				contents: callProcessor(filename, contents),
 
 				// Add an anchor with the number of the chapter in front of the main header of the user manual's pages
 				header: wrapHTML((isUserManual(filename) ? wrapHTML(filename.slice(4), 'a', { class: 'header-anchor', href: '#' }) : '') + title, 'h1'),
 
-				// Build the navigation links at the top of the page
-				navlinkToc:  wrapHTML('↑', 'a', { class: 'navlink', ...(filename == 'usr_toc' ? { title: 'Homepage', href: '/' } : { title: 'Table of contents', href: '/table-of-contents' }) }),
-				navlinkPrev: (isUserManual(filename) && filename != 'usr_01') ? wrapHTML('←', 'a', { class: 'navlink', title: 'Previous chapter: &quot;' + getChapterTitle(filename, -1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename, -1)) }) : '',
-				navlinkNext: (isUserManual(filename) && filename != 'usr_90') ? wrapHTML('→', 'a', { class: 'navlink', title: 'Next chapter: &quot;'     + getChapterTitle(filename,  1) + '&quot;', href: '/' + toKebabCase(getChapterTitle(filename,  1)) }) : '',
+				navLinkParent: getNavLinkParent(filename),
+				navLinkPrev:   getNavLinkPrevChapter(filename),
+				navLinkNext:   getNavLinkNextChapter(filename),
 			});
 		}
 		break;
@@ -195,6 +194,53 @@ function callProcessor(filename, lines)
 	return require('./processors/help.js')(filename, lines);
 }
 
+/**
+ * Get the navigation link to the parent page
+ */
+function getNavLinkParent(filename)
+{
+	// User manual ToC
+	if (filename == 'usr_toc')
+		return wrapHTML('↑', 'a', { class: 'navlink', title: 'Homepage', href: '/' });
+
+	// User manual page
+	if (isUserManual(filename))
+		return wrapHTML('↑', 'a', { class: 'navlink', title: 'Table of contents', href: '/table-of-contents' });
+
+	// Other page
+	return '';
+}
+
+/**
+ * Get the navigation link to the next/previous chapter (user manual only)
+ */
+function getNavLinkPrevChapter(filename)
+{
+	return (isUserManual(filename) && filename != 'usr_01')
+		? wrapHTML('←', 'a', {
+			class: 'navlink',
+			title: `Previous chapter: &quot;${getChapterTitle(filename, -1)}&quot;`,
+			href:  `/${getChapterNumber(filename, -1)}-${toKebabCase(getChapterTitle(filename, -1))}`
+		}) : '';
+}
+
+function getNavLinkNextChapter(filename)
+{
+	return (isUserManual(filename) && filename != 'usr_90')
+		? wrapHTML('→', 'a', {
+			class: 'navlink',
+			title: `Next chapter: &quot;${getChapterTitle(filename, 1)}&quot;`,
+			href:  `/${getChapterNumber(filename, 1)}-${toKebabCase(getChapterTitle(filename, 1))}`
+		}) : '';
+}
+
+/**
+ * Get the number of the next/previous chapter in the user manual
+ */
+function getChapterNumber(filename, offset)
+{
+	return Object.keys(files)[Object.keys(files).indexOf(filename) + offset].slice(4);
+}
 /**
  * Get the title of the next/previous chapter in the user manual
  */

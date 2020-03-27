@@ -4,6 +4,7 @@
  */
 
 const { basename           } = require('../helpers.js');
+const { isUserManual       } = require('../helpers.js');
 const { toKebabCase        } = require('../helpers.js');
 const { wrapHTML           } = require('../helpers.js');
 const { getRawFileContents } = require('../helpers.js');
@@ -44,7 +45,7 @@ function createTags(filename, text)
 		// Page
 		if (tag.endsWith('.txt') && (tag.slice(0, -4) in files))
 		{
-			return wrapHTML(`${tag.slice(4, -4)}. "${files[tag.slice(0, -4)]}"`, 'a', { href: `/${toKebabCase(files[tag.slice(0,-4)])}` });
+			return '“' + wrapHTML(files[tag.slice(0, -4)], 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
 
 		// User manual section
@@ -53,10 +54,10 @@ function createTags(filename, text)
 			// Get the title of the section from the file contents
 			const file  = tags[tag];
 			const title = getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`))
-				// Remove potential targets from the section title
+				// Remove tag targets from the section title
 				.replace(/\*.+?\*/g, '').trim();
 
-			return wrapHTML(`${tag}: "${title}"`, 'a', { href: `/${toKebabCase(files[file])}` });
+			return '“' + wrapHTML(title, 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
 
 		/**
@@ -196,7 +197,13 @@ function getLinkToTag(filename, tag)
 
 		// The target is in a different file
 		: files[tags[tag]]
-			? `/${toKebabCase(files[tags[tag]])}${tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : ''}`
+			? '/'
+				// Chapter number (only for the user manual pages)
+				+ (isUserManual(tags[tag]) ? `${tags[tag].slice(4)}-` : '')
+				// Page title
+				+ toKebabCase(files[tags[tag]])
+				// Tag anchor
+				+ (tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : '')
 			: null;
 }
 

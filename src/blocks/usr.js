@@ -106,8 +106,12 @@ module.exports = {
 		{
 			// Fix the capitalisation of the header text
 			return line[0] + line.slice(1).toLowerCase()
+
 				// Make some words uppercase
-				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase());
+				.replace(/\b(?:i|ms)\b/, match => match.toUpperCase())
+
+				// Remove tag targets
+				.replace(/\*[a-z-]+\*/g);
 		},
 
 		wrapper(lines)
