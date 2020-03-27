@@ -17,9 +17,9 @@ const wrapIC = text =>  wrapInlineCode(escapeHTML(text));
 describe("inline formatting", () => {
 
 /**
- * Vim tags
+ * Tags
  * {{{
- * =============================================================================
+ * -----------------------------------------------------------------------------
  */
 describe("tags", () => {
 
@@ -30,12 +30,21 @@ describe("tags", () => {
 			createTags('intro',  "|notation|").should.equal('<a href="#notation" class="tag link">notation</a>');
 		});
 
+		it("should add a special class to options and commands", () => {
+			createTags('usr_01', "|:saveas|").should.equal('<a href="/editing#%3Asaveas" class="tag command">:saveas</a>');
+			createTags('usr_01', "|'path'|" ).should.equal(`<a href="/options#'path'" class="tag option">path</a>`);
+		});
+
 		it("should replace links to other files by their title", () => {
 			createTags('usr_01', "|usr_02.txt|").should.equal('“<a href="/02-the-first-steps-in-vim">The first steps in Vim</a>”');
 		});
 
 		it("should replace links to sections of the user manual by their title", () => {
 			createTags('usr_01', "|02.1|").should.equal('“<a href="/02-the-first-steps-in-vim#02.1">Running Vim for the First Time</a>”');
+		});
+
+		it("should NOT create a tag if the tag is not in the list", () => {
+			createTags('usr_01', "|thisisnotatag|").should.equal('thisisnotatag');
 		});
 
 	});
@@ -46,7 +55,7 @@ describe("tags", () => {
 			createTags('usr_01', "'wildmenu'").should.equal(`<a href="/options#'wildmenu'" class="tag option">wildmenu</a>`);
 		});
 
-		it("should NOT create tags from unrecognized option names", () => {
+		it("should NOT create a tag if the option is not in the tag list", () => {
 			createTags('usr_01', "'thisisnotanoption'").should.equal("<code>'thisisnotanoption'</code>");
 		});
 

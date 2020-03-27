@@ -1032,7 +1032,7 @@ describe("formatted text blocks", () => {
 describe("tables", () => {
 
 	// usr_08 (480)
-	it("simple table with single-line rows", () => expect(getAST(`
+	it("table with single-line rows", () => expect(getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a
 		statusline:
@@ -1066,7 +1066,7 @@ describe("tables", () => {
 		]))
 	);
 
-	it("simple table with multiline rows", () => expect(getAST(`
+	it("table with multiline rows", () => expect(getAST(`
 
 			a	lorem ipsum
 				dolor sit amet
@@ -1082,6 +1082,38 @@ describe("tables", () => {
 				{
 					type: 'tableRow',
 					children: ['\tb\tmemento mori']
+				}
+			]
+		}))
+	);
+
+	// usr_09 (150)
+	it("table with no indentation", () => expect(getAST(`
+
+		Left mouse click		position the cursor
+		Left mouse drag			select text in Visual mode
+		Middle mouse click		paste text from the clipboard
+		Right mouse click		extend the selected text until the mouse
+						pointer
+
+		`)).to.deep.equal(wrapNodes({
+			type: 'table',
+			children: [
+				{
+					type: 'tableRow',
+					children: ['Left mouse click\t\tposition the cursor']
+				},
+				{
+					type: 'tableRow',
+					children: ['Left mouse drag\t\t\tselect text in Visual mode']
+				},
+				{
+					type: 'tableRow',
+					children: ['Middle mouse click\t\tpaste text from the clipboard']
+				},
+				{
+					type: 'tableRow',
+					children: ['Right mouse click\t\textend the selected text until the mouse', '\t\t\t\tpointer']
 				}
 			]
 		}))

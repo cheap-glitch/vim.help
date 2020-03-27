@@ -86,7 +86,7 @@ function createTags(filename, text)
 	/**
 	 * Option names ('option')
 	 */
-	.replace(/'([a-z]+)'/g, function(option, name)
+	.replace(/(?:^|\b)'([a-z]+)'/g, function(option, name)
 	{
 		const link = getLinkToTag(filename, option);
 
