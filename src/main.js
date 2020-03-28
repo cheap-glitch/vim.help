@@ -103,6 +103,7 @@ switch (process.argv[2])
 		const gm = require('gray-matter');
 		const mi = require('markdown-it')({
 			html:        true,
+			linkify:     true,
 			typographer: true,
 		})
 		.use(require('markdown-it-mark'))
