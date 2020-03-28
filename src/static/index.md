@@ -19,6 +19,8 @@ special  processing to  be made  legible. If  you want  to help,  check out  the
 
 <!-- include ../../README.md:why-this-project -->
 
+<!-- include ../../README.md:support -->
+
 <!-- include ../../README.md:contributing -->
 
 <!-- include ../../README.md:credits -->

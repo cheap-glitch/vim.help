@@ -20,8 +20,9 @@ best sources to learn about Vim.  Sadly, it's often overlooked by both beginners
 and regular users alike.
 
 There already exists  [a mirror of the doc  online](https://vimhelp.org), but it
-doesn't do much  to improve the reading experience. The  goal of **vim.help** is
-to make Vim's docs pleasant to both browse and peruse.
+doesn't do much to  improve the reading experience. The goal  of this project is
+to make Vim's docs easier to reach  from any device, more pleasant to peruse and
+more attractive for newcomers and inexperienced users.
 <!-- /fragment -->
 
 <!-- fragment:about-vim-help -->
@@ -54,6 +55,19 @@ Other features that would be nice to have:
 
 If   you're   interested    in   helping   out,   please   take    a   look   at
 [CONTRIBUTING.md](https://github.com/cheap-glitch/vim.help/blob/master/CONTRIBUTING.md).
+<!-- /fragment -->
+
+<!-- fragment:support -->
+## 🎁 Support the project!
+I  want   to  keep  this   resource  free  and   ad-free  for  the   benefit  of
+all  the  Vim  lovers  out  there,  and  continuously  improve  it  —  but  that
+takes  a  lot  of  time  and  resources. To  help  in  that  endeavor,  you  can
+support   me  on   my   [Patreon](https://www.patreon.com/cheap_glitch)  or   on
+[PayPal](https://www.paypal.me/CheapGlitch).
+
+Support  doesn't  have  to  be   monetary  though!  Reporting  bugs,  suggesting
+improvements, contributing some  code or even just spreading the  word about the
+project helps a lot.
 <!-- /fragment -->
 
 <!-- fragment:credits -->
