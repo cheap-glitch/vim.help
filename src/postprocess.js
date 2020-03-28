@@ -3,12 +3,18 @@
  * src/postprocess.js
  */
 
-const fs        = require('fs');
-const path      = require('path');
-const walk      = require('klaw-sync');
+const fs           = require('fs');
+const path         = require('path');
+const walk         = require('klaw-sync');
 
-const BUILD_DIR = path.resolve(__dirname, '../public');
+const { basename } = require('./helpers.js');
 
+const BUILD_DIR    = path.resolve(__dirname, '../public');
+const BASE_URL     = 'https://vim.help';
+
+/**
+ * Minify and process the source files
+ */
 walk(BUILD_DIR).forEach(async function(file)
 {
 	const minify       = require('html-minifier').minify;
@@ -47,3 +53,16 @@ walk(BUILD_DIR).forEach(async function(file)
 			break;
 	}
 });
+
+/**
+ * Generate a sitemap
+ */
+fs.writeFileSync(`${BUILD_DIR}/sitemap.xml`,
+`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${walk(BUILD_DIR)
+	.filter(file => file.path.endsWith('.html'))
+	.map(file => `\t<url><loc>${BASE_URL}/${basename(file.path) != 'index' ? basename(file.path) : '/' }</loc></url>`)
+	.join('\n')}
+</urlset>`
+);
