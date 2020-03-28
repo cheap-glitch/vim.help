@@ -74,36 +74,31 @@ describe("tags", () => {
 describe("key bindings", () => {
 
 	it("should wrap key names", () => {
-
 		wrapKB('<Enter>'        ).should.equal('<kbd>&lt;Enter&gt;</kbd>');
 		wrapKB('the <Enter>'    ).should.equal('the <kbd>&lt;Enter&gt;</kbd>');
 		wrapKB('the <Enter> key').should.equal('the <kbd>&lt;Enter&gt;</kbd> key');
-
 	});
 
 	it("should wrap key chords", () => {
-
 		wrapKB('<S-Tab>'       ).should.equal('<kbd>&lt;S-Tab&gt;</kbd>');
 		wrapKB('press <S-Tab>' ).should.equal('press <kbd>&lt;S-Tab&gt;</kbd>');
 		wrapKB('press <S-Tab>.').should.equal('press <kbd>&lt;S-Tab&gt;</kbd>.');
-
 	});
 
 	it("should wrap CTRL-based key bindings", () => {
-
 		wrapKB('CTRL-i'        ).should.equal('<kbd>CTRL&#8209;i</kbd>');
 		wrapKB('CTRL-F'        ).should.equal('<kbd>CTRL&#8209;F</kbd>');
 		wrapKB('CTRL-^'        ).should.equal('<kbd>CTRL&#8209;^</kbd>');
 		wrapKB('foo CTRL-B'    ).should.equal('foo <kbd>CTRL&#8209;B</kbd>');
 		wrapKB('foo CTRL-B bar').should.equal('foo <kbd>CTRL&#8209;B</kbd> bar');
-
 	});
 
 	it("should wrap compound CTRL-based key bindings in a single tag", () => {
-
-		wrapKB('CTRL-W CTRL-W'            ).should.equal('<kbd>CTRL&#8209;W CTRL&#8209;W</kbd>');
-		wrapKB('press CTRL-W CTRL-W'      ).should.equal('press <kbd>CTRL&#8209;W CTRL&#8209;W</kbd>');
-		wrapKB('press CTRL-W CTRL-W, then').should.equal('press <kbd>CTRL&#8209;W CTRL&#8209;W</kbd>, then');
+		wrapKB('CTRL-X CTRL-F'            ).should.equal('<kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
+		wrapKB('press CTRL-X CTRL-F'      ).should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
+		wrapKB('press CTRL-X CTRL-F, then').should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>, then');
+		wrapKB('CTRL-W k'                 ).should.equal('<kbd>CTRL&#8209;W k</kbd>');
+		wrapKB('press CTRL-W k to'        ).should.equal('press <kbd>CTRL&#8209;W k</kbd> to');
 	});
 
 	it("shouldn't wrap other uses of 'CTRL'", () => {
