@@ -3,7 +3,7 @@
  * test/ast_usr.test.js
  */
 
-const expect          = require('chai').expect;
+require('chai').should();
 
 const buildAST        = require('../src/parser/ast.js');
 const { wrapArray   } = require('../src/helpers.js');
@@ -21,7 +21,7 @@ describe("AST for user manual pages", () => {
  */
 describe("section headers", () => {
 
-	it("simple headers", () => expect(getAST(`
+	it("simple headers", () => getAST(`
 
 		==============================================================================
 		Header
@@ -32,7 +32,7 @@ describe("section headers", () => {
 		==============================================================================
 		*22.3* Header *tag-target*
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'sectionHeader',
 				children: ['Header'],
@@ -60,13 +60,13 @@ describe("section headers", () => {
  */
 describe("sub-section headers", () => {
 
-	it("simple headers", () => expect(getAST(`
+	it("simple headers", () => getAST(`
 
 		LOREM IPSUM
 
 		DOLOR SIT AMET!?
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'subSectionHeader',
 				children: ['LOREM IPSUM'],
@@ -78,13 +78,13 @@ describe("sub-section headers", () => {
 		]))
 	);
 
-	it("headers with tag targets", () => expect(getAST(`
+	it("headers with tag targets", () => getAST(`
 
 		LOREM IPSUM		*target*
 
 		DOLOR SIT AMET!?	*target-1* *target-2*
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'subSectionHeader',
 				children: ['LOREM IPSUM\t\t*target*'],
@@ -108,11 +108,11 @@ describe("sub-section headers", () => {
  */
 describe("ordered lists", () => {
 
-	it("single item", () => expect(getAST(`
+	it("single item", () => getAST(`
 
 		1) lorem ipsum
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [
 				{ type: 'listItem', children: [{ type: 'paragraph', children: ['1) lorem ipsum'] }] },
@@ -120,12 +120,12 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	it("single item with multiple lines", () => expect(getAST(`
+	it("single item with multiple lines", () => getAST(`
 
 		1) lorem ipsum
 		   dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [{
 				type: 'listItem',
@@ -140,13 +140,13 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	it("multiple items", () => expect(getAST(`
+	it("multiple items", () => getAST(`
 
 		1) lorem ipsum
 
 		2) dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [
 				{ type: 'listItem', children: [{ type: 'paragraph', children: ['1) lorem ipsum'   ] }] },
@@ -155,7 +155,7 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	it("multiple items with multiple lines", () => expect(getAST(`
+	it("multiple items with multiple lines", () => getAST(`
 
 		1) lorem ipsum
 		   dolor sit amet
@@ -163,7 +163,7 @@ describe("ordered lists", () => {
 		2) lorem ipsum
 		   dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [
 				{
@@ -190,13 +190,13 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	it("embedded code blocks", () => expect(getAST(`
+	it("embedded code blocks", () => getAST(`
 
 		1) lorem ipsum >
 			:command
 		<   dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [{
 				type: 'listItem',
@@ -219,7 +219,7 @@ describe("ordered lists", () => {
 	);
 
 	// usr_03 (232)
-	it("embedded formatted text blocks", () => expect(getAST(`
+	it("embedded formatted text blocks", () => getAST(`
 
 		1.  Use the CTRL-G command.  You get a message like this (assuming the 'ruler'
 		    option is off):
@@ -236,7 +236,7 @@ describe("ordered lists", () => {
 
 		2.  Set the 'number' option.  This will display a line number in front of
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'orderedList',
 			children: [
 				{
@@ -284,7 +284,7 @@ describe("ordered lists", () => {
 	);
 
 	// usr_22 (50)
-	it("multiple single-line items with no space between them", () => expect(getAST(`
+	it("multiple single-line items with no space between them", () => getAST(`
 
 		1.  The name of the browsing tool and its version number
 		2.  The name of the browsing directory
@@ -299,7 +299,7 @@ describe("ordered lists", () => {
 		If you have syntax highlighting enabled, the different parts are highlighted
 		so as to make it easier to spot them.
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'orderedList',
 				children: [
@@ -331,7 +331,7 @@ describe("ordered lists", () => {
 describe("unordered lists", () => {
 
 	// usr_09 (221)
-	it("starting with a dash and two spaces", () => expect(getAST(`
+	it("starting with a dash and two spaces", () => getAST(`
 
 		-  Select two words in Visual mode.
 		-  Use the Edit/Paste menu item.  What will happen is that the single selected
@@ -340,7 +340,7 @@ describe("unordered lists", () => {
 		   will see that the word you just overwrote with the clipboard is inserted
 		   here.
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'unorderedList',
 			children: [
 				{
@@ -388,14 +388,14 @@ describe("unordered lists", () => {
 describe("tables of contents", () => {
 
 	// usr_01 (11)
-	it("simple table of contents", () => expect(getAST(`
+	it("simple table of contents", () => getAST(`
 
 		|01.1|	Two manuals
 		|01.2|	Vim installed
 		|01.3|	Using the Vim tutor
 		|01.4|	Copyright
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'toc',
 			children: [
 				{
@@ -430,13 +430,13 @@ describe("tables of contents", () => {
  */
 describe("notes", () => {
 
-	it("simple note block", () => expect(getAST(`
+	it("simple note block", () => getAST(`
 
 			Note:
 			lorem ipsum
 			dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'note',
 			children: [
 				'\tNote:',
@@ -448,14 +448,14 @@ describe("notes", () => {
 		}))
 	);
 
-	it("note block with included command block", () => expect(getAST(`
+	it("note block with included command block", () => getAST(`
 
 			Note:
 			lorem ipsum
 			dolor sit amet >
 				:command
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'note',
 			children: [
 				'\tNote:',
@@ -471,7 +471,7 @@ describe("notes", () => {
 		}))
 	);
 
-	it("note block with included formatted text block", () => expect(getAST(`
+	it("note block with included formatted text block", () => getAST(`
 
 			Note:
 			lorem ipsum
@@ -479,7 +479,7 @@ describe("notes", () => {
 				text
 			si vis pacem
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'note',
 			children: [
 				'\tNote:',
@@ -511,28 +511,28 @@ describe("notes", () => {
  */
 describe("paragraphs", () => {
 
-	it("single paragraph with a single line", () => expect(getAST(`
+	it("single paragraph with a single line", () => getAST(`
 
 		lorem ipsum
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'paragraph',
 			children: ['lorem ipsum'],
 		}))
 	);
 
-	it("single paragraph with multiple lines", () => expect(getAST(`
+	it("single paragraph with multiple lines", () => getAST(`
 
 		lorem ipsum
 		dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'paragraph',
 			children: ['lorem ipsum', 'dolor sit amet'],
 		}))
 	);
 
-	it("multiple paragraphs with single line", () => expect(getAST(`
+	it("multiple paragraphs with single line", () => getAST(`
 
 		lorem ipsum
 
@@ -540,14 +540,14 @@ describe("paragraphs", () => {
 
 		ars longa, vita brevis
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{ type: 'paragraph', children: ['lorem ipsum']            },
 			{ type: 'paragraph', children: ['dolor sit amet']         },
 			{ type: 'paragraph', children: ['ars longa, vita brevis'] },
 		]))
 	);
 
-	it("multiple paragraphs with multiple lines", () => expect(getAST(`
+	it("multiple paragraphs with multiple lines", () => getAST(`
 
 		lorem ipsum
 		dolor sit amet
@@ -555,18 +555,18 @@ describe("paragraphs", () => {
 		ars longa, vita brevis
 		veni, vidi, vici
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{ type: 'paragraph', children: ['lorem ipsum', 'dolor sit amet']              },
 			{ type: 'paragraph', children: ['ars longa, vita brevis', 'veni, vidi, vici'] },
 		]))
 	);
 
-	it("multiple paragraphs separated by an indent", () => expect(getAST(`
+	it("multiple paragraphs separated by an indent", () => getAST(`
 
 		lorem ipsum
 		   dolor sit amet
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{ type: 'paragraph', children: ['lorem ipsum']       },
 			{ type: 'paragraph', children: ['   dolor sit amet'] },
 		]))
@@ -590,12 +590,12 @@ describe("command blocks", () => {
 	 */
 	describe("after a paragraph", () => {
 
-		it("single line", () => expect(getAST(`
+		it("single line", () => getAST(`
 
 			lorem ipsum >
 				command
 
-			`, 3)).to.deep.equal(wrapNodes([
+			`, 3).should.deep.equal(wrapNodes([
 				{
 					type: 'paragraph',
 					children: ['lorem ipsum >'],
@@ -607,13 +607,13 @@ describe("command blocks", () => {
 			]))
 		);
 
-		it("multiple lines", () => expect(getAST(`
+		it("multiple lines", () => getAST(`
 
 			lorem ipsum >
 				command
 				command
 
-			`, 3)).to.deep.equal(wrapNodes([
+			`, 3).should.deep.equal(wrapNodes([
 				{
 					type: 'paragraph',
 					children: ['lorem ipsum >'],
@@ -629,13 +629,13 @@ describe("command blocks", () => {
 
 	describe("between two paragraphs", () => {
 
-		it("single line", () => expect(getAST(`
+		it("single line", () => getAST(`
 
 			lorem ipsum >
 				command
 			< dolor sit amet
 
-			`, 3)).to.deep.equal(wrapNodes([
+			`, 3).should.deep.equal(wrapNodes([
 				{
 					type: 'paragraph',
 					children: ['lorem ipsum >'],
@@ -651,14 +651,14 @@ describe("command blocks", () => {
 			]))
 		);
 
-		it("multiple lines", () => expect(getAST(`
+		it("multiple lines", () => getAST(`
 
 			lorem ipsum >
 				command
 				command
 			< dolor sit amet
 
-			`, 3)).to.deep.equal(wrapNodes([
+			`, 3).should.deep.equal(wrapNodes([
 				{
 					type: 'paragraph',
 					children: ['lorem ipsum >'],
@@ -686,13 +686,13 @@ describe("command blocks", () => {
 	 */
 	describe("inside a list item", () => {
 
-		it("single line", () => expect(getAST(`
+		it("single line", () => getAST(`
 
 			1) lorem ipsum >
 				command
 			<   dolor sit amet
 
-			`, 3)).to.deep.equal(wrapNodes({
+			`, 3).should.deep.equal(wrapNodes({
 				type: 'orderedList',
 				children: [{
 					type: 'listItem',
@@ -714,14 +714,14 @@ describe("command blocks", () => {
 			}))
 		);
 
-		it("multiple lines", () => expect(getAST(`
+		it("multiple lines", () => getAST(`
 
 			1) lorem ipsum >
 				command
 				command
 			<   dolor sit amet
 
-			`, 3)).to.deep.equal(wrapNodes({
+			`, 3).should.deep.equal(wrapNodes({
 				type: 'orderedList',
 				children: [{
 					type: 'listItem',
@@ -747,12 +747,12 @@ describe("command blocks", () => {
 
 	describe("at the end of a list", () => {
 
-		it("single line", () => expect(getAST(`
+		it("single line", () => getAST(`
 
 			9) lorem ipsum >
 				command
 
-			`, 3)).to.deep.equal(wrapNodes({
+			`, 3).should.deep.equal(wrapNodes({
 				type: 'orderedList',
 				children: [{
 					type: 'listItem',
@@ -770,13 +770,13 @@ describe("command blocks", () => {
 			}))
 		);
 
-		it("multiple lines", () => expect(getAST(`
+		it("multiple lines", () => getAST(`
 
 			9) lorem ipsum >
 				command
 				command
 
-			`, 3)).to.deep.equal(wrapNodes({
+			`, 3).should.deep.equal(wrapNodes({
 				type: 'orderedList',
 				children: [{
 					type: 'listItem',
@@ -807,14 +807,14 @@ describe("command blocks", () => {
 	describe("adjoining a formatted text block", () => {
 
 		// usr_10 (675)
-		it("before", () => expect(getAST(`
+		it("before", () => getAST(`
 
 			The "gu" operator does exactly the opposite: >
 
 						     guw
 			<	SECTION header	    ---->      section header
 
-			`, 3)).to.deep.equal(wrapNodes([
+			`, 3).should.deep.equal(wrapNodes([
 				{
 					type: 'paragraph',
 					children: ['The "gu" operator does exactly the opposite: >']
@@ -846,28 +846,28 @@ describe("command blocks", () => {
  */
 describe("formatted text blocks", () => {
 
-	it("single block with single line", () => expect(getAST(`
+	it("single block with single line", () => getAST(`
 
 			lorem ipsum
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: ['\tlorem ipsum'],
 		}))
 	);
 
-	it("single block with multiple lines", () => expect(getAST(`
+	it("single block with multiple lines", () => getAST(`
 
 			lorem ipsum
 			dolor sit amet
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: ['\tlorem ipsum', '\tdolor sit amet'],
 		}))
 	);
 
-	it("single block with line break", () => expect(getAST(`
+	it("single block with line break", () => getAST(`
 
 			lorem ipsum
 			dolor sit amet
@@ -875,13 +875,13 @@ describe("formatted text blocks", () => {
 			sic transit
 			gloria mundi
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: ['\tlorem ipsum', '\tdolor sit amet', '\tsic transit', '\tgloria mundi'],
 		}))
 	);
 
-	it("single block with line in the middle starting with spaces", () => expect(getAST(`
+	it("single block with line in the middle starting with spaces", () => getAST(`
 
 			lorem ipsum
 			dolor sit amet
@@ -889,20 +889,20 @@ describe("formatted text blocks", () => {
 			sic transit
 			gloria mundi
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: ['\tlorem ipsum', '\tdolor sit amet', '    foobar', '\tsic transit', '\tgloria mundi'],
 		}))
 	);
 
-	it("multiple blocks mixed with paragraphs", () => expect(getAST(`
+	it("multiple blocks mixed with paragraphs", () => getAST(`
 
 		lorem ipsum
 			formatted
 		dolor sit amet
 			formatted
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'paragraph',
 				children: ['lorem ipsum'],
@@ -922,18 +922,18 @@ describe("formatted text blocks", () => {
 		]))
 	);
 
-	it("single block with single line marked by a trailing '~'", () => expect(getAST(`
+	it("single block with single line marked by a trailing '~'", () => getAST(`
 
 		  lorem ipsum ~
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: ['  lorem ipsum ~'],
 		}))
 	);
 
 	// usr_03 (310)
-	it("text block with some tabulations inside the lines", () => expect(getAST(`
+	it("text block with some tabulations inside the lines", () => getAST(`
 
 			+------------------+		 +------------------+
 			| earlier text	   |		 | earlier text	    |
@@ -945,7 +945,7 @@ describe("formatted text blocks", () => {
 			| line with cursor |		 | later text	    |
 			+------------------+		 +------------------+
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'formattedText',
 			children: [
 				'\t+------------------+\t\t +------------------+',
@@ -961,7 +961,7 @@ describe("formatted text blocks", () => {
 		}))
 	);
 
-	it("non-indented formatted block", () => expect(getAST(`
+	it("non-indented formatted block", () => getAST(`
 
 		Through the magic of autocommands and Vim scripts, the window will be filled
 		with the contents of the directory.  It looks like this:
@@ -984,7 +984,7 @@ describe("formatted text blocks", () => {
 
 		You can see these items:
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'paragraph',
 				children: [
@@ -1032,7 +1032,7 @@ describe("formatted text blocks", () => {
 describe("tables", () => {
 
 	// usr_08 (480)
-	it("table with single-line rows", () => expect(getAST(`
+	it("table with single-line rows", () => getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a
 		statusline:
@@ -1041,7 +1041,7 @@ describe("tables", () => {
 			1	only when there are split windows (the default)
 			2	always
 
-		`)).to.deep.equal(wrapNodes([
+		`).should.deep.equal(wrapNodes([
 			{
 				type: 'paragraph',
 				children: ["The 'laststatus' option can be used to specify when the last window has a", "statusline:"]
@@ -1066,13 +1066,13 @@ describe("tables", () => {
 		]))
 	);
 
-	it("table with multiline rows", () => expect(getAST(`
+	it("table with multiline rows", () => getAST(`
 
 			a	lorem ipsum
 				dolor sit amet
 			b	memento mori
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'table',
 			children: [
 				{
@@ -1088,7 +1088,7 @@ describe("tables", () => {
 	);
 
 	// usr_09 (150)
-	it("table with no indentation", () => expect(getAST(`
+	it("table with no indentation", () => getAST(`
 
 		Left mouse click		position the cursor
 		Left mouse drag			select text in Visual mode
@@ -1096,7 +1096,7 @@ describe("tables", () => {
 		Right mouse click		extend the selected text until the mouse
 						pointer
 
-		`)).to.deep.equal(wrapNodes({
+		`).should.deep.equal(wrapNodes({
 			type: 'table',
 			children: [
 				{
