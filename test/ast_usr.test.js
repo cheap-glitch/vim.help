@@ -384,7 +384,7 @@ describe("unordered lists", () => {
 	/**
 	 * usr_06 (55)
 	 */
-	it("list items with a title", () => getAST(`
+	it("list item with a title and embedded command blocks", () => getAST(`
 
 		- Your terminal does support colors, but Vim doesn't know this.
 			Make sure your $TERM setting is correct.  For example, when using an
@@ -419,7 +419,7 @@ describe("unordered lists", () => {
 					},
 					{
 						type: 'paragraph',
-						children: ['\tor (depending on your shell): >']
+						children: ['<', '\tor (depending on your shell): >']
 					},
 					{
 						type: 'commandBlock',
