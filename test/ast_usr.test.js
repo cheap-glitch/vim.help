@@ -218,7 +218,9 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_03 (232)
+	/**
+	 * usr_03 (232)
+	 */
 	it("embedded formatted text blocks", () => getAST(`
 
 		1.  Use the CTRL-G command.  You get a message like this (assuming the 'ruler'
@@ -283,7 +285,9 @@ describe("ordered lists", () => {
 		}))
 	);
 
-	// usr_22 (50)
+	/**
+	 * usr_22 (50)
+	 */
 	it("multiple single-line items with no space between them", () => getAST(`
 
 		1.  The name of the browsing tool and its version number
@@ -330,7 +334,9 @@ describe("ordered lists", () => {
  */
 describe("unordered lists", () => {
 
-	// usr_09 (221)
+	/**
+	 * usr_09 (221)
+	 */
 	it("starting with a dash and two spaces", () => getAST(`
 
 		-  Select two words in Visual mode.
@@ -375,6 +381,63 @@ describe("unordered lists", () => {
 		}))
 	);
 
+	/**
+	 * usr_06 (55)
+	 */
+	it("list items with a title", () => getAST(`
+
+		- Your terminal does support colors, but Vim doesn't know this.
+			Make sure your $TERM setting is correct.  For example, when using an
+			xterm that supports colors: >
+
+				setenv TERM xterm-color
+		<
+			or (depending on your shell): >
+
+				TERM=xterm-color; export TERM
+
+		<	The terminal name must match the terminal you are using.  If it
+			still doesn't work, have a look at |xterm-color|, which shows a few
+			ways to make Vim display colors (not only for an xterm).
+
+		`).should.deep.equal(wrapNodes({
+			type: 'unorderedList',
+			children: [{
+				type: 'listItem',
+				children: [
+					{
+						type: 'paragraph',
+						children: [
+							"- Your terminal does support colors, but Vim doesn't know this.",
+							"\tMake sure your $TERM setting is correct.  For example, when using an",
+							"\txterm that supports colors: >",
+						],
+					},
+					{
+						type: 'commandBlock',
+						children: ['\t\tsetenv TERM xterm-color']
+					},
+					{
+						type: 'paragraph',
+						children: ['\tor (depending on your shell): >']
+					},
+					{
+						type: 'commandBlock',
+						children: ['\t\tTERM=xterm-color; export TERM']
+					},
+					{
+						type: 'paragraph',
+						children: [
+							"<\tThe terminal name must match the terminal you are using.  If it",
+							"\tstill doesn't work, have a look at |xterm-color|, which shows a few",
+							"\tways to make Vim display colors (not only for an xterm).",
+						],
+					}
+				]
+			}]
+		}))
+	);
+
 });
 /**
  * }}}
@@ -387,7 +450,9 @@ describe("unordered lists", () => {
  */
 describe("tables of contents", () => {
 
-	// usr_01 (11)
+	/**
+	 * usr_01 (11)
+	 */
 	it("simple table of contents", () => getAST(`
 
 		|01.1|	Two manuals
@@ -806,7 +871,9 @@ describe("command blocks", () => {
 	 */
 	describe("adjoining a formatted text block", () => {
 
-		// usr_10 (675)
+		/**
+		 * usr_10 (675)
+		 */
 		it("before", () => getAST(`
 
 			The "gu" operator does exactly the opposite: >
@@ -932,7 +999,9 @@ describe("formatted text blocks", () => {
 		}))
 	);
 
-	// usr_03 (310)
+	/**
+	 * usr_03 (310)
+	 */
 	it("text block with some tabulations inside the lines", () => getAST(`
 
 			+------------------+		 +------------------+
@@ -1031,7 +1100,9 @@ describe("formatted text blocks", () => {
  */
 describe("tables", () => {
 
-	// usr_08 (480)
+	/**
+	 * usr_08 (480)
+	 */
 	it("table with single-line rows", () => getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a
@@ -1087,7 +1158,9 @@ describe("tables", () => {
 		}))
 	);
 
-	// usr_09 (150)
+	/**
+	 * usr_09 (150)
+	 */
 	it("table with no indentation", () => getAST(`
 
 		Left mouse click		position the cursor

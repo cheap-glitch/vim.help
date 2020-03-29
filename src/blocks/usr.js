@@ -271,7 +271,7 @@ module.exports = {
 			switch(ct.parent.type)
 			{
 				case 'note':     return ct.nextLine.startsWith('\t\t');
-				case 'listItem': return ct.nextLine.startsWith('\t')
+				case 'listItem': return (ct.nextLine.startsWith('\t') && !RE_START_OL.test(ct.previousLine))
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
 				                     || RE_START_OL.test(ct.nextLine)
 				                     || RE_START_UL.test(ct.nextLine);
