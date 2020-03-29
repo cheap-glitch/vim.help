@@ -168,9 +168,15 @@ describe("inline code & commands", () => {
 			wrapIC('the file header.h').should.equal('the file <code>header.h</code>');
 		});
 
-		it("should leave abbreviations untouched", () => {
+		it("should NOT wrap abbreviations", () => {
 			wrapIC('e.g.').should.equal('e.g.');
 			wrapIC('i.e.').should.equal('i.e.');
+		});
+
+		it("should NOT wrap filenames in tags", () => {
+
+			// usr_06 (263)
+			wrapIC('See |2html.vim| for').should.equal('See |2html.vim| for');
 		});
 
 	});

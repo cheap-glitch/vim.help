@@ -158,7 +158,7 @@ function wrapInlineCode(text)
 	/**
 	 * Filenames (file.c, script.vim, etc.)
 	 */
-	.replace(/\w+\.(?:bat|c|h|txt|vim)/g, name => wrapHTML(name, 'code'))
+	.replace(/(?:^|(?<= ))\w+\.(?:bat|c|h|txt|vim)/g, name => wrapHTML(name, 'code'))
 
 	/**
 	 * Variable names ($var, $VAR)
