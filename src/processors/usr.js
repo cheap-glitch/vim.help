@@ -4,6 +4,7 @@
  */
 
 const blocks    = require('../blocks/usr.js');
+const buildAST  = require('../parser/ast.js');
 const buildHTML = require('../parser/html.js');
 
 module.exports = function(filename, lines)
@@ -18,5 +19,5 @@ module.exports = function(filename, lines)
 		&& !line.startsWith('Table of contents:')
 	);
 
-	return buildHTML(filename, blocks, lines);
+	return buildHTML(filename, blocks, buildAST(blocks, lines));
 }

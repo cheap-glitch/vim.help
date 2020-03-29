@@ -85,9 +85,9 @@ module.exports = {
 
 			// Add an anchor with the number of the header
 			const number = line.match(RE_HEADER_NB)[1].trim();
-			const anchor = wrapHTML(number, 'a', { id: number, href: `#${number}`, class: 'header-anchor' });
+			const anchor = wrapHTML(number, 'a', { href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2');
+			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2', { id: number });
 		}
 	},
 

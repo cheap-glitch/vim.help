@@ -13,9 +13,9 @@ const { wrapKeyBindings } = require('./inline.js');
 const { wrapInlineCode  } = require('./inline.js');
 
 /**
- * Build an HTML document from an array of lines
+ * Build an HTML document from an AST
  */
-module.exports = function(filename, blocks, lines)
+module.exports = function(filename, blocks, ast)
 {
 	// Recursively build an HTML blob from an AST node
 	const buildNodeHTML = function (node, parentBlock = {})
@@ -50,5 +50,5 @@ module.exports = function(filename, blocks, lines)
 			: wrapHTML.apply({}, [nodeHTML.join(' '), ...wrapArray(block.wrapper)]);
 	}
 
-	return buildNodeHTML(buildAST(blocks, lines));
+	return buildNodeHTML(ast);
 }
