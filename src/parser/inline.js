@@ -115,13 +115,14 @@ function wrapKeyBindings(text)
 	/**
 	 * Control-based key bindings (CTRL-*)
 	 *
-	 * Several key bindings can follow each other,
+	 * Two key bindings can follow each other,
 	 * in that case they are part of a single key binding
+	 * e.g. "CTRL-X CTRL-F" or "CTRL-W k"
 	 *
-	 * Also replace the hyphen with a non-breaking hyphen
-	 * to prevent the key binding from being split between two lines
+	 * Also replace the hyphens with non-breaking hyphens
+	 * to prevent the key bindings from being split between two lines
 	 */
-	.replace(/(?:(?:^|\b)CTRL-(?:[^&]|Break)(?: (?=C))?)+/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: CTRL-.| .(?:(?= )|$))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }
 
 /**
@@ -157,7 +158,7 @@ function wrapInlineCode(text)
 	/**
 	 * Filenames (file.c, script.vim, etc.)
 	 */
-	.replace(/\w+\.(?:bat|c|h|txt|vim)/g, name => wrapHTML(name, 'code'))
+	.replace(/(?:^|(?<= ))\w+\.(?:bat|c|h|txt|vim)/g, name => wrapHTML(name, 'code'))
 
 	/**
 	 * Variable names ($var, $VAR)

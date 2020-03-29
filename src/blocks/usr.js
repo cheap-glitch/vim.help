@@ -175,7 +175,7 @@ module.exports = {
 		start: ct => RE_START_OL.test(ct.line) || RE_START_UL.test(ct.line),
 		end:   ct => ct.emptyLines >= 2
 			  || (isEmpty(ct.line)
-			      && !/^(?:\t| {3})/.test(ct.nextLine)
+			      && !/^<?(?:\t| {3})/.test(ct.nextLine)
 			      && !RE_START_OL.test(ct.nextLine)
 			      && !RE_START_UL.test(ct.nextLine))
 			  || isSeparator(ct.nextLine)
@@ -266,16 +266,19 @@ module.exports = {
 		},
 		end(ct)
 		{
-			if (isEmpty(ct.nextLine) || ct.line.endsWith(' >') || ct.line == '>' || ct.line == '<') return true;
+			if (isEmpty(ct.nextLine) || ct.line.endsWith(' >') || ct.line == '>') return true;
 
 			switch(ct.parent.type)
 			{
 				case 'note':     return ct.nextLine.startsWith('\t\t');
-				case 'listItem': return ct.nextLine.startsWith('\t')
+				case 'listItem': return (ct.nextLine.startsWith('\t')
+				                         && !RE_START_UL.test(ct.line)
+				                         && !/^<?\t/.test(ct.line)
+				                         && ct.line != '<')
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
 				                     || RE_START_OL.test(ct.nextLine)
 				                     || RE_START_UL.test(ct.nextLine);
-				default:         return /^\s/.test(ct.nextLine);
+				default:         return ct.line == '<' || /^\s/.test(ct.nextLine);
 			}
 		},
 
@@ -437,5 +440,5 @@ function removeBlockIndentation(lines)
  */
 function removeCodeMarkers(line)
 {
-	return ['&lt;', '&gt;'].includes(line) ? '' : line.replace(/^&lt; | &gt;$/g, '').trim();
+	return ['&lt;', '&gt;'].includes(line) ? '' : line.replace(/^&lt;(?: |\t)| &gt;$/g, '').trim();
 }

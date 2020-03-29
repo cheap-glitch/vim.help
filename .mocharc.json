@@ -1,4 +1,4 @@
 {
-	"diff":        true,
-	"inline-diff": true
+  "diff": true,
+  "inlineDiffs": true
 }
