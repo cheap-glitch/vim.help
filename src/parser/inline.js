@@ -174,6 +174,7 @@ function wrapInlineCode(text)
 	 * Special characters used alone or in matching pairs
 	 */
 	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
+	.replace(/(?<=\()[:/](?=\))/g, character => wrapHTML(character, 'code'))
 
 	/**
 	 * Other special snippets

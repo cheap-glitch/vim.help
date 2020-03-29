@@ -220,6 +220,9 @@ describe("inline code & commands", () => {
 		it("should wrap some special characters when they are used alone", () => {
 			wrapIC('when you type ('        ).should.equal('when you type <code>(</code>');
 			wrapIC('a pair of (), [] or {}.').should.equal('a pair of <code>()</code>, <code>[]</code> or <code>{}</code>.');
+
+			// usr_20 (25)
+			wrapIC('a colon (:) command').should.equal('a colon (<code>:</code>) command');
 		});
 
 		it("should leave those character untouched when they are used as punctuation", () => {

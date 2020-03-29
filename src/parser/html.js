@@ -3,11 +3,10 @@
  * parser/html.js
  */
 
-const { wrapArray  }      = require('../helpers.js');
-const { wrapHTML   }      = require('../helpers.js');
-const { escapeHTML }      = require('../helpers.js');
+const { wrapArray       } = require('../helpers.js');
+const { wrapHTML        } = require('../helpers.js');
+const { escapeHTML      } = require('../helpers.js');
 
-const buildAST            = require('./ast.js');
 const { createTags      } = require('./inline.js');
 const { wrapKeyBindings } = require('./inline.js');
 const { wrapInlineCode  } = require('./inline.js');
