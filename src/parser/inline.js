@@ -102,6 +102,9 @@ function createTags(filename, text)
 
 /**
  * Wrap key bindings in <kbd> tags
+ *
+ * Also replace the hyphens with non-breaking hyphens
+ * to prevent the key bindings from being split between two lines
  */
 function wrapKeyBindings(text)
 {
@@ -110,7 +113,8 @@ function wrapKeyBindings(text)
 	/**
 	 * Key bindings (<Key>, <S-Key>, etc.)
 	 */
-	.replace(/(?:^|(?<= ))&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding, 'kbd'))
+	// @TODO : tirets !
+	.replace(/(?:^|(?<=(?: |&gt;)))&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding, 'kbd'))
 
 	/**
 	 * Control-based key bindings (CTRL-*)
@@ -118,9 +122,6 @@ function wrapKeyBindings(text)
 	 * Two key bindings can follow each other,
 	 * in that case they are part of a single key binding
 	 * e.g. "CTRL-X CTRL-F", "CTRL-W k" or "CTRL-K dP"
-	 *
-	 * Also replace the hyphens with non-breaking hyphens
-	 * to prevent the key bindings from being split between two lines
 	 */
 	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: CTRL-.| [^ ]{1,2}(?:(?= )|$))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }

@@ -85,6 +85,10 @@ describe("key bindings", () => {
 		wrapKB('press <S-Tab>.').should.equal('press <kbd>&lt;S-Tab&gt;</kbd>.');
 	});
 
+	it("should wrap consecutive key chords in separate tags", () => {
+		wrapKB('<C-Left><C-Left>').should.equal('<kbd>&lt;C-Left&gt;</kbd><kbd>&lt;C-Left&gt;</kbd>');
+	});
+
 	it("should wrap CTRL-based key bindings", () => {
 		wrapKB('CTRL-i'        ).should.equal('<kbd>CTRL&#8209;i</kbd>');
 		wrapKB('CTRL-F'        ).should.equal('<kbd>CTRL&#8209;F</kbd>');
