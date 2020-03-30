@@ -117,12 +117,12 @@ function wrapKeyBindings(text)
 	 *
 	 * Two key bindings can follow each other,
 	 * in that case they are part of a single key binding
-	 * e.g. "CTRL-X CTRL-F" or "CTRL-W k"
+	 * e.g. "CTRL-X CTRL-F", "CTRL-W k" or "CTRL-K dP"
 	 *
 	 * Also replace the hyphens with non-breaking hyphens
 	 * to prevent the key bindings from being split between two lines
 	 */
-	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: CTRL-.| .(?:(?= )|$))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: CTRL-.| [^ ]{1,2}(?:(?= )|$))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }
 
 /**

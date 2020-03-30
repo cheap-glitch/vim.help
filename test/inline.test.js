@@ -99,6 +99,8 @@ describe("key bindings", () => {
 		wrapKB('press CTRL-X CTRL-F, then').should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>, then');
 		wrapKB('CTRL-W k'                 ).should.equal('<kbd>CTRL&#8209;W k</kbd>');
 		wrapKB('press CTRL-W k to'        ).should.equal('press <kbd>CTRL&#8209;W k</kbd> to');
+		wrapKB('CTRL-K dP'                ).should.equal('<kbd>CTRL&#8209;K dP</kbd>');
+		wrapKB('foo CTRL-K dP bar'        ).should.equal('foo <kbd>CTRL&#8209;K dP</kbd> bar');
 	});
 
 	it("shouldn't wrap other uses of 'CTRL'", () => {
