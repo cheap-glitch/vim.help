@@ -286,7 +286,7 @@ module.exports = {
 
 		transformLines: line => removeCodeMarkers(line).replace(RE_START_OL, '').replace(RE_START_UL, ''),
 
-		wrapper: 'p'
+		wrapper: lines => wrapHTML(lines.join(' '), 'p', { class: lines[0].startsWith('WARNING:') ? 'warning' : null })
 	},
 
 	/**
