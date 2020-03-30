@@ -80,9 +80,13 @@ describe("key bindings", () => {
 	});
 
 	it("should wrap key chords", () => {
-		wrapKB('<S-Tab>'       ).should.equal('<kbd>&lt;S-Tab&gt;</kbd>');
-		wrapKB('press <S-Tab>' ).should.equal('press <kbd>&lt;S-Tab&gt;</kbd>');
-		wrapKB('press <S-Tab>.').should.equal('press <kbd>&lt;S-Tab&gt;</kbd>.');
+		wrapKB('<S-Tab>'       ).should.equal('<kbd>&lt;S&#8209;Tab&gt;</kbd>');
+		wrapKB('press <S-Tab>' ).should.equal('press <kbd>&lt;S&#8209;Tab&gt;</kbd>');
+		wrapKB('press <S-Tab>.').should.equal('press <kbd>&lt;S&#8209;Tab&gt;</kbd>.');
+	});
+
+	it("should wrap consecutive key chords in separate tags", () => {
+		wrapKB('<C-Left><C-Left>').should.equal('<kbd>&lt;C&#8209;Left&gt;</kbd><kbd>&lt;C&#8209;Left&gt;</kbd>');
 	});
 
 	it("should wrap CTRL-based key bindings", () => {
@@ -99,6 +103,8 @@ describe("key bindings", () => {
 		wrapKB('press CTRL-X CTRL-F, then').should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>, then');
 		wrapKB('CTRL-W k'                 ).should.equal('<kbd>CTRL&#8209;W k</kbd>');
 		wrapKB('press CTRL-W k to'        ).should.equal('press <kbd>CTRL&#8209;W k</kbd> to');
+		wrapKB('CTRL-K dP'                ).should.equal('<kbd>CTRL&#8209;K dP</kbd>');
+		wrapKB('foo CTRL-K dP bar'        ).should.equal('foo <kbd>CTRL&#8209;K dP</kbd> bar');
 	});
 
 	it("shouldn't wrap other uses of 'CTRL'", () => {
@@ -220,6 +226,9 @@ describe("inline code & commands", () => {
 		it("should wrap some special characters when they are used alone", () => {
 			wrapIC('when you type ('        ).should.equal('when you type <code>(</code>');
 			wrapIC('a pair of (), [] or {}.').should.equal('a pair of <code>()</code>, <code>[]</code> or <code>{}</code>.');
+
+			// usr_20 (25)
+			wrapIC('a colon (:) command').should.equal('a colon (<code>:</code>) command');
 		});
 
 		it("should leave those character untouched when they are used as punctuation", () => {

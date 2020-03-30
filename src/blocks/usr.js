@@ -16,7 +16,7 @@ const STR_NOTE_START       = '\tNote:';
 
 const RE_HEADER_NB         = /^\*(\d{2}\.\d{1,2})\*\s/;
 const RE_SPECIAL_MESSAGE   = /^[WE]\d{1,3}: /;
-const RE_START_OL          = /^\d{1,2}[.)] /;
+const RE_START_OL          = /^\t?\d{1,2}[.)] /;
 const RE_START_UL          = /^- {1,2}(?=\S)/;
 const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
@@ -85,9 +85,9 @@ module.exports = {
 
 			// Add an anchor with the number of the header
 			const number = line.match(RE_HEADER_NB)[1].trim();
-			const anchor = wrapHTML(number, 'a', { id: number, href: `#${number}`, class: 'header-anchor' });
+			const anchor = wrapHTML(number, 'a', { href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2');
+			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2', { id: number });
 		}
 	},
 
@@ -313,7 +313,18 @@ module.exports = {
 	 * Formatted text
 	 */
 	formattedText: {
-		start: ct => ct.line.startsWith(ct.current.type == 'note' ? '\t\t' : '\t') || ct.line.endsWith('~'),
+		start(ct)
+		{
+			if (ct.line.endsWith('~')) return true;
+
+			switch (ct.current.type)
+			{
+				case 'listItem': return ct.line.startsWith('\t') && !RE_START_OL.test(ct.line);
+				case 'note':     return ct.line.startsWith('\t\t');
+				default:         return ct.line.startsWith('\t');
+			}
+		},
+
 		end:   ct => ct.spaces >= 2
 			  || (!isEmpty(ct.nextLine)
 			      && !ct.nextLine.startsWith(ct.parent.type == 'note' ? '\t\t' : '\t')
