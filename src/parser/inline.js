@@ -113,8 +113,7 @@ function wrapKeyBindings(text)
 	/**
 	 * Key bindings (<Key>, <S-Key>, etc.)
 	 */
-	// @TODO : tirets !
-	.replace(/(?:^|(?<=(?: |&gt;)))&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding, 'kbd'))
+	.replace(/(?:^|(?<=(?: |&gt;)))&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 
 	/**
 	 * Control-based key bindings (CTRL-*)
