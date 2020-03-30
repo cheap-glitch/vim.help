@@ -322,6 +322,31 @@ describe("ordered lists", () => {
 		]))
 	);
 
+	/**
+	 * usr_24 (159)
+	 */
+	it("indented list", () => getAST(`
+
+			1. Current file
+			2. Files in other windows
+			3. Other loaded files (hidden buffers)
+			4. Files which are not loaded (inactive buffers)
+			5. Tag files
+			6. All files #included by the current file
+
+		`).should.deep.equal(wrapNodes({
+			type: 'orderedList',
+			children: [
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t1. Current file']                                  }] },
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t2. Files in other windows']                        }] },
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t3. Other loaded files (hidden buffers)']           }] },
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t4. Files which are not loaded (inactive buffers)'] }] },
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t5. Tag files']                                     }] },
+				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t6. All files #included by the current file']       }] },
+			]
+		}))
+	);
+
 });
 /**
  * }}}
