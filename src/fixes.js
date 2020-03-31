@@ -38,6 +38,18 @@ module.exports = {
 	},
 
 	/**
+	 * "Inserting quickly"
+	 */
+	usr_24: {
+		// Remove indentation before digraph table
+		552: line => line.replace(/^\s+/, ''),
+		553: line => line.replace(/^\s+/, ''),
+		554: line => line.replace(/^\s+/, '')
+			// Fix alignment of digraph table
+			.replace('--', '-- '),
+	},
+
+	/**
 	 * "Moving through programs"
 	 */
 	usr_29: {
