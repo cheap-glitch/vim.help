@@ -1264,7 +1264,7 @@ describe("tables", () => {
 	/**
 	 * usr_24 (54)
 	 */
-	it("table following a command block", () => getAST(`
+	it("table directly following a command block", () => getAST(`
 
 		You need to change "follen" to "fallen".  With the cursor at the end, you
 		would type this to correct it: >
@@ -1300,6 +1300,27 @@ describe("tables", () => {
 					{ type: 'tableRow', children: ['	restart Insert mode			  A'] },
 				]
 			},
+		]))
+	);
+
+	/**
+	 * usr_05 (563)
+	 */
+	it("table directly following a paragraph", () => getAST(`
+
+		Further reading:
+		|filetype-plugins|	Documentation for the filetype plugins and information
+					about how to avoid that mappings cause problems.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['Further reading:']
+			},
+			{
+				type: 'table',
+				children: [{ type: 'tableRow', children: ['|filetype-plugins|	Documentation for the filetype plugins and information', '\t\t\tabout how to avoid that mappings cause problems.'] }]
+			}
 		]))
 	);
 
