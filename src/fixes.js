@@ -1,6 +1,6 @@
 
 /**
- * src/fix.js
+ * src/fixes.js
  */
 
 module.exports = {
@@ -19,6 +19,14 @@ module.exports = {
 	usr_04: {
 		// Add missing 's'
 		467: line => line.replace('correction', 'corrections'),
+	},
+
+	/**
+	 * "Set your settings"
+	 */
+	usr_05: {
+		// Replace the mixed indentation by two tabs
+		412: line => line.replace('\t   \t', '\t\t'),
 	},
 
 	/**

@@ -312,7 +312,7 @@ describe("ordered lists", () => {
 					{ type: 'listItem',  children: [{ type: 'paragraph', children: ['3.  The method of sorting (may be by name, time, or size)']                                       }] },
 					{ type: 'listItem',  children: [{ type: 'paragraph', children: ['4.  How names are to be sorted (directories first, then *.h files,', '    *.c files, etc)']       }] },
 					{ type: 'listItem',  children: [{ type: 'paragraph', children: ['5.  How to get help (use the <F1> key), and an abbreviated listing', '    of available commands'] }] },
-					{ type: 'listItem',  children: [{ type: 'paragraph', children: ['6.  A listing of files, including "../", which allows one to list', '    the parent directory.']  }] },
+					{ type: 'listItem',  children: [{ type: 'paragraph', children: ['6.  A listing of files, including "../", which allows one to list',  '    the parent directory.']  }] },
 				]
 			},
 			{
@@ -325,7 +325,7 @@ describe("ordered lists", () => {
 	/**
 	 * usr_24 (159)
 	 */
-	it("indented list", () => getAST(`
+	it("indented list with single-line items", () => getAST(`
 
 			1. Current file
 			2. Files in other windows
@@ -343,6 +343,50 @@ describe("ordered lists", () => {
 				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t4. Files which are not loaded (inactive buffers)'] }] },
 				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t5. Tag files']                                     }] },
 				{ type: 'listItem', children: [{ type: 'paragraph', children: ['\t6. All files #included by the current file']       }] },
+			]
+		}))
+	);
+
+	/**
+	 * usr_05 (406)
+	 */
+	it("indented list with embedded command and formatted blocks", () => getAST(`
+
+			1. create the package directory: >
+				mkdir -p ~/.vim/pack/fancy
+		<	   "fancy" can be any name of your liking.  Use one that describes the
+			   package.
+			2. unpack the archive in that directory.  This assumes the top
+			   directory in the archive is "start": >
+				cd ~/.vim/pack/fancy
+				unzip /tmp/fancy.zip
+		<	   If the archive layout is different make sure that you end up with a
+			   path like this:
+				~/.vim/pack/fancy/start/fancytext/plugin/fancy.vim ~
+			   Here "fancytext" is the name of the package, it can be anything
+			   else.
+
+		`).should.deep.equal(wrapNodes({
+			type: 'orderedList',
+			children: [
+				{
+					type: 'listItem',
+					children: [
+						{ type: 'paragraph',     children: ['\t1. create the package directory: >']                                                       },
+						{ type: 'commandBlock',  children: ['\t\tmkdir -p ~/.vim/pack/fancy']                                                             },
+						{ type: 'paragraph',     children: ['<\t   "fancy" can be any name of your liking.  Use one that describes the', '\t   package.'] },
+					]
+				},
+				{
+					type: 'listItem',
+					children: [
+						{ type: 'paragraph',     children: ['\t2. unpack the archive in that directory.  This assumes the top', '\t   directory in the archive is "start": >'] },
+						{ type: 'commandBlock',  children: ['\t\tcd ~/.vim/pack/fancy', '\t\tunzip /tmp/fancy.zip']                                                            },
+						{ type: 'paragraph',     children: ['<\t   If the archive layout is different make sure that you end up with a', '\t   path like this:']               },
+						{ type: 'formattedText', children: ['\t\t~/.vim/pack/fancy/start/fancytext/plugin/fancy.vim ~']                                                        },
+						{ type: 'paragraph',     children: ['\t   Here "fancytext" is the name of the package, it can be anything', '\t   else.']                              },
+					]
+				}
 			]
 		}))
 	);

@@ -277,7 +277,8 @@ module.exports = {
 				                         && ct.line != '<')
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
 				                     || RE_START_OL.test(ct.nextLine)
-				                     || RE_START_UL.test(ct.nextLine);
+				                     || RE_START_UL.test(ct.nextLine)
+				                     || ct.nextLine.endsWith(' ~');
 				default:         return ct.line == '<' || /^\s/.test(ct.nextLine);
 			}
 		},
@@ -298,7 +299,8 @@ module.exports = {
 
 		end:   ct => isEmpty(ct.nextLine)
 			  || ct.nextLine == '<'
-			  || !/^<?\t/.test(ct.nextLine),
+			  || !/^<?\t/.test(ct.nextLine)
+			  || (ct.parent.type == 'listItem' && /^<\t/.test(ct.nextLine)),
 
 		containedBlocks: [],
 		disableInlineParsing: true,
@@ -315,11 +317,13 @@ module.exports = {
 	formattedText: {
 		start(ct)
 		{
-			if (ct.line.endsWith('~')) return true;
+			if (ct.line.endsWith(' ~')) return true;
 
 			switch (ct.current.type)
 			{
-				case 'listItem': return ct.line.startsWith('\t') && !RE_START_OL.test(ct.line);
+				case 'listItem': return ct.line.startsWith('\t')
+				                    && !ct.previousLine.startsWith('\t')
+				                    && !RE_START_OL.test(ct.line);
 				case 'note':     return ct.line.startsWith('\t\t');
 				default:         return ct.line.startsWith('\t');
 			}
@@ -330,7 +334,7 @@ module.exports = {
 			      && !ct.nextLine.startsWith(ct.parent.type == 'note' ? '\t\t' : '\t')
 			      && !ct.nextLine.startsWith(generateStr(4, ' '))
 			      && !ct.nextLine.endsWith(' ~'))
-			  || (ct.parent.type == 'listItem' && isEmpty(ct.nextLine))
+			  || (ct.parent.type == 'listItem' && !ct.nextLine.endsWith(' ~'))
 			  || ct.nextLine == STR_NOTE_START,
 
 		containedBlocks: [],
