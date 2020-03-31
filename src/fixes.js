@@ -45,7 +45,7 @@ module.exports = {
 		552: line => line.replace(/^\s+/, ''),
 		553: line => line.replace(/^\s+/, ''),
 		554: line => line.replace(/^\s+/, '')
-			// Fix alignment of digraph table
+			// Fix column alignment
 			.replace('--', '-- '),
 	},
 

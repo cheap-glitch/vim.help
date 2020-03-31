@@ -15,12 +15,13 @@ const blocksUsr       = require('../src/blocks/usr.js');
 describe("AST for user manual pages", () => {
 
 /**
- * Section headers
+ * Headers
  * {{{
  * =============================================================================
  */
 describe("section headers", () => {
 
+	// Simple headers {{{
 	it("simple headers", () => getAST(`
 
 		==============================================================================
@@ -47,19 +48,13 @@ describe("section headers", () => {
 			}
 		]))
 	);
+	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Sub-section headers
- * {{{
- * =============================================================================
- */
 describe("sub-section headers", () => {
 
+	// Simple headers {{{
 	it("simple headers", () => getAST(`
 
 		LOREM IPSUM
@@ -77,7 +72,9 @@ describe("sub-section headers", () => {
 			}
 		]))
 	);
+	// }}}
 
+	// Headers with tag targets {{{
 	it("headers with tag targets", () => getAST(`
 
 		LOREM IPSUM		*target*
@@ -95,6 +92,7 @@ describe("sub-section headers", () => {
 			}
 		]))
 	);
+	// }}}
 
 });
 /**
@@ -102,12 +100,13 @@ describe("sub-section headers", () => {
  */
 
 /**
- * Ordered lists
+ * Lists
  * {{{
  * =============================================================================
  */
 describe("ordered lists", () => {
 
+	// Simple cases {{{
 	it("single item", () => getAST(`
 
 		1) lorem ipsum
@@ -189,8 +188,10 @@ describe("ordered lists", () => {
 			]
 		}))
 	);
+	// }}}
 
-	it("embedded code blocks", () => getAST(`
+	// With embedded code blocks {{{
+	it("With embedded code blocks", () => getAST(`
 
 		1) lorem ipsum >
 			:command
@@ -217,10 +218,9 @@ describe("ordered lists", () => {
 			}]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_03 (232)
-	 */
+	// With embedded formatted text blocks (usr_03, 232) {{{
 	it("embedded formatted text blocks", () => getAST(`
 
 		1.  Use the CTRL-G command.  You get a message like this (assuming the 'ruler'
@@ -284,10 +284,9 @@ describe("ordered lists", () => {
 			]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_22 (50)
-	 */
+	// Multiple single-line items with no space between them (usr_22, 50) {{{
 	it("multiple single-line items with no space between them", () => getAST(`
 
 		1.  The name of the browsing tool and its version number
@@ -321,10 +320,9 @@ describe("ordered lists", () => {
 			}
 		]))
 	);
+	// }}}
 
-	/**
-	 * usr_24 (159)
-	 */
+	// Indented list with single-line items (usr_24, 159) {{{
 	it("indented list with single-line items", () => getAST(`
 
 			1. Current file
@@ -346,10 +344,9 @@ describe("ordered lists", () => {
 			]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_05 (406)
-	 */
+	// Indented list with embedded command and formatted blocks (usr_05, 406) {{{
 	it("indented list with embedded command and formatted blocks", () => getAST(`
 
 			1. create the package directory: >
@@ -390,22 +387,13 @@ describe("ordered lists", () => {
 			]
 		}))
 	);
+	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Unordered lists
- * {{{
- * =============================================================================
- */
 describe("unordered lists", () => {
 
-	/**
-	 * usr_09 (221)
-	 */
+	// Starting with a dash and two spaces (usr_09, 221) {{{
 	it("starting with a dash and two spaces", () => getAST(`
 
 		-  Select two words in Visual mode.
@@ -449,10 +437,9 @@ describe("unordered lists", () => {
 			]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_06 (55)
-	 */
+	// List item with a title and embedded command blocks (usr_06, 55) {{{
 	it("list item with a title and embedded command blocks", () => getAST(`
 
 		- Your terminal does support colors, but Vim doesn't know this.
@@ -506,22 +493,13 @@ describe("unordered lists", () => {
 			}]
 		}))
 	);
+	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Tables of contents
- * {{{
- * =============================================================================
- */
 describe("tables of contents", () => {
 
-	/**
-	 * usr_01 (11)
-	 */
+	// Simple table of contents (usr_01, 11) {{{
 	it("simple table of contents", () => getAST(`
 
 		|01.1|	Two manuals
@@ -551,6 +529,7 @@ describe("tables of contents", () => {
 			],
 		}))
 	);
+	// }}}
 
 });
 /**
@@ -564,6 +543,7 @@ describe("tables of contents", () => {
  */
 describe("notes", () => {
 
+	// Simple note block {{{
 	it("simple note block", () => getAST(`
 
 			Note:
@@ -581,7 +561,9 @@ describe("notes", () => {
 			]
 		}))
 	);
+	// }}}
 
+	// Note block with included command block {{{
 	it("note block with included command block", () => getAST(`
 
 			Note:
@@ -604,7 +586,9 @@ describe("notes", () => {
 			]
 		}))
 	);
+	// }}}
 
+	// Note block with included formatted text block {{{
 	it("note block with included formatted text block", () => getAST(`
 
 			Note:
@@ -632,6 +616,7 @@ describe("notes", () => {
 			]
 		}))
 	);
+	// }}}
 
 });
 /**
@@ -645,6 +630,7 @@ describe("notes", () => {
  */
 describe("paragraphs", () => {
 
+	// Single paragraph {{{
 	it("single paragraph with a single line", () => getAST(`
 
 		lorem ipsum
@@ -665,7 +651,9 @@ describe("paragraphs", () => {
 			children: ['lorem ipsum', 'dolor sit amet'],
 		}))
 	);
+	// }}}
 
+	// Multiple paragraphs {{{
 	it("multiple paragraphs with single line", () => getAST(`
 
 		lorem ipsum
@@ -705,6 +693,8 @@ describe("paragraphs", () => {
 			{ type: 'paragraph', children: ['   dolor sit amet'] },
 		]))
 	);
+	// }}}
+
 });
 /**
  * }}}
@@ -717,13 +707,9 @@ describe("paragraphs", () => {
  */
 describe("command blocks", () => {
 
-	/**
-	 * With paragraphs
-	 * {{{
-	 * ---------------------------------------------------------------------
-	 */
 	describe("after a paragraph", () => {
 
+		// Single line {{{
 		it("single line", () => getAST(`
 
 			lorem ipsum >
@@ -740,7 +726,9 @@ describe("command blocks", () => {
 				},
 			]))
 		);
+		// }}}
 
+		// Multiple lines {{{
 		it("multiple lines", () => getAST(`
 
 			lorem ipsum >
@@ -758,11 +746,13 @@ describe("command blocks", () => {
 				},
 			]))
 		);
+		// }}}
 
 	});
 
 	describe("between two paragraphs", () => {
 
+		// Single line {{{
 		it("single line", () => getAST(`
 
 			lorem ipsum >
@@ -784,7 +774,9 @@ describe("command blocks", () => {
 				}
 			]))
 		);
+		// }}}
 
+		// Multiple lines {{{
 		it("multiple lines", () => getAST(`
 
 			lorem ipsum >
@@ -807,19 +799,13 @@ describe("command blocks", () => {
 				}
 			]))
 		);
+		// }}}
 
 	});
-	/**
-	 * }}}
-	 */
 
-	/**
-	 * With list items
-	 * {{{
-	 * ---------------------------------------------------------------------
-	 */
 	describe("inside a list item", () => {
 
+		// Single line {{{
 		it("single line", () => getAST(`
 
 			1) lorem ipsum >
@@ -847,7 +833,9 @@ describe("command blocks", () => {
 				}]
 			}))
 		);
+		// }}}
 
+		// Multiple lines {{{
 		it("multiple lines", () => getAST(`
 
 			1) lorem ipsum >
@@ -876,11 +864,13 @@ describe("command blocks", () => {
 				}]
 			}))
 		);
+		// }}}
 
 	});
 
 	describe("at the end of a list", () => {
 
+		// Single line {{{
 		it("single line", () => getAST(`
 
 			9) lorem ipsum >
@@ -903,7 +893,9 @@ describe("command blocks", () => {
 				}]
 			}))
 		);
+		// }}}
 
+		// Multiple lines {{{
 		it("multiple lines", () => getAST(`
 
 			9) lorem ipsum >
@@ -927,48 +919,33 @@ describe("command blocks", () => {
 				}]
 			}))
 		);
+		// }}}
 
 	});
-	/**
-	 * }}}
-	 */
 
-	/**
-	 * With formatted text blocks
-	 * {{{
-	 * ---------------------------------------------------------------------
-	 */
-	describe("adjoining a formatted text block", () => {
+	// Adjoining a formatted text block (usr_10, 675) {{{
+	it("adjoining a formatted text block", () => getAST(`
 
-		/**
-		 * usr_10 (675)
-		 */
-		it("before", () => getAST(`
+		The "gu" operator does exactly the opposite: >
 
-			The "gu" operator does exactly the opposite: >
+					     guw
+		<	SECTION header	    ---->      section header
 
-						     guw
-			<	SECTION header	    ---->      section header
-
-			`, 3).should.deep.equal(wrapNodes([
-				{
-					type: 'paragraph',
-					children: ['The "gu" operator does exactly the opposite: >']
-				},
-				{
-					type: 'commandBlock',
-					children: [
-						'\t\t\t     guw',
-						'<\tSECTION header\t    ---->      section header',
-					]
-				}
-			]))
-		);
-
-	});
-	/**
-	 * }}}
-	 */
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['The "gu" operator does exactly the opposite: >']
+			},
+			{
+				type: 'commandBlock',
+				children: [
+					'\t\t\t     guw',
+					'<\tSECTION header\t    ---->      section header',
+				]
+			}
+		]))
+	);
+	// }}}
 
 });
 /**
@@ -982,6 +959,7 @@ describe("command blocks", () => {
  */
 describe("formatted text blocks", () => {
 
+	// Simple cases {{{
 	it("single block with single line", () => getAST(`
 
 			lorem ipsum
@@ -1016,7 +994,9 @@ describe("formatted text blocks", () => {
 			children: ['\tlorem ipsum', '\tdolor sit amet', '\tsic transit', '\tgloria mundi'],
 		}))
 	);
+	// }}}
 
+	// Single block with line in the middle starting with spaces {{{
 	it("single block with line in the middle starting with spaces", () => getAST(`
 
 			lorem ipsum
@@ -1030,7 +1010,9 @@ describe("formatted text blocks", () => {
 			children: ['\tlorem ipsum', '\tdolor sit amet', '    foobar', '\tsic transit', '\tgloria mundi'],
 		}))
 	);
+	// }}}
 
+	// Multiple blocks mixed with paragraphs {{{
 	it("multiple blocks mixed with paragraphs", () => getAST(`
 
 		lorem ipsum
@@ -1057,7 +1039,9 @@ describe("formatted text blocks", () => {
 			},
 		]))
 	);
+	// }}}
 
+	// Single block with single line marked by a trailing '~' {{{
 	it("single block with single line marked by a trailing '~'", () => getAST(`
 
 		  lorem ipsum ~
@@ -1067,10 +1051,9 @@ describe("formatted text blocks", () => {
 			children: ['  lorem ipsum ~'],
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_03 (310)
-	 */
+	// Text block with some tabulations inside the lines (usr_03, 310) {{{
 	it("text block with some tabulations inside the lines", () => getAST(`
 
 			+------------------+		 +------------------+
@@ -1098,7 +1081,9 @@ describe("formatted text blocks", () => {
 			],
 		}))
 	);
+	// }}}
 
+	// Non-indented formatted block (usr_22, 33) {{{
 	it("non-indented formatted block", () => getAST(`
 
 		Through the magic of autocommands and Vim scripts, the window will be filled
@@ -1156,6 +1141,7 @@ describe("formatted text blocks", () => {
 			}
 		]))
 	);
+	// }}}
 
 });
 /**
@@ -1169,9 +1155,7 @@ describe("formatted text blocks", () => {
  */
 describe("tables", () => {
 
-	/**
-	 * usr_08 (480)
-	 */
+	// Table with single-line rows (usr_08, 480) {{{
 	it("table with single-line rows", () => getAST(`
 
 		The 'laststatus' option can be used to specify when the last window has a
@@ -1205,8 +1189,10 @@ describe("tables", () => {
 			}
 		]))
 	);
+	// }}}
 
-	it("table with multiline rows", () => getAST(`
+	// Table with multi-line rows {{{
+	it("table with multi-line rows", () => getAST(`
 
 			a	lorem ipsum
 				dolor sit amet
@@ -1226,10 +1212,9 @@ describe("tables", () => {
 			]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_09 (150)
-	 */
+	// Table with no indentation (usr_09, 150) {{{
 	it("table with no indentation", () => getAST(`
 
 		Left mouse click		position the cursor
@@ -1260,10 +1245,9 @@ describe("tables", () => {
 			]
 		}))
 	);
+	// }}}
 
-	/**
-	 * usr_24 (54)
-	 */
+	// Table directly following a command block (usr_24, 54) {{{
 	it("table directly following a command block", () => getAST(`
 
 		You need to change "follen" to "fallen".  With the cursor at the end, you
@@ -1302,10 +1286,9 @@ describe("tables", () => {
 			},
 		]))
 	);
+	// }}}
 
-	/**
-	 * usr_05 (563)
-	 */
+	// Table directly following a paragraph (usr_05, 563) {{{
 	it("table directly following a paragraph", () => getAST(`
 
 		Further reading:
@@ -1323,10 +1306,9 @@ describe("tables", () => {
 			}
 		]))
 	);
+	// }}}
 
-	/**
-	 * usr_06 (563)
-	 */
+	// Table directly following a paragraph (usr_06, 159) {{{
 	it("table directly following a paragraph", () => getAST(`
 
 		2. Edit the color scheme file.  These entries are useful:
@@ -1364,6 +1346,7 @@ describe("tables", () => {
 			}]
 		}))
 	);
+	// }}}
 
 });
 /**
