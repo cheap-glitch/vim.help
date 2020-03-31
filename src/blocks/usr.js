@@ -22,7 +22,7 @@ const RE_START_UL              = /^- {1,2}(?=\S)/;
 const RE_START_TOC             = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER            = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
 const RE_TABLE_START_INDENT    = /^<?\t[^\t]+\t+[^\t]+(?:\t~)?$/;
-const RE_TABLE_START_NO_INDENT = /^[^\t]+\t{1,2}[^\t]+$/;
+const RE_TABLE_START_NO_INDENT = /^[^\t<]+\t{1,2}[^\t]+$/;
 
 /**
  * Block definitions
@@ -185,8 +185,11 @@ module.exports = {
 			  || RE_START_UL.test(ct.nextLine),
 
 		containedBlocks: [
+			'table',
+
 			'commandBlock',
 			'formattedText',
+
 			'paragraph',
 		],
 

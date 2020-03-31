@@ -1324,6 +1324,47 @@ describe("tables", () => {
 		]))
 	);
 
+	/**
+	 * usr_06 (563)
+	 */
+	it("table directly following a paragraph", () => getAST(`
+
+		2. Edit the color scheme file.  These entries are useful:
+
+			term		attributes in a B&W terminal
+			cterm		attributes in a color terminal
+			ctermfg		foreground color in a color terminal
+			ctermbg		background color in a color terminal
+			gui		attributes in the GUI
+			guifg		foreground color in the GUI
+			guibg		background color in the GUI
+
+		`).should.deep.equal(wrapNodes({
+			type: 'orderedList',
+			children: [{
+				type: 'listItem',
+				children: [
+					{
+						type: 'paragraph',
+						children: ['2. Edit the color scheme file.  These entries are useful:']
+					},
+					{
+						type: 'table',
+						children: [
+							{ type: 'tableRow', children: ['\tterm\t\tattributes in a B&W terminal']            },
+							{ type: 'tableRow', children: ['\tcterm\t\tattributes in a color terminal']         },
+							{ type: 'tableRow', children: ['\tctermfg\t\tforeground color in a color terminal'] },
+							{ type: 'tableRow', children: ['\tctermbg\t\tbackground color in a color terminal'] },
+							{ type: 'tableRow', children: ['\tgui\t\tattributes in the GUI']                    },
+							{ type: 'tableRow', children: ['\tguifg\t\tforeground color in the GUI']            },
+							{ type: 'tableRow', children: ['\tguibg\t\tbackground color in the GUI']            },
+						]
+					}
+				]
+			}]
+		}))
+	);
+
 });
 /**
  * }}}
