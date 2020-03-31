@@ -122,7 +122,7 @@ function wrapKeyBindings(text)
 	 * in that case they are part of a single key binding
 	 * e.g. "CTRL-X CTRL-F", "CTRL-W k" or "CTRL-K dP"
 	 */
-	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: CTRL-.| [^ ]{1,2}(?:(?= )|$))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: (?:CTRL-.|(?:&quot;|[^ ]){1,2}(?:(?= )|$)))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 }
 
 /**

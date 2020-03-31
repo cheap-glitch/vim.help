@@ -1217,6 +1217,48 @@ describe("tables", () => {
 		}))
 	);
 
+	/**
+	 * usr_24 (54)
+	 */
+	it("table following a command block", () => getAST(`
+
+		You need to change "follen" to "fallen".  With the cursor at the end, you
+		would type this to correct it: >
+
+							<Esc>4blraA
+
+		<	get out of Insert mode		<Esc>
+			four words back			     4b
+			move on top of the "o"		       l
+			replace with "a"			ra
+			restart Insert mode			  A
+
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: [
+					'You need to change "follen" to "fallen".  With the cursor at the end, you',
+					'would type this to correct it: >',
+				]
+			},
+			{
+				type: 'commandBlock',
+				children: ['\t\t\t\t\t<Esc>4blraA']
+			},
+			{
+				type: 'table',
+				children: [
+					{ type: 'tableRow', children: ['<	get out of Insert mode		<Esc>'      ] },
+					{ type: 'tableRow', children: ['	four words back			     4b'    ] },
+					{ type: 'tableRow', children: ['	move on top of the "o"		       l'   ] },
+					{ type: 'tableRow', children: ['	replace with "a"			ra' ] },
+					{ type: 'tableRow', children: ['	restart Insert mode			  A'] },
+				]
+			},
+		]))
+	);
+
 });
 /**
  * }}}

@@ -253,10 +253,14 @@ li {
  */
 
 /**
- * Notes
+ * Notes & warnings
  * {{{
  * =============================================================================
  */
+
+.note, p.warning {
+	padding: 14px;
+}
 
 .note {
 	display: flex;
@@ -264,7 +268,6 @@ li {
 	align-items: stretch;
 
 	margin-top: 20px;
-	padding: 14px;
 
 	background-color: var(--color--note--bg);
 }
@@ -276,6 +279,12 @@ table + .note {
 .note p:first-child {
 	margin-top: 0;
 }
+
+p.warning {
+	color: var(--color--warning--text);
+	background-color: var(--color--warning--bg);
+}
+
 
 /**
  * }}}

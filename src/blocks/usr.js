@@ -20,7 +20,7 @@ const RE_START_OL          = /^\t?\d{1,2}[.)] /;
 const RE_START_UL          = /^- {1,2}(?=\S)/;
 const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
-const RE_TABLE_START       = /^\t[^\t]+\t+[^\t]+(?:\t~)?$/;
+const RE_TABLE_START       = /^<?\t[^\t]+\t+[^\t]+(?:\t~)?$/;
 
 /**
  * Block definitions
@@ -286,7 +286,7 @@ module.exports = {
 
 		transformLines: line => removeCodeMarkers(line).replace(RE_START_OL, '').replace(RE_START_UL, ''),
 
-		wrapper: 'p'
+		wrapper: lines => wrapHTML(lines.join(' '), 'p', { class: lines[0].startsWith('WARNING:') ? 'warning' : null })
 	},
 
 	/**
@@ -400,7 +400,7 @@ module.exports = {
 
 		containedBlocks: [],
 
-		transformLines:  line => line.trim(),
+		transformLines:  line => removeCodeMarkers(line),
 		transformBlock: lines => splitFirstCell(lines),
 
 		wrapper(lines)
