@@ -105,16 +105,16 @@ describe("key bindings", () => {
 		format('CTRL-X CTRL-F'            ).should.equal('<kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
 		format('press CTRL-X CTRL-F'      ).should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
 		format('press CTRL-X CTRL-F, then').should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>, then');
-		format('CTRL-W k'                 ).should.equal('<kbd>CTRL&#8209;W k</kbd>');
-		format('press CTRL-W k to'        ).should.equal('press <kbd>CTRL&#8209;W k</kbd> to');
-		format('CTRL-K dP'                ).should.equal('<kbd>CTRL&#8209;K dP</kbd>');
-		format('foo CTRL-K dP bar'        ).should.equal('foo <kbd>CTRL&#8209;K dP</kbd> bar');
+		format('CTRL-W k'                 ).should.equal('<code><kbd>CTRL&#8209;W</kbd> k</code>');
+		format('press CTRL-W k to'        ).should.equal('press <code><kbd>CTRL&#8209;W</kbd> k</code> to');
+		format('CTRL-K dP'                ).should.equal('<code><kbd>CTRL&#8209;K</kbd> dP</code>');
+		format('foo CTRL-K dP bar'        ).should.equal('foo <code><kbd>CTRL&#8209;K</kbd> dP</code> bar');
 
 		// usr_24 (574)
-		format('that CTRL-K a" inserts'   ).should.equal('that <kbd>CTRL&#8209;K a&quot;</kbd> inserts');
+		format('that CTRL-K a" inserts'   ).should.equal('that <code><kbd>CTRL&#8209;K</kbd> a&quot;</code> inserts');
 
 		// usr_24 (529)
-		format('(CTRL-V xff)'             ).should.equal('(<kbd>CTRL&#8209;V xff</kbd>)');
+		format('(CTRL-V xff)'             ).should.equal('(<code><kbd>CTRL&#8209;V</kbd> xff</code>)');
 	});
 
 	it("should NOT create compound key bindings with actual words", () => {
