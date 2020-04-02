@@ -21,16 +21,13 @@ const tags = getRawFileContents('tags').filter(line => line.length).reduce(funct
 	return result;
 }, {});
 
-/**
- * Parse and create the tags in a blob of raw text
- */
-function createTags(filename, text)
+function formatInlineText(filename, line)
 {
-	return text
+	return line
 
 	/**
-	 * Parse the Vim tags (|tag|)
-	 * ---------------------------------------------------------------------
+	 * Vim tags (|tag|)
+	 * =====================================================================
 	 */
 
 	.replace(/\|([^ \t|]+)\|/g, function(_, tag)
@@ -79,8 +76,8 @@ function createTags(filename, text)
 	})
 
 	/**
-	 * Create supplementary tags
-	 * ---------------------------------------------------------------------
+	 * Supplementary tags
+	 * =====================================================================
 	 */
 
 	/**
@@ -98,17 +95,16 @@ function createTags(filename, text)
 			class: 'tag option',
 		});
 	})
-}
 
-/**
- * Wrap key bindings in <kbd> tags
- *
- * Also replace the hyphens with non-breaking hyphens
- * to prevent the key bindings from being split between two lines
- */
-function wrapKeyBindings(text)
-{
-	return text
+	/**
+	 * Key bindings
+	 * =====================================================================
+	 *
+	 * Wrap key bindings in <kbd> tags
+	 *
+	 * Also replace the hyphens with non-breaking hyphens
+	 * to prevent the key bindings from being split between two lines
+	 */
 
 	/**
 	 * Key bindings (<Key>, <S-Key>, etc.)
@@ -116,21 +112,35 @@ function wrapKeyBindings(text)
 	.replace(/(?:^|(?<=(?: |&gt;)))&lt;[A-Z][A-Za-z-]+&gt;/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 
 	/**
-	 * Control-based key bindings (CTRL-*)
-	 *
-	 * Two key bindings can follow each other,
-	 * in that case they are part of a single key binding
-	 * e.g. "CTRL-X CTRL-F", "CTRL-W k" or "CTRL-K dP"
+	 * Control-based key bindings followed by extra key presses (CTRL-* **)
 	 */
-	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: (?:CTRL-.|(?:&quot;|[^ ]){1,2}(?:(?= )|$)))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
-}
+	.replace(/(?:^|\b)(CTRL-(?:&quot;|[^& ])) ((?:&quot;|[^ ]){1,3}(?:(?=[ ),.])|$))/g, function(_, keybinding, extra)
+	{
+		const parsedKeybinding = wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd');
+		const parsedExtra      = !extra
+			// Check that the extra key presses are not a word
+			|| (extra.length == 2 && ['is', 'an'].includes(extra))
+			// Only the CTRL-V key binding can be combined with three extra key presses
+			|| (extra.length == 3 && keybinding != 'CTRL-V')
+		? null : extra;
 
-/**
- * Wrap some elements of a raw text blob in <code> tags
- */
-function wrapInlineCode(text)
-{
-	return text
+		return parsedExtra ? wrapHTML(`${parsedKeybinding} ${parsedExtra}`, 'code') : `${parsedKeybinding} ${extra || ''}`;
+	})
+
+	/**
+	 * Control-based key bindings
+	 *
+	 * If two CTRL key bindings follow each other,
+	 * they are part of a single compound key binding
+	 */
+	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+
+	/**
+	 * Inline code & commands
+	 * =====================================================================
+	 *
+	 * Wrap some elements in <code> tags
+	 */
 
 	/**
 	 * Double-quoted & back-quoted text with no space in it ("foobar", `foobar`)
@@ -214,8 +224,6 @@ function getLinkToTag(filename, tag)
 }
 
 module.exports = {
-	createTags,
-	wrapKeyBindings,
-	wrapInlineCode,
+	formatInlineText,
 	getLinkToTag,
 };

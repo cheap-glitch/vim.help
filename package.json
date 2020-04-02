@@ -16,12 +16,12 @@
   "main": "src/main.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production run-s clean 'build:*' postprocess",
-    "build:css": "node src/main.js css",
-    "build:html": "run-s lint test && node src/main.js html",
-    "build:js": "node src/main.js js",
+    "build:css": "node src/main.js -- css",
+    "build:html": "run-s lint test && node src/main.js -- html",
+    "build:js": "node src/main.js -- js",
     "build:static": "node src/main.js static",
     "clean": "rimraf public",
-    "coverage": "nyc npm run test",
+    "coverage": "nyc npm test",
     "lint": "eslint '**/*.js'",
     "local-server": "ws --config-file .lws.config.js",
     "postprocess": "node src/postprocess.js",
@@ -53,6 +53,6 @@
     "nyc": "^15.0.0",
     "postcss-cli": "^7.1.0",
     "rimraf": "^3.0.2",
-    "terser": "^4.6.9"
+    "terser": "^4.6.10"
   }
 }

@@ -3,24 +3,26 @@
  * blocks/usr.js
  */
 
-const { wrapHTML         } = require('../helpers.js');
-const { generateStr      } = require('../helpers.js');
-const { toKebabCase      } = require('../helpers.js');
-const { removeTagTargets } = require('../helpers.js');
+const { wrapHTML         }     = require('../helpers.js');
+const { generateStr      }     = require('../helpers.js');
+const { toKebabCase      }     = require('../helpers.js');
+const { removeTagTargets }     = require('../helpers.js');
 
-const { isEmpty          } = require('./helpers.js');
-const { isSeparator      } = require('./helpers.js');
-const { splitFirstCell   } = require('./helpers.js');
+const { isEmpty          }     = require('./helpers.js');
+const { isSeparator      }     = require('./helpers.js');
+const { splitFirstCell   }     = require('./helpers.js');
 
-const STR_NOTE_START       = '\tNote:';
+const STR_NOTE_START           = '\tNote:';
+const STR_FORMATTED_BLOCK_END  = ' ~';
 
-const RE_HEADER_NB         = /^\*(\d{2}\.\d{1,2})\*\s/;
-const RE_SPECIAL_MESSAGE   = /^[WE]\d{1,3}: /;
-const RE_START_OL          = /^\t?\d{1,2}[.)] /;
-const RE_START_UL          = /^- {1,2}(?=\S)/;
-const RE_START_TOC         = /^\|(\d{2}\.\d{1,2})\|\t/;
-const RE_SUB_HEADER        = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
-const RE_TABLE_START       = /^<?\t[^\t]+\t+[^\t]+(?:\t~)?$/;
+const RE_HEADER_NB             = /^\*(\d{2}\.\d{1,2})\*\s/;
+const RE_SPECIAL_MESSAGE       = /^[WE]\d{1,3}: /;
+const RE_START_OL              = /^\t?\d{1,2}[.)] /;
+const RE_START_UL              = /^- {1,2}(?=\S)/;
+const RE_START_TOC             = /^\|(\d{2}\.\d{1,2})\|\t/;
+const RE_SUB_HEADER            = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
+const RE_TABLE_START_INDENT    = /^<?\t[^\t]+\t+[^\t]+(?:\t~)?$/;
+const RE_TABLE_START_NO_INDENT = /^[^\t<]+\t{1,2}[^\t]+$/;
 
 /**
  * Block definitions
@@ -183,8 +185,11 @@ module.exports = {
 			  || RE_START_UL.test(ct.nextLine),
 
 		containedBlocks: [
+			'table',
+
 			'commandBlock',
 			'formattedText',
+
 			'paragraph',
 		],
 
@@ -277,8 +282,11 @@ module.exports = {
 				                         && ct.line != '<')
 				                     || ct.nextLine.startsWith(generateStr(6, ' '))
 				                     || RE_START_OL.test(ct.nextLine)
-				                     || RE_START_UL.test(ct.nextLine);
-				default:         return ct.line == '<' || /^\s/.test(ct.nextLine);
+				                     || RE_START_UL.test(ct.nextLine)
+				                     || ct.nextLine.endsWith(STR_FORMATTED_BLOCK_END);
+				default:         return ct.line == '<'
+				                     || /^\s/.test(ct.nextLine)
+				                     || RE_TABLE_START_NO_INDENT.test(ct.nextLine);
 			}
 		},
 
@@ -298,7 +306,8 @@ module.exports = {
 
 		end:   ct => isEmpty(ct.nextLine)
 			  || ct.nextLine == '<'
-			  || !/^<?\t/.test(ct.nextLine),
+			  || !/^<?\t/.test(ct.nextLine)
+			  || (ct.parent.type == 'listItem' && /^<\t/.test(ct.nextLine)),
 
 		containedBlocks: [],
 		disableInlineParsing: true,
@@ -315,11 +324,13 @@ module.exports = {
 	formattedText: {
 		start(ct)
 		{
-			if (ct.line.endsWith('~')) return true;
+			if (ct.line.endsWith(STR_FORMATTED_BLOCK_END)) return true;
 
 			switch (ct.current.type)
 			{
-				case 'listItem': return ct.line.startsWith('\t') && !RE_START_OL.test(ct.line);
+				case 'listItem': return ct.line.startsWith('\t')
+				                    && !ct.previousLine.startsWith('\t')
+				                    && !RE_START_OL.test(ct.line);
 				case 'note':     return ct.line.startsWith('\t\t');
 				default:         return ct.line.startsWith('\t');
 			}
@@ -329,8 +340,8 @@ module.exports = {
 			  || (!isEmpty(ct.nextLine)
 			      && !ct.nextLine.startsWith(ct.parent.type == 'note' ? '\t\t' : '\t')
 			      && !ct.nextLine.startsWith(generateStr(4, ' '))
-			      && !ct.nextLine.endsWith(' ~'))
-			  || (ct.parent.type == 'listItem' && isEmpty(ct.nextLine))
+			      && !ct.nextLine.endsWith(STR_FORMATTED_BLOCK_END))
+			  || (ct.parent.type == 'listItem' && !ct.nextLine.endsWith(STR_FORMATTED_BLOCK_END))
 			  || ct.nextLine == STR_NOTE_START,
 
 		containedBlocks: [],
@@ -364,7 +375,9 @@ module.exports = {
 	 * Table
 	 */
 	table: {
-		start: ct => /^[^\t]+\t{1,2}[^\t]+$/.test(ct.line) || (RE_TABLE_START.test(ct.line) && (RE_TABLE_START.test(ct.nextLine) || ct.nextLine.startsWith('\t\t'))),
+		start: ct => (RE_TABLE_START_INDENT.test(ct.line) && (RE_TABLE_START_INDENT.test(ct.nextLine) || ct.nextLine.startsWith('\t\t')))
+		          || RE_TABLE_START_NO_INDENT.test(ct.line),
+
 		end:   ct => isEmpty(ct.nextLine),
 
 		containedBlocks: [
