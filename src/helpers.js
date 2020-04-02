@@ -18,7 +18,7 @@ module.exports = {
 	 */
 	wrapHTML(text, tag, attrs = {})
 	{
-		return `<${tag}${Object.keys(attrs).filter(attr => !!attr).map(attr => ` ${attr}="${attrs[attr]}"`).join('')}>${text}</${tag}>`;
+		return `<${tag}${Object.keys(attrs).filter(attr => !!attrs[attr]).map(attr => ` ${attr}="${attrs[attr]}"`).join('')}>${text}</${tag}>`;
 	},
 
 	/**

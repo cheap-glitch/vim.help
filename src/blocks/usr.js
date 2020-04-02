@@ -185,6 +185,8 @@ module.exports = {
 			  || RE_START_UL.test(ct.nextLine),
 
 		containedBlocks: [
+			'listItemTitle',
+
 			'table',
 
 			'commandBlock',
@@ -194,6 +196,20 @@ module.exports = {
 		],
 
 		wrapper: lines => wrapHTML(wrapHTML(lines.join(' '), 'div', { class: 'li-contents' }), 'li')
+	},
+
+	/**
+	 * List item title
+	 */
+	listItemTitle: {
+		start: ct => RE_START_UL.test(ct.line) && !ct.line.startsWith('\t') && ct.nextLine.startsWith('\t'),
+		end:   () => true,
+
+		containedBlocks: [],
+
+		transformLines: line => line.replace(RE_START_OL, '').replace(RE_START_UL, ''),
+
+		wrapper: lines => wrapHTML(wrapHTML(lines.join(' '), 'em'), 'p')
 	},
 
 	/**
@@ -330,7 +346,8 @@ module.exports = {
 			{
 				case 'listItem': return ct.line.startsWith('\t')
 				                    && !ct.previousLine.startsWith('\t')
-				                    && !RE_START_OL.test(ct.line);
+				                    && !RE_START_OL.test(ct.line)
+				                    && !RE_START_UL.test(ct.previousLine);
 				case 'note':     return ct.line.startsWith('\t\t');
 				default:         return ct.line.startsWith('\t');
 			}

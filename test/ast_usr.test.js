@@ -462,9 +462,12 @@ describe("unordered lists", () => {
 				type: 'listItem',
 				children: [
 					{
+						type: 'listItemTitle',
+						children: ["- Your terminal does support colors, but Vim doesn't know this."]
+					},
+					{
 						type: 'paragraph',
 						children: [
-							"- Your terminal does support colors, but Vim doesn't know this.",
 							"\tMake sure your $TERM setting is correct.  For example, when using an",
 							"\txterm that supports colors: >",
 						],
