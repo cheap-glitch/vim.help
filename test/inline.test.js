@@ -16,7 +16,7 @@ describe("inline formatting", () => {
 /**
  * Tags
  * {{{
- * -----------------------------------------------------------------------------
+ * =============================================================================
  */
 describe("tags", () => {
 
@@ -248,6 +248,33 @@ describe("inline code & commands", () => {
 			format('lorem ipsum (foo bar), dolor sit amet').should.equal('lorem ipsum (foo bar), dolor sit amet');
 		});
 
+	});
+
+});
+/**
+ * }}}
+ */
+
+/**
+ * Others
+ * {{{
+ * =============================================================================
+ */
+describe("inline code & commands", () => {
+
+	it("should parse words surrounded by underscores", () => {
+		format('_foobar_').should.equal('<strong>foobar</strong>');
+
+		// usr_06 (121)
+		format('Make sure you put this _before_ the').should.equal('Make sure you put this <strong>before</strong> the');
+	});
+
+	it("should NOT parse non-words surrounded by underscores", () => {
+		format('_foo bar_').should.equal('_foo bar_');
+	});
+
+	it("should NOT parse words surrounded by two underscores", () => {
+		format('__FILE__').should.equal('__FILE__');
 	});
 
 });

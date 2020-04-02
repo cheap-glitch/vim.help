@@ -193,6 +193,15 @@ function formatInlineText(filename, line)
 	// usr_29 (428)
 	.replace('&quot;/* - */&quot;', wrapHTML('/* - */', 'code'))
 
+	/**
+	 * Others
+	 * =====================================================================
+	 */
+
+	/**
+	 * Make text surrounded by underscores bold (_word_)
+	 */
+	.replace(/(?:^|(?<= ))_([^_ ]+)_(?:(?= )|$)/g, (_, word) => wrapHTML(word, 'strong'))
 }
 
 /**
