@@ -19,7 +19,7 @@
     "build:css": "node src/main.js -- css",
     "build:html": "run-s lint test && node src/main.js -- html",
     "build:js": "node src/main.js -- js",
-    "build:static": "node src/main.js static",
+    "build:static": "node src/main.js -- static",
     "clean": "rimraf public",
     "coverage": "nyc npm test",
     "lint": "eslint '**/*.js'",

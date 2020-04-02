@@ -9,8 +9,9 @@ const buildHTML = require('../src/parser/html.js');
 const blocksUsr = require('../src/blocks/usr.js');
 
 // Helpers
-const build = node => buildHTML('usr_01', blocksUsr, { containedBlocks: [], ...node });
-const text  =  str => ({ type: 'text', text: str });
+const text   = str  => ({ type: 'text', text: str });
+const build  = node => buildHTML('usr_01', blocksUsr, { containedBlocks: [], ...node });
+const inline = html => html.replace(/\t|\n/g, '').replace(/\[SPACE\]/g, ' ');
 
 describe("html output", () => {
 
@@ -66,6 +67,37 @@ describe("ordered lists", () => {
  * =============================================================================
  */
 describe("unordered lists", () => {
+
+	// List item with a title (usr_09, 221) {{{
+	it("list item with a title", () =>
+		build({
+			type: 'unorderedList',
+			children: [{
+				type: 'listItem',
+				children: [
+					{
+						type: 'listItemTitle',
+						children: [text("- Your terminal does support colors, but Vim doesn't know this.")]
+					},
+					{
+						type: 'paragraph',
+						children: [
+							text("\tMake sure your $TERM setting is correct.  For example, when using an"),
+							text("\txterm that supports colors: >"),
+						],
+					},
+				]
+			}]
+		})
+		.should.equal(inline(`
+			<ul><li><div class="li-contents">
+				<p><em>Your terminal does support colors, but Vim doesn't know this.</em></p>[SPACE]
+				<p>Make sure your $TERM setting is correct.  For example, when using an xterm that supports colors:</p>
+			</div></li></ul>
+		`))
+	);
+	// }}}
+
 });
 /**
  * }}}
