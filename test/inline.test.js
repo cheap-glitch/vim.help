@@ -97,6 +97,13 @@ describe("key bindings", () => {
 		wrapKB('foo CTRL-B bar').should.equal('foo <kbd>CTRL&#8209;B</kbd> bar');
 	});
 
+	it("shouldn NOT wrap other uses of 'CTRL'", () => {
+		wrapKB('the word CTRL means Control').should.equal('the word CTRL means Control');
+
+		// usr_02 (567)
+		wrapKB(':h CTRL-<Letter>. E.g.'     ).should.equal(':h CTRL-&lt;Letter&gt;. E.g.');
+	});
+
 	it("should wrap compound CTRL-based key bindings in a single tag", () => {
 		wrapKB('CTRL-X CTRL-F'            ).should.equal('<kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
 		wrapKB('press CTRL-X CTRL-F'      ).should.equal('press <kbd>CTRL&#8209;X CTRL&#8209;F</kbd>');
@@ -108,13 +115,18 @@ describe("key bindings", () => {
 
 		// usr_24 (574)
 		wrapKB('that CTRL-K a" inserts'   ).should.equal('that <kbd>CTRL&#8209;K a&quot;</kbd> inserts');
+
+		// usr_24 (529)
+		wrapKB('(CTRL-V xff)'             ).should.equal('(<kbd>CTRL&#8209;V xff</kbd>)');
 	});
 
-	it("shouldn't wrap other uses of 'CTRL'", () => {
-		wrapKB('the word CTRL means Control').should.equal('the word CTRL means Control');
+	it("should NOT create compound key bindings with actual words", () => {
 
-		// usr_02 (567)
-		wrapKB(':h CTRL-<Letter>. E.g.'     ).should.equal(':h CTRL-&lt;Letter&gt;. E.g.');
+		// usr_24 (509)
+		wrapKB('On MS-Windows CTRL-V is used to paste text.').should.equal('On MS-Windows <kbd>CTRL&#8209;V</kbd> is used to paste text.');
+
+		// usr_24 (529)
+		wrapKB('The CTRL-V command').should.equal('The <kbd>CTRL&#8209;V</kbd> command');
 	});
 
 });

@@ -62,12 +62,12 @@ const BUILD_DIR              = path.resolve(__dirname, '../public');
 const HTML_LAYOUT            = fs.readFileSync(path.resolve(__dirname, './layouts/page.html')).toString();
 
 // Do nothing if no argument is given
-if (process.argv.length <= 2) process.exit(0);
+if (process.argv.length <= 3) process.exit(0);
 
 // Create the build directory if it doesn't exist
 if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
 
-switch (process.argv[2])
+switch (process.argv.pop())
 {
 	/**
 	 * Build HTML pages from the raw help files

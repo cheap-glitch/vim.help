@@ -21,16 +21,13 @@ const tags = getRawFileContents('tags').filter(line => line.length).reduce(funct
 	return result;
 }, {});
 
-/**
- * Parse and create the tags in a blob of raw text
- */
-function createTags(filename, text)
+function formatInlineText(filename, text)
 {
 	return text
 
 	/**
 	 * Parse the Vim tags (|tag|)
-	 * ---------------------------------------------------------------------
+	 * =====================================================================
 	 */
 
 	.replace(/\|([^ \t|]+)\|/g, function(_, tag)
@@ -80,7 +77,7 @@ function createTags(filename, text)
 
 	/**
 	 * Create supplementary tags
-	 * ---------------------------------------------------------------------
+	 * =====================================================================
 	 */
 
 	/**
@@ -98,17 +95,14 @@ function createTags(filename, text)
 			class: 'tag option',
 		});
 	})
-}
 
-/**
- * Wrap key bindings in <kbd> tags
- *
- * Also replace the hyphens with non-breaking hyphens
- * to prevent the key bindings from being split between two lines
- */
-function wrapKeyBindings(text)
-{
-	return text
+	/**
+	 * Wrap key bindings in <kbd> tags
+	 *
+	 * Also replace the hyphens with non-breaking hyphens
+	 * to prevent the key bindings from being split between two lines
+	 * =====================================================================
+	 */
 
 	/**
 	 * Key bindings (<Key>, <S-Key>, etc.)
@@ -121,16 +115,16 @@ function wrapKeyBindings(text)
 	 * Two key bindings can follow each other,
 	 * in that case they are part of a single key binding
 	 * e.g. "CTRL-X CTRL-F", "CTRL-W k" or "CTRL-K dP"
+	 *
+	 * Only the CTRL-V key binding can be combined with three key presses
 	 */
+	.replace(/(?:^|\b)CTRL-V [a-z]{3}\b/g,                                                   keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: (?:CTRL-.|(?:&quot;|[^ ]){1,2}(?:(?= )|$)))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
-}
 
-/**
- * Wrap some elements of a raw text blob in <code> tags
- */
-function wrapInlineCode(text)
-{
-	return text
+	/**
+	 * Wrap some elements of a raw text blob in <code> tags
+	 * =====================================================================
+	 */
 
 	/**
 	 * Double-quoted & back-quoted text with no space in it ("foobar", `foobar`)
@@ -214,8 +208,6 @@ function getLinkToTag(filename, tag)
 }
 
 module.exports = {
-	createTags,
-	wrapKeyBindings,
-	wrapInlineCode,
+	formatInlineText,
 	getLinkToTag,
 };
