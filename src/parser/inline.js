@@ -21,12 +21,12 @@ const tags = getRawFileContents('tags').filter(line => line.length).reduce(funct
 	return result;
 }, {});
 
-function formatInlineText(filename, text)
+function formatInlineText(filename, line)
 {
-	return text
+	return line
 
 	/**
-	 * Parse the Vim tags (|tag|)
+	 * Vim tags (|tag|)
 	 * =====================================================================
 	 */
 
@@ -76,7 +76,7 @@ function formatInlineText(filename, text)
 	})
 
 	/**
-	 * Create supplementary tags
+	 * Supplementary tags
 	 * =====================================================================
 	 */
 
@@ -97,11 +97,13 @@ function formatInlineText(filename, text)
 	})
 
 	/**
+	 * Key bindings
+	 * =====================================================================
+	 *
 	 * Wrap key bindings in <kbd> tags
 	 *
 	 * Also replace the hyphens with non-breaking hyphens
 	 * to prevent the key bindings from being split between two lines
-	 * =====================================================================
 	 */
 
 	/**
@@ -122,8 +124,10 @@ function formatInlineText(filename, text)
 	.replace(/(?:^|\b)CTRL-(?:[^&]|Break)(?: (?:CTRL-.|(?:&quot;|[^ ]){1,2}(?:(?= )|$)))?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 
 	/**
-	 * Wrap some elements of a raw text blob in <code> tags
+	 * Inline code & commands
 	 * =====================================================================
+	 *
+	 * Wrap some elements in <code> tags
 	 */
 
 	/**
