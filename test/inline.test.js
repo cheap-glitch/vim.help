@@ -119,6 +119,9 @@ describe("key bindings", () => {
 
 	it("should NOT create compound key bindings with actual words", () => {
 
+		// usr_01 (46)
+		format('and press CTRL-] on it.').should.equal('and press <kbd>CTRL&#8209;]</kbd> on it.');
+
 		// usr_24 (509)
 		format('On MS-Windows CTRL-V is used to paste text.').should.equal('On MS-Windows <kbd>CTRL&#8209;V</kbd> is used to paste text.');
 
@@ -204,6 +207,8 @@ describe("inline code & commands", () => {
 		it("should wrap variable names", () => {
 			format('$VIMTUTOR').should.equal('<code>$VIMTUTOR</code>');
 			format('$foo'     ).should.equal('<code>$foo</code>');
+
+			format('in the $VIMRUNTIME directory.').should.equal('in the <code>$VIMRUNTIME</code> directory.');
 		});
 
 	});

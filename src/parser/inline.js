@@ -119,7 +119,7 @@ function formatInlineText(filename, line)
 		const parsedKeybinding = wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd');
 		const parsedExtra      = !extra
 			// Check that the extra key presses are not a word
-			|| (extra.length == 2 && ['is', 'an'].includes(extra))
+			|| (extra.length == 2 && ['an', 'is', 'on'].includes(extra))
 			// Only the CTRL-V key binding can be combined with three extra key presses
 			|| (extra.length == 3 && keybinding != 'CTRL-V')
 		? null : extra;
@@ -173,7 +173,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Variable names ($var, $VAR)
 	 */
-	.replace(/(?:^|\b)\$\w+/g, name => wrapHTML(name, 'code'))
+	.replace(/(?:^|(?<= ))\$\w+/g, name => wrapHTML(name, 'code'))
 
 	/**
 	 * Single-character key bindings & register names
@@ -189,6 +189,9 @@ function formatInlineText(filename, line)
 	/**
 	 * Other special snippets
 	 */
+
+	// usr_01 (12)
+	.replace('&quot;vimtutor -g&quot;', wrapHTML('vimtutor -g', 'code'))
 
 	// usr_29 (428)
 	.replace('&quot;/* - */&quot;', wrapHTML('/* - */', 'code'))
