@@ -3,6 +3,12 @@
 # .gitignore
 #
 
-/.nyc_output/
-/node_modules/
+# Build
 /public/
+
+# Code coverage
+.codecov.yml
+/.nyc_output/
+
+# NPM
+/node_modules/
