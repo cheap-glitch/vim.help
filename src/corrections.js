@@ -1,6 +1,6 @@
 
 /**
- * src/fixes.js
+ * src/corrections.js
  */
 
 module.exports = {
@@ -25,6 +25,9 @@ module.exports = {
 	 * "Set your settings"
 	 */
 	usr_05: {
+		// Surround @@@ with double quotes
+		236: line => line.replace('@@@', '"@@@"'),
+
 		// Replace the mixed indentation by two tabs
 		412: line => line.replace('\t   \t', '\t\t'),
 	},

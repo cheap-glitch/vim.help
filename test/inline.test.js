@@ -262,6 +262,29 @@ describe("inline code & commands", () => {
  */
 describe("inline code & commands", () => {
 
+	it("should turn URLs into anchors", () => {
+
+		// if_perl (46)
+		format('http://www.perl.org/').should.equal('<a href="http://www.perl.org/">http://www.perl.org</a>');
+
+		// usr_45 (180)
+		format('http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz').should.equal('<a href="http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz">http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz</a>');
+
+		// pi_getscript (312)
+		format('http://vim.sourceforge.net/scripts/script.php?script_id=1023').should.equal('<a href="http://vim.sourceforge.net/scripts/script.php?script_id=1023">http://vim.sourceforge.net/scripts/script.php?script_id=1023</a>');
+
+		// usr_45 (82)
+		format('Upload it at vim-online (http://vim.sf.net) or e-mail it').should.equal('Upload it at vim-online (<a href="http://vim.sf.net">http://vim.sf.net</a>) or e-mail it');
+
+		// os_vms (585)
+		format('tools in http://www.polarhome.com/vim/files/gnu_tools.zip.').should.equal('tools in <a href="http://www.polarhome.com/vim/files/gnu_tools.zip">http://www.polarhome.com/vim/files/gnu_tools.zip</a>.');
+		format('tools in http://www.polarhome.com/vim/files/gnu_tools.zip.  I sugges to').should.equal('tools in <a href="http://www.polarhome.com/vim/files/gnu_tools.zip">http://www.polarhome.com/vim/files/gnu_tools.zip</a>.  I sugges to');
+
+		// term (511)
+		format('See https://gist.github.com/XVilka/8346728 for a list of terminals').should.equal('See <a href="https://gist.github.com/XVilka/8346728">https://gist.github.com/XVilka/8346728</a> for a list of terminals');
+
+	});
+
 	it("should parse words surrounded by underscores", () => {
 		format('_foobar_').should.equal('<strong>foobar</strong>');
 

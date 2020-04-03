@@ -173,7 +173,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Variable names ($var, $VAR)
 	 */
-	.replace(/(^|\b)\$\w+/g, name => wrapHTML(name, 'code'))
+	.replace(/(?:^|\b)\$\w+/g, name => wrapHTML(name, 'code'))
 
 	/**
 	 * Single-character key bindings & register names
@@ -183,7 +183,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Special characters used alone or in matching pairs
 	 */
-	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
+	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/\\()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
 	.replace(/(?<=\()[:/](?=\))/g, character => wrapHTML(character, 'code'))
 
 	/**
@@ -197,6 +197,14 @@ function formatInlineText(filename, line)
 	 * Others
 	 * =====================================================================
 	 */
+
+	/**
+	 * Turn URLs into anchors
+	 *
+	 * Don't capture dots at the end of sentences or lines,
+	 * as they are punctuation and not part of the URL
+	 */
+	.replace(/https?:\/\/(?:\.(?=[^ ])|[^ (),.])+/g, link => wrapHTML(link.replace(/\/$/, ''), 'a', { href: link }))
 
 	/**
 	 * Make text surrounded by underscores bold (_word_)

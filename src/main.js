@@ -55,7 +55,7 @@ const { toKebabCase        } = require('./helpers.js');
 const { wrapHTML           } = require('./helpers.js');
 
 const files                  = require('./files.js');
-const fixes                  = require('./fixes.js');
+const corrections            = require('./corrections.js');
 
 const TIMESTAMP              = Date.now();
 const BUILD_DIR              = path.resolve(__dirname, '../public');
@@ -77,9 +77,9 @@ switch (process.argv.pop())
 		{
 			const contents = getRawFileContents(`${filename}.txt`);
 
-			// Optionally apply some fixes to the raw text
-			if (filename in fixes)
-				for (const [lineNb, fix] of Object.entries(fixes[filename]))
+			// Optionally apply some corrections to the raw text
+			if (filename in corrections)
+				for (const [lineNb, fix] of Object.entries(corrections[filename]))
 					contents[lineNb - 1] = fix(contents[lineNb - 1]);
 
 			writeHTMLPage((isUserManual(filename) ? `${filename.slice(4)}-` : '') + toKebabCase(title), {

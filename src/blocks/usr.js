@@ -287,7 +287,10 @@ module.exports = {
 		},
 		end(ct)
 		{
-			if (isEmpty(ct.nextLine) || ct.line.endsWith(' >') || ct.line == '>') return true;
+			if (isEmpty(ct.nextLine)
+			 || isSeparator(ct.nextLine)
+			 || ct.line.endsWith(' >') || ct.line == '>'
+			) return true;
 
 			switch(ct.parent.type)
 			{
