@@ -67,7 +67,7 @@ if (process.argv.length <= 3) process.exit(0);
 // Create the build directory if it doesn't exist
 if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
 
-switch (process.argv.pop())
+switch ([...process.argv].pop())
 {
 	/**
 	 * Build HTML pages from the raw help files

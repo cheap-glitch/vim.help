@@ -6,6 +6,14 @@
 module.exports = {
 
 	/**
+	 * "About the manuals"
+	 */
+	usr_01: {
+		// Remove indent and add missing full stop at the end of the line
+		168: line => line.trim() + '.',
+	},
+
+	/**
 	 * "The first steps in Vim"
 	 */
 	usr_02: {
