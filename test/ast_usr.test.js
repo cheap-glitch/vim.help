@@ -50,6 +50,45 @@ describe("section headers", () => {
 	);
 	// }}}
 
+	// After a list {{{
+	it("after a list", () => getAST(`
+
+		3. Delete the copied file when you are finished with it:
+		>
+			del TUTORCOPY
+		<
+		==============================================================================
+		*01.4*	Copyright					*manual-copyright*
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'orderedList',
+				children: [{
+					type: 'listItem',
+					children: [
+						{
+							type: 'paragraph',
+							children: ['3. Delete the copied file when you are finished with it:', '>']
+						},
+						{
+							type: 'commandBlock',
+							children: ['\tdel TUTORCOPY']
+						},
+						{
+							type: 'paragraph',
+							children: ['<']
+						}
+					]
+				}]
+			},
+			{
+				type: 'sectionHeader',
+				children: ['*01.4*\tCopyright\t\t\t\t\t*manual-copyright*']
+			},
+		]))
+	);
+	// }}}
+
 });
 
 describe("sub-section headers", () => {

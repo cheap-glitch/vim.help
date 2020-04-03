@@ -92,7 +92,7 @@ describe("unordered lists", () => {
 		.should.equal(inline(`
 			<ul><li><div class="li-contents">
 				<p><em>Your terminal does support colors, but Vim doesn't know this.</em></p>[SPACE]
-				<p>Make sure your $TERM setting is correct.  For example, when using an xterm that supports colors:</p>
+				<p>Make sure your <code>$TERM</code> setting is correct.  For example, when using an xterm that supports colors:</p>
 			</div></li></ul>
 		`))
 	);
