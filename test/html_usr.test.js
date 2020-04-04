@@ -44,7 +44,20 @@ it("section headers", () => {
  * {{{
  * =============================================================================
  */
-describe("sub-section headers", () => {
+it("sub-section headers", () => {
+
+	build({
+		type: 'subSectionHeader',
+		children: [text('LOREM IPSUM')],
+	})
+	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum</h3>');
+
+	build({
+		type: 'subSectionHeader',
+		children: [text('LOREM IPSUM *tag-target*')],
+	})
+	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum</h3>');
+
 });
 /**
  * }}}

@@ -10,11 +10,11 @@
 		<meta name="viewport"              content="width=device-width,initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-		<!-- Base stylesheets -->
+		<!-- Base style -->
 		<link rel="stylesheet" href="reset-0000000000000.css">
 		<link rel="stylesheet" href="base-0000000000000.css">
 
-		<!-- Settings stylesheets -->
+		<!-- Settings -->
 		<link rel="stylesheet" href="text-0000000000000.css">
 		<link rel="stylesheet" href="colorschemes-0000000000000.css">
 
@@ -22,51 +22,73 @@
 		<script src="settings-0000000000000.js"></script>
 	</head>
 	<body>
-		<!-- ======================================================= -->
-		<!-- Fixed header                                            -->
-		<!-- ======================================================= -->
+		<section class="page" id="page">
 
-		<header class="page-header">
+			<!-- ======================================================= -->
+			<!-- Fixed header                                            -->
+			<!-- ======================================================= -->
 
-			<!-- SETTINGS -->
-			<div class="page-header__settings">
+			<header class="page__header">
 
-				<!-- Font family -->
-				<button id="button-setting-font-family" title="Serif | Sans serif">A</button>
+				<!-- NAVIGATION -->
+				<div class="page__header__navlinks">
 
-				<!-- Font size -->
-				<button id="button-setting-font-size"   title="Small | Normal | Big"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="text-height" class="svg-inline--fa fa-text-height fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M304 32H16A16 16 0 0 0 0 48v96a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16v-32h56v304H80a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-40V112h56v32a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zm256 336h-48V144h48c14.31 0 21.33-17.31 11.31-27.31l-80-80a16 16 0 0 0-22.62 0l-80 80C379.36 126 384.36 144 400 144h48v224h-48c-14.31 0-21.32 17.31-11.31 27.31l80 80a16 16 0 0 0 22.62 0l80-80C580.64 386 575.64 368 560 368z"></path></svg></button>
+					<!-- Sidebar -->
+					<button class="{{ buttonSidebar }}" id="button-sidebar" title="Toggle sidebar">
+						<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
+					</button>
 
-				<!-- Text alignment -->
-				<button id="button-setting-text-align"  title="Justified | Left-aligned">
-					<svg id="option--text-align--justify" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-justify" class="svg-inline--fa fa-align-justify fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M432 416H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"></path></svg>
-					<svg id="option--text-align--left"    aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-left" class="svg-inline--fa fa-align-left fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M12.83 352h262.34A12.82 12.82 0 0 0 288 339.17v-38.34A12.82 12.82 0 0 0 275.17 288H12.83A12.82 12.82 0 0 0 0 300.83v38.34A12.82 12.82 0 0 0 12.83 352zm0-256h262.34A12.82 12.82 0 0 0 288 83.17V44.83A12.82 12.82 0 0 0 275.17 32H12.83A12.82 12.82 0 0 0 0 44.83v38.34A12.82 12.82 0 0 0 12.83 96zM432 160H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0 256H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>
-				</button>
+					<!-- Navigation links -->
+					{{ navLinkParent }}
+					{{ navLinkPrev }}
+					{{ navLinkNext }}
+				</div>
 
-				<!-- Colorscheme -->
-				<button id="button-setting-colorscheme" title="Next colorscheme">
-					<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="palette" class="svg-inline--fa fa-palette fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>
-				</button>
-			</div>
+				<!-- SETTINGS -->
+				<div class="page__header__settings">
 
-			<!-- NAVIGATION LINKS -->
-			<div class="page-header__navlinks">
-				{{ navLinkParent }}
-				{{ navLinkPrev }}
-				{{ navLinkNext }}
-			</div>
+					<!-- Font family -->
+					<button id="button-setting-font-family" title="Serif | Sans serif">A</button>
 
-		</header>
+					<!-- Font size -->
+					<button id="button-setting-font-size"   title="Small | Normal | Big"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="text-height" class="svg-inline--fa fa-text-height fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M304 32H16A16 16 0 0 0 0 48v96a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16v-32h56v304H80a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-40V112h56v32a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zm256 336h-48V144h48c14.31 0 21.33-17.31 11.31-27.31l-80-80a16 16 0 0 0-22.62 0l-80 80C379.36 126 384.36 144 400 144h48v224h-48c-14.31 0-21.32 17.31-11.31 27.31l80 80a16 16 0 0 0 22.62 0l80-80C580.64 386 575.64 368 560 368z"></path></svg></button>
 
-		<!-- ======================================================= -->
-		<!-- Text                                                    -->
-		<!-- ======================================================= -->
+					<!-- Text alignment -->
+					<button id="button-setting-text-align"  title="Justified | Left-aligned">
+						<svg id="option--text-align--justify" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-justify" class="svg-inline--fa fa-align-justify fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M432 416H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0-128H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"></path></svg>
+						<svg id="option--text-align--left"    aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-left" class="svg-inline--fa fa-align-left fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M12.83 352h262.34A12.82 12.82 0 0 0 288 339.17v-38.34A12.82 12.82 0 0 0 275.17 288H12.83A12.82 12.82 0 0 0 0 300.83v38.34A12.82 12.82 0 0 0 12.83 352zm0-256h262.34A12.82 12.82 0 0 0 288 83.17V44.83A12.82 12.82 0 0 0 275.17 32H12.83A12.82 12.82 0 0 0 0 44.83v38.34A12.82 12.82 0 0 0 12.83 96zM432 160H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0 256H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>
+					</button>
 
-		<section class="page-wrapper">
-			{{ header }}
-			{{ contents }}
+					<!-- Colorscheme -->
+					<button id="button-setting-colorscheme" title="Next colorscheme (Shift + click for previous)">
+						<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="palette" class="svg-inline--fa fa-palette fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>
+					</button>
+				</div>
+
+			</header>
+
+			<!-- ======================================================= -->
+			<!-- Text                                                    -->
+			<!-- ======================================================= -->
+
+			<article class="page__wrapper">
+				{{ header }}
+				{{ contents }}
+			</article>
+
 		</section>
 
+		<!-- ======================================================= -->
+		<!-- Sidebar                                                 -->
+		<!-- ======================================================= -->
+
+		<aside class="sidebar" id="sidebar">
+			<div class="sidebar__contents">
+				{{ sidebarLinks }}
+			</div>
+		</aside>
+
+		<!-- Load the UI scripts -->
 		<script src="buttons-0000000000000.js"></script>
 	</body>
 </html>

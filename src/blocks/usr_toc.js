@@ -63,7 +63,7 @@ module.exports = {
 			const header = lines[0].split('  ')[1];
 			const number = lines[0].match(RE_SUB_HEADER)[1];
 
-			return wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` }), 'h3')
+			return wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` }), 'h3');
 		}
 	},
 

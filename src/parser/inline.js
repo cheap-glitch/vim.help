@@ -207,7 +207,7 @@ function formatInlineText(filename, line)
 	 * Don't capture dots at the end of sentences or lines,
 	 * as they are punctuation and not part of the URL
 	 */
-	.replace(/https?:\/\/(?:\.(?=[^ ])|[^ (),.])+/g, link => wrapHTML(link.replace(/\/$/, ''), 'a', { href: link }))
+	.replace(/https?:\/\/(?:\.(?=[^ ])|[^ (),.])+/g, link => wrapHTML(link, 'a', { href: link }))
 
 	/**
 	 * Make text surrounded by underscores bold (_word_)

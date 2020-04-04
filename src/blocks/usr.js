@@ -119,7 +119,6 @@ module.exports = {
 
 			// Add an anchor before the header text
 			const anchor = wrapHTML('#', 'a', {
-				id:    toKebabCase(line),
 				href:  `#${toKebabCase(line)}`,
 				class: 'header-anchor',
 			});

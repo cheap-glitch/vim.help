@@ -67,12 +67,16 @@ if (process.argv.length <= 3) process.exit(0);
 // Create the build directory if it doesn't exist
 if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
 
-switch (process.argv.pop())
+switch ([...process.argv].pop())
 {
 	/**
 	 * Build HTML pages from the raw help files
 	 */
 	case 'html':
+		// Get the ToC of the user manual from 'usr_toc.txt'
+		const toc = require('./processors/toc.js')(getRawFileContents('usr_toc.txt'));
+
+		// Parse every help file
 		for (const [filename, title] of Object.entries(files))
 		{
 			const contents = getRawFileContents(`${filename}.txt`);
@@ -92,6 +96,10 @@ switch (process.argv.pop())
 				navLinkParent: getNavLinkParent(filename),
 				navLinkPrev:   getNavLinkPrevChapter(filename),
 				navLinkNext:   getNavLinkNextChapter(filename),
+
+				// Hide the sidebar button on ToC page
+				buttonSidebar: filename == 'usr_toc' ? 'button-sidebar--hidden' : '',
+				sidebarLinks:  toc,
 			});
 		}
 		break;
@@ -125,8 +133,9 @@ switch (process.argv.pop())
 			});
 
 			writeHTMLPage(basename(file.path), {
-				title:    frontmatter.title,
-				contents: mi.render(md),
+				title:          frontmatter.title,
+				contents:       mi.render(md),
+				buttonSidebar: 'button-sidebar--hidden',
 			});
 		});
 		break;

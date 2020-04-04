@@ -270,7 +270,7 @@ describe("inline code & commands", () => {
 	it("should turn URLs into anchors", () => {
 
 		// if_perl (46)
-		format('http://www.perl.org/').should.equal('<a href="http://www.perl.org/">http://www.perl.org</a>');
+		format('http://www.perl.org/').should.equal('<a href="http://www.perl.org/">http://www.perl.org/</a>');
 
 		// usr_45 (180)
 		format('http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz').should.equal('<a href="http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz">http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz</a>');
