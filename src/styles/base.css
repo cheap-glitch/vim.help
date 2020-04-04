@@ -54,6 +54,7 @@ body {
 
 .sidebar {
 	display: none;
+	overflow-y: auto;
 
 	position: fixed;
 	top: 0;
@@ -64,20 +65,45 @@ body {
 
 	padding: 0 40px 0 20px;
 
-	overflow-y: auto;
+	text-align: left;
 
 	background-color: var(--color--sidbar-bg);
 }
 
-.sidebar.sidebar--open { display: block; }
-.page.sidebar--open    { margin-left: calc(25rem + 60px); }
+.sidebar--open      { display: block; }
+.page--sidebar-open { margin-left: calc(25rem + 60px); }
+
+.sidebar p {
+	font-weight: bold;
+}
+
+.sidebar p:not(:first-child) {
+	margin-top: 40px;
+}
+
+.sidebar details {
+	margin-top: 10px;
+}
+
+.sidebar details[open] {
+	margin-bottom: 30px;
+}
+
+.sidebar summary {
+	margin-bottom: 10px;
+
+	list-style-type: '▸ ';
+
+	cursor: pointer;
+	user-select: none;
+}
+
+.sidebar details[open] summary {
+	list-style-type: '▾ ';
+}
 
 .sidebar__contents {
 	margin: 40px 0;
-}
-
-.sidebar li:not(:first-child) {
-	margin-top: 10px;
 }
 
 /**
@@ -127,6 +153,10 @@ button svg {
 
 button,       .navlink       { color: var(--color--button--text);        }
 button:hover, .navlink:hover { color: var(--color--button--text--hover); }
+
+.button-sidebar--hidden {
+	display: none;
+}
 
 /**
  * }}}
@@ -279,6 +309,10 @@ ul {
 
 li {
 	margin-left: 40px;
+}
+
+.table-of-contents li {
+	text-align: left;
 }
 
 :not(.table-of-contents) > li::marker {

@@ -28,7 +28,7 @@
 	// Toggle the sidebar
 	document.getElementById('button-sidebar').addEventListener('click', function()
 	{
-		document.getElementById('page'   ).classList.toggle('sidebar--open');
+		document.getElementById('page'   ).classList.toggle('page--sidebar-open');
 		document.getElementById('sidebar').classList.toggle('sidebar--open');
 	});
 })();

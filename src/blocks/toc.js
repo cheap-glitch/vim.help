@@ -1,0 +1,29 @@
+
+/**
+ * blocks/toc.js
+ */
+
+const blocks          = require('./usr_toc.js');
+
+const { wrapHTML    } = require('../helpers.js');
+const { toKebabCase } = require('../helpers.js');
+
+// Turn the section headers into simple paragraphs
+blocks.sectionHeader.wrapper = 'p';
+
+// Wrap the link to each page in a <summary> tag and open a <details> block
+blocks.subSectionHeader.wrapper = function(lines)
+{
+	const header = lines[0].split('  ')[1];
+	const number = lines[0].match(/^\|usr_(\d{2}).txt\|/)[1];
+
+	return '<details>' + wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` }), 'summary');
+}
+
+// Wrap the ToC of each pages in a list and close the <details> block
+blocks.toc.wrapper = lines => wrapHTML(lines.join(' '), 'ol', { class: 'table-of-contents' }) + '</details>';
+
+// Erase the other text
+blocks.paragraph.wrapper = () => '';
+
+module.exports = blocks;

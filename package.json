@@ -33,7 +33,7 @@
     "serve:css": "nodemon --watch src/styles --ext css --exec npm run build:css",
     "serve:html": "nodemon --watch src/main.js --watch src --watch test --ext html,js --exec npm run build:html",
     "serve:js": "nodemon --watch src/scripts --exec npm run build:js",
-    "serve:static": "nodemon --watch src/main.js --watch README.md --watch src/static --ext md,js --exec npm run build:static",
+    "serve:static": "nodemon --watch src/main.js --watch README.md --watch src/static --watch src/layouts --ext md,js,html --exec npm run build:static",
     "test": "mocha"
   },
   "devDependencies": {
