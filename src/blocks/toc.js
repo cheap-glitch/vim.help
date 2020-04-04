@@ -20,11 +20,15 @@ blocks.subSectionHeader.wrapper = function(lines)
 {
 	const header = lines[0].split('  ')[1];
 	const number = lines[0].match(/^\|usr_(\d{2}).txt\|/)[1];
+	const link   = wrapHTML(header, 'a', {
+		id:    `${number}-${toKebabCase(header)}`,
+		href: `/${number}-${toKebabCase(header)}`,
+	});
 
-	return '<details>' + wrapHTML(`${number}. ` + wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` }), 'summary');
+	return '<details>' + wrapHTML(`${number}. ${link}`, 'summary');
 }
 
-// Wrap the ToC of each pages in a list and close the <details> block
+// Wrap the ToC of each page in a list and close the <details> block
 blocks.toc.wrapper = lines => wrapHTML(lines.join(' '), 'ol', { class: 'table-of-contents' }) + '</details>';
 
 // Erase the other text

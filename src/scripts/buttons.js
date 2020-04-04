@@ -25,10 +25,23 @@
 		});
 	}
 
-	// Toggle the sidebar
+	// Get the link element corresponding to the current page (if it exists) and open its <details> block
+	const pageLink = document.getElementById(document.location.pathname.slice(1));
+	if (pageLink)
+		pageLink.parentElement.parentElement.setAttribute('open', '');
+
+	// Toggle the sidebar by clicking on the button
+	let sidebarFirstOpened = true;
 	document.getElementById('button-sidebar').addEventListener('click', function()
 	{
 		document.getElementById('page'   ).classList.toggle('page--sidebar-open');
 		document.getElementById('sidebar').classList.toggle('sidebar--open');
+
+		// The first time the sidebar is opened, scroll to the link of the current page
+		if (sidebarFirstOpened && pageLink)
+		{
+			sidebarFirstOpened = false;
+			pageLink.scrollIntoView();
+		}
 	});
 })();

@@ -73,10 +73,6 @@ switch ([...process.argv].pop())
 	 * Build HTML pages from the raw help files
 	 */
 	case 'html':
-		// Get the ToC of the user manual from 'usr_toc.txt'
-		const toc = require('./processors/toc.js')(getRawFileContents('usr_toc.txt'));
-
-		// Parse every help file
 		for (const [filename, title] of Object.entries(files))
 		{
 			const contents = getRawFileContents(`${filename}.txt`);
@@ -99,7 +95,9 @@ switch ([...process.argv].pop())
 
 				// Hide the sidebar button on ToC page
 				buttonSidebar: filename == 'usr_toc' ? 'button-sidebar--hidden' : '',
-				sidebarLinks:  toc,
+
+				// Get the ToC of the user manual from 'usr_toc.txt'
+				sidebarLinks:  require('./processors/toc.js')(getRawFileContents('usr_toc.txt'), filename),
 			});
 		}
 		break;
