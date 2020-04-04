@@ -3,10 +3,14 @@
  * blocks/toc.js
  */
 
-const blocks          = require('./usr_toc.js');
-
+const cloneDeep       = require('lodash/cloneDeep.js');
 const { wrapHTML    } = require('../helpers.js');
 const { toKebabCase } = require('../helpers.js');
+
+const usrTocBlocks    = require('./usr_toc.js');
+
+// Copy the blocks used to parse 'usr_toc.txt'
+const blocks = cloneDeep(usrTocBlocks);
 
 // Turn the section headers into simple paragraphs
 blocks.sectionHeader.wrapper = 'p';
