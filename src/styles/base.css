@@ -148,7 +148,6 @@ button svg {
 	font-family: "Fira Sans", sans-serif;
 
 	text-align: center;
-	text-decoration: none;
 }
 
 button,       .navlink       { color: var(--color--button--text);        }
@@ -219,8 +218,6 @@ h2 {
 	right: 100%;
 
 	padding-right: 10px;
-
-	text-decoration: none;
 
 	color: var(--color--header-anchor--text);
 }
@@ -425,6 +422,8 @@ li pre {
  */
 
 a {
+	text-decoration: none;
+
 	color: var(--color--anchor--text);
 }
 
@@ -471,8 +470,6 @@ kbd {
 	padding: 2px;
 
 	border: 1px solid var(--color--tag--border);
-
-	text-decoration: none;
 }
 
 .note .tag {
