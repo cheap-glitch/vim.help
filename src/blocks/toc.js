@@ -4,10 +4,14 @@
  */
 
 const cloneDeep       = require('lodash/cloneDeep.js');
+
 const { wrapHTML    } = require('../helpers.js');
 const { toKebabCase } = require('../helpers.js');
 
+const files           = require('./../files.js');
 const usrTocBlocks    = require('./usr_toc.js');
+
+const RE_SUB_HEADER   = /^\|usr_(\d{2}).txt\|/;
 
 // Copy the blocks used to parse 'usr_toc.txt'
 const blocks = cloneDeep(usrTocBlocks);
@@ -16,14 +20,15 @@ const blocks = cloneDeep(usrTocBlocks);
 blocks.sectionHeader.wrapper = 'p';
 
 // Wrap the link to each page in a <summary> tag and open a <details> block
-blocks.subSectionHeader.wrapper = function(lines)
+blocks.subSectionHeader.wrapper = function(lines, _, filename)
 {
 	const header = lines[0].split('  ')[1];
-	const number = lines[0].match(/^\|usr_(\d{2}).txt\|/)[1];
-	const link   = wrapHTML(header, 'a', {
-		id:    `${number}-${toKebabCase(header)}`,
-		href: `/${number}-${toKebabCase(header)}`,
-	});
+	const number = lines[0].match(RE_SUB_HEADER)[1];
+
+	// Don't create a link for the current page
+	const link = toKebabCase(files[filename]) == toKebabCase(header)
+		? wrapHTML(header, 'span', { id:    `${number}-${toKebabCase(header)}` })
+		: wrapHTML(header, 'a',    { href: `/${number}-${toKebabCase(header)}` });
 
 	return '<details>' + wrapHTML(`${number}. ${link}`, 'summary');
 }

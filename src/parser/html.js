@@ -42,7 +42,7 @@ module.exports = function(filename, blocks, ast)
 		if (nodeHTML.every(line => /^\s*$/.test(line))) return '';
 
 		return typeof block.wrapper == 'function'
-			? block.wrapper(nodeHTML, parentBlock)
+			? block.wrapper(nodeHTML, parentBlock, filename)
 			: wrapHTML.apply({}, [nodeHTML.join(' '), ...wrapArray(block.wrapper)]);
 	}
 
