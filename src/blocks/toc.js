@@ -26,7 +26,7 @@ blocks.subSectionHeader.wrapper = function(lines, _, filename)
 	const number = lines[0].match(RE_SUB_HEADER)[1];
 
 	// Don't create a link for the current page
-	const link = toKebabCase(files[filename]) != toKebabCase(header)
+	const link = !filename || toKebabCase(files[filename]) != toKebabCase(header)
 		? wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` })
 		: header;
 
