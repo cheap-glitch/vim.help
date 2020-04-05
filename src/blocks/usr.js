@@ -411,7 +411,7 @@ module.exports = {
 	 * Table header
 	 */
 	tableHeader: {
-		start: ct => ct.line.endsWith('\t~'),
+		start: ct => /\s~$/.test(ct.line),
 		end:   () => true,
 
 		containedBlocks: [],

@@ -1289,6 +1289,28 @@ describe("tables", () => {
 	);
 	// }}}
 
+	// Table with header (usr_05, 150) {{{
+	it("table with no indentation", () => getAST(`
+
+			system		plugin directory ~
+			Unix		~/.vim/plugin/
+
+		`).should.deep.equal(wrapNodes({
+			type: 'table',
+			children: [
+				{
+					type: 'tableHeader',
+					children: ['\tsystem\t\tplugin directory ~']
+				},
+				{
+					type: 'tableRow',
+					children: ['\tUnix\t\t~/.vim/plugin/']
+				}
+			]
+		}))
+	);
+	// }}}
+
 	// Table directly following a command block (usr_24, 54) {{{
 	it("table directly following a command block", () => getAST(`
 
