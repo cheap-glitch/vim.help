@@ -6,7 +6,7 @@
 module.exports = {
 
 	/**
-	 * "About the manuals"
+	 * 01. About the manuals
 	 */
 	usr_01: {
 		// Remove indent and add missing full stop at the end of the line
@@ -14,7 +14,7 @@ module.exports = {
 	},
 
 	/**
-	 * "The first steps in Vim"
+	 * 02. The first steps in Vim
 	 */
 	usr_02: {
 		// Add missing full stop at the end of the line
@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	/**
-	 * "Making small changes"
+	 * 04. Making small changes
 	 */
 	usr_04: {
 		// Add missing 's'
@@ -30,7 +30,7 @@ module.exports = {
 	},
 
 	/**
-	 * "Set your settings"
+	 * 05. Set your settings
 	 */
 	usr_05: {
 		// Surround @@@ with double quotes
@@ -41,7 +41,7 @@ module.exports = {
 	},
 
 	/**
-	 * "Making big changes"
+	 * 10. Making big changes
 	 */
 	usr_10: {
 		// Add missing ending double-quote
@@ -49,19 +49,26 @@ module.exports = {
 	},
 
 	/**
-	 * "Inserting quickly"
+	 * 21. Go away and come back
 	 */
-	usr_24: {
-		// Remove indentation before digraph table
-		552: line => line.replace(/^\s+/, ''),
-		553: line => line.replace(/^\s+/, ''),
-		554: line => line.replace(/^\s+/, '')
-			// Fix column alignment
-			.replace('--', '-- '),
+	usr_21: {
+		// Turn formatted block into unordered list
+		'96-100': line => line.replace('\t', '- '),
 	},
 
 	/**
-	 * "Moving through programs"
+	 * 24. Inserting quickly
+	 */
+	usr_24: {
+		// Remove indentation before digraph table
+		'552-554': line => line.replace(/^\s+/, ''),
+
+		// Fix column alignment
+		554: line => line.replace('--', '-- '),
+	},
+
+	/**
+	 * 29. Moving through programs
 	 */
 	usr_29: {
 		// Add double quotes around comment delimiters

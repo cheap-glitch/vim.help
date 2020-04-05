@@ -106,10 +106,13 @@ module.exports = {
 		transformLines(line)
 		{
 			return removeTagTargets(
+
 				// Fix the capitalisation of the header text
 				(line[0] + line.slice(1).toLowerCase())
+
 				// Make some words uppercase
-				.replace(/(?:^|\b)(?:i|ms|mswin)\b/i, match => match.toUpperCase())
+				.replace(/(?:^|\b)(?:i|ms|mswin)(?:\b|^)/i, match => match.toUpperCase())
+				.replace('MS-windows', 'MS-Windows')
 			);
 		},
 
