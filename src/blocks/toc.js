@@ -26,11 +26,11 @@ blocks.subSectionHeader.wrapper = function(lines, _, filename)
 	const number = lines[0].match(RE_SUB_HEADER)[1];
 
 	// Don't create a link for the current page
-	const link = toKebabCase(files[filename]) == toKebabCase(header)
-		? wrapHTML(header, 'span', { id:    `${number}-${toKebabCase(header)}` })
-		: wrapHTML(header, 'a',    { href: `/${number}-${toKebabCase(header)}` });
+	const link = toKebabCase(files[filename]) != toKebabCase(header)
+		? wrapHTML(header, 'a', { href: `/${number}-${toKebabCase(header)}` })
+		: header;
 
-	return '<details>' + wrapHTML(`${number}. ${link}`, 'summary');
+	return `<details id="${number}-${toKebabCase(header)}">` + wrapHTML(wrapHTML(wrapHTML(link, 'li'), 'ol', { start: parseInt(number, 10) }), 'summary');
 }
 
 // Wrap the ToC of each page in a list and close the <details> block

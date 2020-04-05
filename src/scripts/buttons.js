@@ -25,10 +25,10 @@
 		});
 	}
 
-	// Get the link element corresponding to the current page (if it exists) and open its <details> block
-	const pageLink = document.getElementById(document.location.pathname.slice(1));
-	if (pageLink)
-		pageLink.parentElement.parentElement.setAttribute('open', '');
+	// Get the <details> block corresponding to the current page (if it exists) and open it
+	const pageBlock = document.getElementById(document.location.pathname.slice(1));
+	if (pageBlock)
+		pageBlock.setAttribute('open', '');
 
 	// Toggle the sidebar by clicking on the button
 	let sidebarFirstOpened = true;
@@ -38,10 +38,10 @@
 		document.getElementById('sidebar').classList.toggle('sidebar--open');
 
 		// The first time the sidebar is opened, scroll to the link of the current page
-		if (sidebarFirstOpened && pageLink)
+		if (sidebarFirstOpened && pageBlock)
 		{
 			sidebarFirstOpened = false;
-			pageLink.scrollIntoView();
+			pageBlock.scrollIntoView();
 		}
 	});
 })();

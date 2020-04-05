@@ -70,6 +70,10 @@ body {
 	background-color: var(--color--sidbar-bg);
 }
 
+.sidebar__contents {
+	margin: 40px 0;
+}
+
 .sidebar--open      { display: block; }
 .page--sidebar-open { margin-left: calc(25rem + 60px); }
 
@@ -89,21 +93,24 @@ body {
 	margin-bottom: 30px;
 }
 
-.sidebar summary {
-	margin-bottom: 10px;
+.sidebar details       summary::before { content: '▸'; }
+.sidebar details[open] summary::before { content: '▾'; }
 
-	list-style-type: '▸ ';
+.sidebar details > ol li {
+	margin-left: 60px;
+}
+
+.sidebar summary {
+	display: flex;
+
+	margin-bottom: 10px;
 
 	cursor: pointer;
 	user-select: none;
 }
 
-.sidebar details[open] summary {
-	list-style-type: '▾ ';
-}
-
-.sidebar__contents {
-	margin: 40px 0;
+.sidebar summary ol {
+	list-style-type: decimal-leading-zero;
 }
 
 /**
