@@ -3,16 +3,13 @@
 Here are a few suggestions to contribute to the project:
   * check the pages for any broken formatting and [report it](https://github.com/cheap-glitch/vim.help/issues/new?labels=bug%2C+parser&template=1_parsing_error.md)
     (and you'll learn about Vim as a bonus!)
-  * write a parser for some unprocessed help files (cf. [About the parsers](#about-the-parsers))
+  * write a parser for some unprocessed help files (cf. [About the parser](#about-the-parser))
   * improve the HTML/CSS wrapper
 
 ## Contributing guidelines
 
-Thank you for  contributing to **vim.help**! Please follow  the guidelines below
-to ensure that your work is beneficial to the project:
-
-1. Consider opening an issue before submitting any sizable PR, especially
-   if it touches on the internal logic of the parser.
+1. Consider **opening an issue before submitting any sizable PR**, especially if
+   it touches on the internal logic of the parser.
 
 2. Try your best to respect the code style:
     * [smart  tabs](https://www.emacswiki.org/emacs/SmartTabs):  tablatures  for
@@ -22,17 +19,19 @@ to ensure that your work is beneficial to the project:
     * comments  and commit messages in  the imperative style, with  an uppercase
       letter at the beginning and no full stop at the end
 
-3. If you modify or add to the behaviour of the parser, write or adapt the tests
-   needed to cover  the newly supported cases. Tests are  extremely important to
-   ensure the long-term improvement of the code.
+3. If you modify or add to the  behaviour of the parser, **please write or adapt
+   the tests needed** to  cover the newly supported cases.  Tests are absolutely
+   the essential to long-term maintenance of the code!
 
-## About the parsers
+## About the parser
+
+### General operation
 
 Each raw help  file is parsed and turned  into an HTML blob. The  process is the
 same for every file:
 
-1. The parser reads  the file is line by  line and creates a tree  of nodes from
-   it. Each node  represents an HTML element,  and therefore has a  type and can
+1. The parser reads  the file line by line and creates a  tree of nodes from it.
+   Each  node represents  an HTML  element,  and therefore  has a  type and  can
    optionally contain several children
    (cf. [`parser/ast.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/parser/ast.js))
 
@@ -44,11 +43,13 @@ same for every file:
 What will change, depending on the help file being processed, is the definitions
 of the  "blocks" used by  the parser. This tells  the parser when  to open/close
 nodes, which nodes can  contain which, and how to process and  wrap the nodes to
-produce an HTML string:
-  * for the user manual pages, cf. (`blocks/usr.js`)[https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr.js]
-  * for the user manual ToC, cf. (`blocks/usr_toc.js`)[https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr_toc.js]
+produce an HTML string.
+  * For the user manual pages, cf. [`blocks/usr.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr.js)
+  * For the user manual ToC, cf. [`blocks/usr_toc.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr_toc.js)
 
-Every block is an object with at least four mandatory properties:
+### About blocks
+
+Each block is an object with at least four mandatory properties:
 
  * `start`: a  function which will be  executed by the  parser to know if  a new
    block of  this type should  start at  the current line.  It will be  passed a
@@ -56,17 +57,20 @@ Every block is an object with at least four mandatory properties:
    next line, and the number of consecutive empty lines.
 
  * `end`: same as above, but if it returns `true` then the current block will be
-   closed
+   closed on  the current  line (meaning  that a  block can  be both  opened and
+   closed on the same line, and will thus only contain this single line).
 
- * `containedBlocks`: the list of block  type this block can contain. The parser
-   will only check among those when trying to open a new child node.
+ * `containedBlocks`: the list of block types this block can contain. The parser
+    will only check among those when trying to open a new child node.
 
  * `wrapper`: a function that is given lines of text and should return a blob of
    HTML.
 
 Other optional properties are:
+
  * `disableInlineParsing`:  if set to `true`,  the child text nodes  will not be
    parsed for inline tags and such.
- * `transformLines`  and `transformBlock`:  both functions  that can  modify the
-   text content of a node before it's send to `wrapper()`. The first one will be
+
+ * `transformLines`  and `transformBlock`:  both are functions  that  modify the
+   text content of a node before it's sent to `wrapper()`. The first one will be
    mapped on every line, while the second is passed the whole array.
