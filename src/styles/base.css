@@ -70,6 +70,10 @@ body {
 	background-color: var(--color--sidbar-bg);
 }
 
+.sidebar__contents {
+	margin: 40px 0;
+}
+
 .sidebar--open      { display: block; }
 .page--sidebar-open { margin-left: calc(25rem + 60px); }
 
@@ -89,21 +93,24 @@ body {
 	margin-bottom: 30px;
 }
 
-.sidebar summary {
-	margin-bottom: 10px;
+.sidebar details       summary::before { content: '▸'; }
+.sidebar details[open] summary::before { content: '▾'; }
 
-	list-style-type: '▸ ';
+.sidebar details > ol li {
+	margin-left: 60px;
+}
+
+.sidebar summary {
+	display: flex;
+
+	margin-bottom: 10px;
 
 	cursor: pointer;
 	user-select: none;
 }
 
-.sidebar details[open] summary {
-	list-style-type: '▾ ';
-}
-
-.sidebar__contents {
-	margin: 40px 0;
+.sidebar summary ol {
+	list-style-type: decimal-leading-zero;
 }
 
 /**
@@ -148,7 +155,6 @@ button svg {
 	font-family: "Fira Sans", sans-serif;
 
 	text-align: center;
-	text-decoration: none;
 }
 
 button,       .navlink       { color: var(--color--button--text);        }
@@ -219,8 +225,6 @@ h2 {
 	right: 100%;
 
 	padding-right: 10px;
-
-	text-decoration: none;
 
 	color: var(--color--header-anchor--text);
 }
@@ -425,6 +429,8 @@ li pre {
  */
 
 a {
+	text-decoration: none;
+
 	color: var(--color--anchor--text);
 }
 
@@ -471,8 +477,6 @@ kbd {
 	padding: 2px;
 
 	border: 1px solid var(--color--tag--border);
-
-	text-decoration: none;
 }
 
 .note .tag {

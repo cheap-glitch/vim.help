@@ -131,9 +131,9 @@ switch ([...process.argv].pop())
 			});
 
 			writeHTMLPage(basename(file.path), {
-				title:          frontmatter.title,
-				contents:       mi.render(md),
-				buttonSidebar: 'button-sidebar--hidden',
+				title:        frontmatter.title,
+				contents:     mi.render(md),
+				sidebarLinks: require('./processors/toc.js')(getRawFileContents('usr_toc.txt')),
 			});
 		});
 		break;
