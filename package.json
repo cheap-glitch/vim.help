@@ -34,6 +34,7 @@
     "serve:html": "nodemon --watch src/main.js --watch src --watch test --ext html,js --exec npm run build:html",
     "serve:js": "nodemon --watch src/scripts --exec npm run build:js",
     "serve:static": "nodemon --watch src/main.js --watch README.md --watch src/static --watch src/layouts --ext md,js,html --exec npm run build:static",
+    "stage": "run-s build local-server",
     "test": "mocha"
   },
   "dependencies": {
