@@ -9,6 +9,9 @@ module.exports = {
 	 * 01. About the manuals
 	 */
 	usr_01: {
+		// Turn formatted block into unordered list
+		'40-41': line => line.replace('\t', '- '),
+
 		// Remove indent and add missing full stop at the end of the line
 		168: line => line.trim() + '.',
 	},
@@ -38,6 +41,9 @@ module.exports = {
 
 		// Replace the mixed indentation by two tabs
 		412: line => line.replace('\t   \t', '\t\t'),
+
+		// Turn formatted block into unordered list
+		'432-433': line => line.replace(/^ +/, '- '),
 	},
 
 	/**
