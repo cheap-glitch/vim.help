@@ -58,11 +58,24 @@
 :root[data-font-size="big"]    .page__wrapper { max-width: 800px;  }
 
 /**
+ * Slightly reduce the font size on mobile
+ */
+@media(max-width: 56.25em)
+{
+	:root[data-font-size="small"]         { font-size: 60%;    }
+	:root[data-font-size="normal"]        { font-size: 66.25%; }
+	:root[data-font-size="big"]           { font-size: 72.5%;  }
+
+	:root[data-font-family="sans-serif"]  { --line-spacing--body: 1.3; }
+	:root[data-font-family="serif"]       { --line-spacing--body: 1;   }
+}
+
+/**
  * }}}
  */
 
 /**
- * Text alignement
+ * Text alignment
  * {{{
  * =============================================================================
  */
