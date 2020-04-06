@@ -183,7 +183,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Special characters used alone or in matching pairs
 	 */
-	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,?`%/\\()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
+	.replace(/(?:^|(?<= ))(?:\(\)|\[\]|\{\}|&lt;|&gt;|[$^.,!?'"`%/\\()[\]])(?:(?=[ ,.])|$)/g, character => wrapHTML(character, 'code'))
 	.replace(/(?<=\()[:/](?=\))/g, character => wrapHTML(character, 'code'))
 
 	/**

@@ -4,6 +4,7 @@ about: Feel like something is missing or could be made better?
 labels: enhancement
 ---
 
+
 <!--
 Thank you for your interest in the project!
 Please fill the template below:
@@ -16,7 +17,7 @@ Please fill the template below:
 
 
 #### Implementation details
-<!-- How would you like to this feature implemented? -->
+<!-- How would you like to see this feature implemented? -->
 
 
 
