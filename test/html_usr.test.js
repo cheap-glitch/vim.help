@@ -22,6 +22,7 @@ describe("html output", () => {
  */
 it("section headers", () => {
 
+	// Simple headers {{{
 	build({
 		type: 'sectionHeader',
 		children: [text('*01.1* Lorem ipsum')],
@@ -33,6 +34,7 @@ it("section headers", () => {
 		children: [text('*01.1* Lorem ipsum *tag-target*')],
 	})
 	.should.equal('<h2 id="01.1"><a href="#01.1" class="header-anchor">01.1</a>Lorem ipsum</h2>');
+	// }}}
 
 });
 /**
@@ -46,6 +48,7 @@ it("section headers", () => {
  */
 it("sub-section headers", () => {
 
+	// Simple headers {{{
 	build({
 		type: 'subSectionHeader',
 		children: [text('LOREM IPSUM')],
@@ -57,6 +60,7 @@ it("sub-section headers", () => {
 		children: [text('LOREM IPSUM *tag-target*')],
 	})
 	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum</h3>');
+	// }}}
 
 });
 /**
@@ -69,6 +73,36 @@ it("sub-section headers", () => {
  * =============================================================================
  */
 describe("ordered lists", () => {
+
+	// Simple list {{{
+	it("", () =>
+		build({
+			type: 'orderedList',
+			children: [
+				{
+					type: 'listItem',
+					children: [{ type: 'paragraph', children: [text('first item')] }]
+				},
+				{
+					type: 'listItem',
+					children: [{ type: 'paragraph', children: [text('second'), text('item')] }]
+				},
+				{
+					type: 'listItem',
+					children: [{ type: 'paragraph', children: [text('third')] }, { type: 'paragraph', children: [text('item')] }]
+				}
+			]
+		})
+		.should.equal(inline(`
+		<ol>
+			<li><div class="li-contents"><p>first item</p></div></li>[SPACE]
+			<li><div class="li-contents"><p>second item</p></div></li>[SPACE]
+			<li><div class="li-contents"><p>third</p>[SPACE]<p>item</p></div></li>
+		</ol>
+		`))
+	);
+	// }}}
+
 });
 /**
  * }}}
