@@ -16,13 +16,12 @@ const inline = html => html.replace(/\t|\n/g, '').replace(/\[SPACE\]/g, ' ');
 describe("html output", () => {
 
 /**
- * Section headers
+ * Headers
  * {{{
  * =============================================================================
  */
 it("section headers", () => {
 
-	// Simple headers {{{
 	build({
 		type: 'sectionHeader',
 		children: [text('*01.1* Lorem ipsum')],
@@ -34,21 +33,11 @@ it("section headers", () => {
 		children: [text('*01.1* Lorem ipsum *tag-target*')],
 	})
 	.should.equal('<h2 id="01.1"><a href="#01.1" class="header-anchor">01.1</a>Lorem ipsum</h2>');
-	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Sub-section headers
- * {{{
- * =============================================================================
- */
 it("sub-section headers", () => {
 
-	// Simple headers {{{
 	build({
 		type: 'subSectionHeader',
 		children: [text('LOREM IPSUM')],
@@ -60,7 +49,6 @@ it("sub-section headers", () => {
 		children: [text('LOREM IPSUM *tag-target*')],
 	})
 	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum</h3>');
-	// }}}
 
 });
 /**
@@ -68,14 +56,13 @@ it("sub-section headers", () => {
  */
 
 /**
- * Ordered lists
+ * Lists
  * {{{
  * =============================================================================
  */
 describe("ordered lists", () => {
 
-	// Simple list {{{
-	it("", () =>
+	it("simple ordered list", () =>
 		build({
 			type: 'orderedList',
 			children: [
@@ -101,21 +88,11 @@ describe("ordered lists", () => {
 		</ol>
 		`))
 	);
-	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Unordered lists
- * {{{
- * =============================================================================
- */
 describe("unordered lists", () => {
 
-	// List item with a title (usr_09, 221) {{{
 	it("list item with a title", () =>
 		build({
 			type: 'unorderedList',
@@ -143,63 +120,82 @@ describe("unordered lists", () => {
 			</div></li></ul>
 		`))
 	);
-	// }}}
 
 });
-/**
- * }}}
- */
 
-/**
- * Tables of contents
- * {{{
- * =============================================================================
- */
 describe("tables of contents", () => {
+
+	// @TODO
+
 });
 /**
  * }}}
  */
 
 /**
- * Notes
+ * Text blocks
  * {{{
  * =============================================================================
  */
 describe("notes", () => {
-});
-/**
- * }}}
- */
 
-/**
- * Paragraphs
- * {{{
- * =============================================================================
- */
+	// @TODO
+
+});
+
 describe("paragraphs", () => {
-});
-/**
- * }}}
- */
 
-/**
- * Command blocks
- * {{{
- * =============================================================================
- */
+	// @TODO
+
+});
+
 describe("command blocks", () => {
-});
-/**
- * }}}
- */
 
-/**
- * Formatted text
- * {{{
- * =============================================================================
- */
+	it("single-line command block", () =>
+		build({
+			type: 'commandBlock',
+			children: [text('\t:command param1 param2')]
+		})
+		.should.equal(`<pre class="command-block"><code>:command param1 param2</code></pre>`)
+	);
+
+	it("multi-line command block", () =>
+		build({
+			type: 'commandBlock',
+			children: [
+				text('\t:command param1 param2'),
+				text('\t:otherCommand'),
+			]
+		})
+		.should.equal(`<pre class="command-block"><code>:command param1 param2\n:otherCommand</code></pre>`)
+	);
+
+});
+
 describe("formatted text", () => {
+
+	it("single-line formatted text block", () =>
+		build({
+			type: 'formattedText',
+			children: [text('\tlorem ipsum ~')]
+		})
+		.should.equal(`<pre>lorem ipsum</pre>`)
+	);
+
+	it("multi-line formatted text block", () =>
+		build({
+			type: 'formattedText',
+			children: [
+				text('\t+-----------+'),
+				text('\t|           |'),
+				text('\t|    VIM    |'),
+				text('\t|           |'),
+				text('\t+-----------+'),
+			]
+		})
+		.should.equal(`<pre>+-----------+\n|           |\n|    VIM    |\n|           |\n+-----------+</pre>`)
+	);
+
 });
 /**
  * }}}
@@ -211,6 +207,9 @@ describe("formatted text", () => {
  * =============================================================================
  */
 describe("tables", () => {
+
+	// @TODO
+
 });
 /**
  * }}}

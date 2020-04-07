@@ -21,10 +21,18 @@
 
   "ignorePatterns": ["public/"],
 
-	"overrides": [{
-		"files": ["test/*.test.js", "tests/unit/*.spec.js"],
-		"env": {
-			"mocha": true
-		}
-	}]
+	"overrides": [
+    {
+      "files": ["test/*.test.js", "tests/unit/*.spec.js"],
+      "env": {
+        "mocha": true
+      }
+    },
+    {
+      "files": ["src/scripts/*.js"],
+      "env": {
+        "browser": true
+      }
+    }
+  ]
 }

@@ -3,13 +3,12 @@
  * scripts/buttons.js
  */
 
-/* eslint-env browser */
-/* global settings    */
-
 "use strict";
 
 (function()
 {
+	/* global settings */
+
 	// Create a click handler for each setting button
 	for (const [setting, options] of Object.entries(settings))
 	{
@@ -24,24 +23,4 @@
 			window.localStorage.setItem(setting, nextOption);
 		});
 	}
-
-	// Get the <details> block corresponding to the current page (if it exists) and open it
-	const pageBlock = document.getElementById(document.location.pathname.slice(1));
-	if (pageBlock)
-		pageBlock.setAttribute('open', '');
-
-	// Toggle the sidebar by clicking on the button
-	let sidebarFirstOpened = true;
-	document.getElementById('button-sidebar').addEventListener('click', function()
-	{
-		document.getElementById('page'   ).classList.toggle('page--sidebar-open');
-		document.getElementById('sidebar').classList.toggle('sidebar--open');
-
-		// The first time the sidebar is opened, scroll to the link of the current page
-		if (sidebarFirstOpened && pageBlock)
-		{
-			sidebarFirstOpened = false;
-			pageBlock.scrollIntoView();
-		}
-	});
 })();
