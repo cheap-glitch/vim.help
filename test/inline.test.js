@@ -135,23 +135,6 @@ describe("key bindings", () => {
  */
 
 /**
- * Placeholders
- * {{{
- * =============================================================================
- */
-describe("placeholders", () => {
-
-	it("should wrap placeholders", () => {
-		format('{word}').should.equal('<span class="placeholder">{word}</span>');
-		format('<word>').should.equal('<span class="placeholder">&lt;word&gt;</span>');
-	});
-
-});
-/**
- * }}}
- */
-
-/**
  * Inline code & commands
  * {{{
  * =============================================================================
@@ -162,7 +145,7 @@ describe("inline code & commands", () => {
 
 		it("should wrap double-quoted text with no spaces in it", () => {
 			format('"foo"'        ).should.equal('<code>foo</code>');
-			format('"q{register}"').should.equal('<code>q{register}</code>');
+			format('"q{register}"').should.equal('<code>q<span class="placeholder">{register}</span></code>');
 		});
 
 		it("should wrap double-quoted text with spaces in it but starting with a special character", () => {
@@ -282,7 +265,11 @@ describe("inline code & commands", () => {
  * {{{
  * =============================================================================
  */
-describe("inline code & commands", () => {
+describe("others", () => {
+
+	it("should wrap placeholders", () => {
+		format('{word}').should.equal('<span class="placeholder">{word}</span>');
+	});
 
 	it("should turn URLs into anchors", () => {
 

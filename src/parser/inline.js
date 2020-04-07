@@ -136,13 +136,6 @@ function formatInlineText(filename, line)
 	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 
 	/**
-	 * Placeholders ({word}, <word>)
-	 * =====================================================================
-	 */
-
-	.replace(/(?:^|(?<= ))(?:\{|&lt;)\w+(?:&gt;|\})(?:(?= )|$)/g, placeholder => wrapHTML(placeholder, 'span', { class: 'placeholder' }))
-
-	/**
 	 * Inline code & commands
 	 * =====================================================================
 	 *
@@ -207,6 +200,11 @@ function formatInlineText(filename, line)
 	 * Others
 	 * =====================================================================
 	 */
+
+	/**
+	 * Wrap placeholders ({word})
+	 */
+	.replace(/\{\w+\}/g, placeholder => wrapHTML(placeholder, 'span', { class: 'placeholder' }))
 
 	/**
 	 * Turn URLs into anchors
