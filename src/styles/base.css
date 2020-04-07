@@ -179,7 +179,7 @@ body, #button-setting-font {
 	font-size: var(--font-size--body);
 }
 
-pre, code, kbd, .tag {
+pre, code, kbd, .tag, .placeholder {
 	font-family: "Hack", "Fira Mono", monospace;
 	font-size: 1.5rem;
 }
@@ -459,9 +459,8 @@ td:first-child > code {
 	padding-right: 4px;
 }
 
-kbd {
-	color: var(--color--keybinding--text);
-}
+kbd          { color: var(--color--keybinding--text);  }
+.placeholder { color: var(--color--placeholder--text); }
 
 /**
  * }}}

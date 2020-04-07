@@ -40,7 +40,8 @@
 
 	--color--option--text: blueviolet;
 	--color--command--text: lightseagreen;
-	--color--keybinding--text: orangered;
+	--color--keybinding--text: tomato;
+	--color--placeholder--text: lightcoral;
 }
 
 /**
@@ -106,6 +107,7 @@
 	--color--option--text: #6c71c4;
 	--color--command--text: #859900;
 	--color--keybinding--text: #cb4b16;
+	--color--placeholder--text: #d33682;
 }
 
 /**
@@ -177,6 +179,7 @@
 	--color--option--text: plum;
 	--color--command--text: slategray;
 	--color--keybinding--text: #e69f67;
+	--color--placeholder--text: lightcoral;
 }
 
 /**
@@ -246,6 +249,7 @@
 	--color--option--text: #f07178;
 	--color--command--text: #b8cc52;
 	--color--keybinding--text: #ff7733;
+	--color--placeholder--text: lightcoral;
 }
 
 /**
@@ -319,6 +323,7 @@
 	--color--option--text: #f07178;
 	--color--command--text: #2aa198;
 	--color--keybinding--text: #ffb454;
+	--color--placeholder--text: lightcoral;
 }
 
 /**
