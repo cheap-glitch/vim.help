@@ -174,7 +174,27 @@ describe("command blocks", () => {
 
 describe("formatted text", () => {
 
-	// @TODO
+	it("single-line formatted text block", () =>
+		build({
+			type: 'formattedText',
+			children: [text('\tlorem ipsum ~')]
+		})
+		.should.equal(`<pre>lorem ipsum</pre>`)
+	);
+
+	it("multi-line formatted text block", () =>
+		build({
+			type: 'formattedText',
+			children: [
+				text('\t+-----------+'),
+				text('\t|           |'),
+				text('\t|    VIM    |'),
+				text('\t|           |'),
+				text('\t+-----------+'),
+			]
+		})
+		.should.equal(`<pre>+-----------+\n|           |\n|    VIM    |\n|           |\n+-----------+</pre>`)
+	);
 
 });
 /**
