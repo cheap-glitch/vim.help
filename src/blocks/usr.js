@@ -397,10 +397,13 @@ module.exports = {
 	 * Table
 	 */
 	table: {
-		start: ct => (RE_TABLE_START_INDENT.test(ct.line) && (RE_TABLE_START_INDENT.test(ct.nextLine) || ct.nextLine.startsWith('\t\t')))
-		          || RE_TABLE_START_NO_INDENT.test(ct.line),
+		start: ct => RE_TABLE_START_NO_INDENT.test(ct.line)
+			  || (RE_TABLE_START_INDENT.test(ct.line) && (
+			         RE_TABLE_START_INDENT.test(ct.nextLine)
+			      || ct.nextLine.startsWith('\t\t')
+			      || (isEmpty(ct.nextLine) && RE_TABLE_START_INDENT.test(ct.nextNextLine)))),
 
-		end:   ct => isEmpty(ct.nextLine),
+		end:   ct => isEmpty(ct.nextLine) && !RE_TABLE_START_INDENT.test(ct.nextNextLine),
 
 		containedBlocks: [
 			'tableHeader',

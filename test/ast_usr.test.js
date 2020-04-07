@@ -1372,8 +1372,8 @@ describe("tables", () => {
 	);
 	// }}}
 
-	// Table directly following a paragraph (usr_06, 159) {{{
-	it("table directly following a paragraph", () => getAST(`
+	// Table inside of a list item (usr_06, 159) {{{
+	it("table inside of a list item", () => getAST(`
 
 		2. Edit the color scheme file.  These entries are useful:
 
@@ -1409,6 +1409,60 @@ describe("tables", () => {
 				]
 			}]
 		}))
+	);
+	// }}}
+
+	// Table with an empty line bewteen each row (usr_42, 260) {{{
+	it("table with an empty line bewteen each row", () => getAST(`
+		command like: >
+
+			:set guioptions-=m
+		<
+			m		When removed the menubar is not displayed.
+
+			M		When added the default menus are not loaded.
+
+			g		When removed the inactive menu items are not made grey
+					but are completely removed.  (Does not work on all
+					systems.)
+
+			t		When removed the tearoff feature is not enabled.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['command like: >']
+			},
+			{
+				type: 'commandBlock',
+				children: ['\t:set guioptions-=m']
+			},
+			{
+				type: 'paragraph',
+				children: ['<']
+			},
+			{
+				type: 'table',
+				children: [
+					{
+						type: 'tableRow',
+						children: ['\tm\t\tWhen removed the menubar is not displayed.']
+					},
+					{
+						type: 'tableRow',
+						children: ['\tM\t\tWhen added the default menus are not loaded.']
+					},
+					{
+						type: 'tableRow',
+						children: ['\tg\t\tWhen removed the inactive menu items are not made grey', '\t\t\tbut are completely removed.  (Does not work on all', '\t\t\tsystems.)']
+					},
+					{
+						type: 'tableRow',
+						children: ['\tt\t\tWhen removed the tearoff feature is not enabled.']
+					}
+				]
+			}
+		]))
 	);
 	// }}}
 

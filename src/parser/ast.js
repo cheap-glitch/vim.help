@@ -34,6 +34,7 @@ module.exports = function(blocks, lines)
 
 			previousLine: index > 0                ? lines[index - 1] : '',
 			nextLine:     index < lines.length - 1 ? lines[index + 1] : '',
+			nextNextLine: index < lines.length - 2 ? lines[index + 2] : '',
 			emptyLines:   nbConsEmptyLines,
 
 			current:      currentNode,
