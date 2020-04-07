@@ -136,6 +136,13 @@ function formatInlineText(filename, line)
 	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
 
 	/**
+	 * Placeholders ({word}, <word>)
+	 * =====================================================================
+	 */
+
+	.replace(/(?:^|(?<= ))(?:\{|&lt;)\w+(?:&gt;|\})(?:(?= )|$)/g, placeholder => wrapHTML(placeholder, 'span', { class: 'placeholder' }))
+
+	/**
 	 * Inline code & commands
 	 * =====================================================================
 	 *

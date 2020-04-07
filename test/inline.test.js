@@ -135,6 +135,23 @@ describe("key bindings", () => {
  */
 
 /**
+ * Placeholders
+ * {{{
+ * =============================================================================
+ */
+describe("placeholders", () => {
+
+	it("should wrap placeholders", () => {
+		format('{word}').should.equal('<span class="placeholder">{word}</span>');
+		format('<word>').should.equal('<span class="placeholder">&lt;word&gt;</span>');
+	});
+
+});
+/**
+ * }}}
+ */
+
+/**
  * Inline code & commands
  * {{{
  * =============================================================================

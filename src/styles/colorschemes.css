@@ -249,7 +249,7 @@
 	--color--option--text: #f07178;
 	--color--command--text: #b8cc52;
 	--color--keybinding--text: #ff7733;
-	--color--placeholder--text: lightcoral;
+	--color--placeholder--text: #f29718;
 }
 
 /**
@@ -322,8 +322,8 @@
 
 	--color--option--text: #f07178;
 	--color--command--text: #2aa198;
-	--color--keybinding--text: #ffb454;
-	--color--placeholder--text: lightcoral;
+	--color--keybinding--text: #f29718;
+	--color--placeholder--text: #ffb454;
 }
 
 /**
