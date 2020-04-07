@@ -38,7 +38,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "autoprefixer": "^9.7.5",
+    "autoprefixer": "^9.7.6",
     "cross-env": "^7.0.2",
     "cssnano": "^4.1.10",
     "gray-matter": "^4.0.2",

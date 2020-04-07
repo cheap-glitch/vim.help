@@ -202,6 +202,11 @@ function formatInlineText(filename, line)
 	 */
 
 	/**
+	 * Wrap placeholders ({word})
+	 */
+	.replace(/\{\w+\}/g, placeholder => wrapHTML(placeholder, 'span', { class: 'placeholder' }))
+
+	/**
 	 * Turn URLs into anchors
 	 *
 	 * Don't capture dots at the end of sentences or lines,

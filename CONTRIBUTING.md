@@ -20,8 +20,8 @@ Here are a few suggestions to contribute to the project:
       letter at the beginning and no full stop at the end
 
 3. If you modify or add to the  behaviour of the parser, **please write or adapt
-   the tests needed** to  cover the newly supported cases.  Tests are absolutely
-   the essential to long-term maintenance of the code!
+   the tests** needed to  cover the newly supported cases.  Tests are absolutely
+   essential to the long-term maintenance of the code!
 
 ## About the parser
 
@@ -37,7 +37,8 @@ same for every file:
 
 2. The parser then recursively reduces the  tree to an HTML string, wrapping the
    contents of each  node in its corresponding HTML tag.  During this step, text
-   node are also parsed for inline tags and other elements
+   nodes are  also parsed for inline  tags and other special  text elements (key
+   bindings, placeholders, etc.)
    (cf. [`parser/html.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/parser/html.js))
 
 What will change, depending on the help file being processed, is the definitions
@@ -47,14 +48,15 @@ produce an HTML string.
   * For the user manual pages, cf. [`blocks/usr.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr.js)
   * For the user manual ToC, cf. [`blocks/usr_toc.js`](https://github.com/cheap-glitch/vim.help/blob/master/src/blocks/usr_toc.js)
 
-### About blocks
+### Defining blocks
 
 Each block is an object with at least four mandatory properties:
 
  * `start`: a  function which will be  executed by the  parser to know if  a new
    block of  this type should  start at  the current line.  It will be  passed a
-   single argument,  a `context`  object which holds  the previous,  current and
-   next line, and the number of consecutive empty lines.
+   single argument:  a `context`  object which holds  the previous,  current and
+   next line  ; the  current and parent  nodes ; and  the number  of consecutive
+   empty lines.
 
  * `end`: same as above, but if it returns `true` then the current block will be
    closed on  the current  line (meaning  that a  block can  be both  opened and
@@ -63,8 +65,8 @@ Each block is an object with at least four mandatory properties:
  * `containedBlocks`: the list of block types this block can contain. The parser
     will only check among those when trying to open a new child node.
 
- * `wrapper`: a function that is given lines of text and should return a blob of
-   HTML.
+ * `wrapper`: a function that is given  lines of text and should return a string
+   of HTML.
 
 Other optional properties are:
 
@@ -72,5 +74,5 @@ Other optional properties are:
    parsed for inline tags and such.
 
  * `transformLines`  and `transformBlock`:  both are functions  that  modify the
-   text content of a node before it's sent to `wrapper()`. The first one will be
-   mapped on every line, while the second is passed the whole array.
+   text content of a  node before it's sent to `wrapper`. The  first one will be
+   mapped on every line, while the second will be given the whole array.
