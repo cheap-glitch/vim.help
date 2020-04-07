@@ -3,8 +3,6 @@
  * scripts/settings.js
  */
 
-/* eslint-env browser */
-
 "use strict";
 
 const settings = {
