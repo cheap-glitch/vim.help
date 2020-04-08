@@ -172,6 +172,11 @@ function formatInlineText(filename, line)
 	.replace(/(?:^|(?<= ))['`](?:&quot;|.)(?:(?= )|$)/g, mark => wrapHTML(mark, 'code'))
 
 	/**
+	 * File paths
+	 */
+	.replace(/(?:^|(?<= ))(?:~\/)?(?:[$.:\w]+[/:])+\w+\/?/g, name => wrapHTML(name, 'code'))
+
+	/**
 	 * Filenames (file.c, script.vim, etc.)
 	 */
 	.replace(/(?:^|(?<= ))\w+\.(?:bat|c|h|txt|vim)/g, name => wrapHTML(name, 'code'))
@@ -179,7 +184,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Variable names ($var, $VAR)
 	 */
-	.replace(/(?:^|(?<= ))\$\w+/g, name => wrapHTML(name, 'code'))
+	.replace(/(?:^|(?<= ))\$\w+\b/g, name => wrapHTML(name, 'code'))
 
 	/**
 	 * Single-character key bindings & register names

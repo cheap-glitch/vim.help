@@ -537,6 +537,50 @@ describe("unordered lists", () => {
 	);
 	// }}}
 
+	// Unordered list adjoining a paragraph (usr_05, 456) {{{
+	it("unordered list adjoining a paragraph", () => getAST(`
+
+		Where can you find plugins?
+		- Some are always loaded, you can see them in the directory $VIMRUNTIME/plugin.
+		- Some come with Vim.  You can find them in the directory $VIMRUNTIME/macros
+		  and its sub-directories and under $VIM/vimfiles/pack/dist/opt/.
+		- Download from the net.  There is a large collection on http://www.vim.org.
+		- They are sometimes posted in a Vim |maillist|.
+		- You could write one yourself, see |write-plugin|.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['Where can you find plugins?']
+			},
+			{
+				type: 'unorderedList',
+				children: [
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Some are always loaded, you can see them in the directory $VIMRUNTIME/plugin.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Some come with Vim.  You can find them in the directory $VIMRUNTIME/macros', '  and its sub-directories and under $VIM/vimfiles/pack/dist/opt/.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Download from the net.  There is a large collection on http://www.vim.org.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- They are sometimes posted in a Vim |maillist|.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- You could write one yourself, see |write-plugin|.'] }]
+					},
+				]
+			}
+		]))
+	);
+	// }}}
 });
 
 describe("tables of contents", () => {
@@ -1125,6 +1169,74 @@ describe("formatted text blocks", () => {
 	);
 	// }}}
 
+	// Text block with some tabulations inside the lines #2 (usr_10, 728) {{{
+	it("text block with some tabulations inside the lines (2)", () => getAST(`
+
+			line 55			      line 11
+			line 33			      line 22
+			line 11		-->	      line 33
+			line 22			      line 44
+			line 44			      line 55
+			last line		      last line
+
+		`).should.deep.equal(wrapNodes({
+			type: 'formattedText',
+			children: [
+				'\tline 55\t\t\t      line 11',
+				'\tline 33\t\t\t      line 22',
+				'\tline 11\t\t-->\t      line 33',
+				'\tline 22\t\t\t      line 44',
+				'\tline 44\t\t\t      line 55',
+				'\tlast line\t\t      last line',
+			],
+		}))
+	);
+	// }}}
+
+	// Text block with some tabulations inside the lines #3 (usr_03, 194) {{{
+	it("text block with some tabulations inside the lines (3)", () => getAST(`
+
+			    |	first line of a file   ^
+			    |	text text text text    |
+			    |	text text text text    |  gg
+			7G  |	text text text text    |
+			    |	text text text text
+			    |	text text text text
+			    V	text text text text    |
+				text text text text    |  G
+				text text text text    |
+				last line of a file    V
+
+		`).should.deep.equal(wrapNodes({
+			type: 'formattedText',
+			children: [
+				'\t    |\tfirst line of a file   ^',
+				'\t    |\ttext text text text    |',
+				'\t    |\ttext text text text    |  gg',
+				'\t7G  |\ttext text text text    |',
+				'\t    |\ttext text text text',
+				'\t    |\ttext text text text',
+				'\t    V\ttext text text text    |',
+				'\t\ttext text text text    |  G',
+				'\t\ttext text text text    |',
+				'\t\tlast line of a file    V',
+			],
+		}))
+	);
+	// }}}
+
+	// Text block with some tabulations inside the lines #4 (usr_05, 633) {{{
+	it("text block with some tabulations inside the lines (4)", () => getAST(`
+
+			set wrap	nowrap ~
+
+		`).should.deep.equal(wrapNodes({
+			type: 'formattedText',
+			children: ['\tset wrap\tnowrap ~'],
+		}))
+	);
+	// }}}
+
 	// Non-indented formatted block (usr_22, 33) {{{
 	it("non-indented formatted block", () => getAST(`
 
@@ -1462,6 +1574,48 @@ describe("tables", () => {
 					}
 				]
 			}
+		]))
+	);
+	// }}}
+
+	// Table with an empty line bewteen each row, mutli-line rows and space indentation (usr_05, 354) {{{
+	it("table with an empty line bewteen each row and mutli-line rows and space indentation", () => getAST(`
+		Let's break this down:
+		    <F5>	The F5 function key.  This is the trigger key that causes the
+				command to be executed as the key is pressed.
+
+		    i{<Esc>	Insert the { character.  The <Esc> key ends Insert mode.
+
+		    e		Move to the end of the word.
+
+		    a}<Esc>	Append the } to the word.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ["Let's break this down:"]
+			},
+			{
+				type: 'table',
+				children: [
+					{
+						type: 'tableRow',
+						children: ['    <F5>\tThe F5 function key.  This is the trigger key that causes the', '\t\tcommand to be executed as the key is pressed.']
+					},
+					{
+						type: 'tableRow',
+						children: ['    i{<Esc>\tInsert the { character.  The <Esc> key ends Insert mode.']
+					},
+					{
+						type: 'tableRow',
+						children: ['    e\t\tMove to the end of the word.']
+					},
+					{
+						type: 'tableRow',
+						children: ['    a}<Esc>\tAppend the } to the word.']
+					}
+				]
+			},
 		]))
 	);
 	// }}}
