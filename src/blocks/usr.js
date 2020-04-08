@@ -21,9 +21,9 @@ const RE_START_OL                 = /^\t?\d{1,2}[.)] /;
 const RE_START_UL                 = /^- {1,2}(?=\S)/;
 const RE_START_TOC                = /^\|(\d{2}\.\d{1,2})\|\t/;
 const RE_SUB_HEADER               = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
-const RE_TABLE_START_INDENT       = /^<?\t\S[^\t]*\t+\S[^\t]+(?:\t~)?$/;
-const RE_TABLE_START_NO_INDENT    = /^[^\t<]+\t{1,2}[^\t]+$/;
-const RE_TABLE_START_SPACE_INDENT = /^ {4,}\S+\t{1,2}[^\t]+$/;
+const RE_START_TABLE_NO_INDENT    = /^[^\t<]+\t{1,2}[^\t]+$/;
+const RE_START_TABLE_INDENT_TAB   = /^<?\t\S[^\t]*\t+\S[^\t]+(?:\t~)?$/;
+const RE_START_TABLE_INDENT_SPACE = /^ {4,}\S+\t{1,2}[^\t]+$/;
 
 /**
  * Block definitions
@@ -308,7 +308,8 @@ module.exports = {
 				                     || ct.nextLine.endsWith(STR_FORMATTED_BLOCK_END);
 				default:         return ct.line == '<'
 				                     || /^\s/.test(ct.nextLine)
-				                     || RE_TABLE_START_NO_INDENT.test(ct.nextLine);
+				                     || RE_START_TABLE_NO_INDENT.test(ct.nextLine)
+				                     || RE_START_UL.test(ct.nextLine);
 			}
 		},
 
@@ -398,13 +399,13 @@ module.exports = {
 	 * Table
 	 */
 	table: {
-		start: ct => RE_TABLE_START_INDENT.test(ct.line)
-		          || RE_TABLE_START_NO_INDENT.test(ct.line)
-		          || RE_TABLE_START_SPACE_INDENT.test(ct.line),
+		 start: ct => RE_START_TABLE_NO_INDENT.test(ct.line)
+		           || RE_START_TABLE_INDENT_TAB.test(ct.line)
+		           || RE_START_TABLE_INDENT_SPACE.test(ct.line),
 
 		end:   ct => isEmpty(ct.nextLine)
-		          && !RE_TABLE_START_INDENT.test(ct.nextNextLine)
-		          && !RE_TABLE_START_SPACE_INDENT.test(ct.nextNextLine),
+		          && !RE_START_TABLE_INDENT_TAB.test(ct.nextNextLine)
+		          && !RE_START_TABLE_INDENT_SPACE.test(ct.nextNextLine),
 
 		containedBlocks: [
 			'tableHeader',

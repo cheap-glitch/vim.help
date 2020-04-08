@@ -537,6 +537,50 @@ describe("unordered lists", () => {
 	);
 	// }}}
 
+	// Unordered list adjoining a paragraph (usr_05, 456) {{{
+	it("unordered list adjoining a paragraph", () => getAST(`
+
+		Where can you find plugins?
+		- Some are always loaded, you can see them in the directory $VIMRUNTIME/plugin.
+		- Some come with Vim.  You can find them in the directory $VIMRUNTIME/macros
+		  and its sub-directories and under $VIM/vimfiles/pack/dist/opt/.
+		- Download from the net.  There is a large collection on http://www.vim.org.
+		- They are sometimes posted in a Vim |maillist|.
+		- You could write one yourself, see |write-plugin|.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['Where can you find plugins?']
+			},
+			{
+				type: 'unorderedList',
+				children: [
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Some are always loaded, you can see them in the directory $VIMRUNTIME/plugin.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Some come with Vim.  You can find them in the directory $VIMRUNTIME/macros', '  and its sub-directories and under $VIM/vimfiles/pack/dist/opt/.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- Download from the net.  There is a large collection on http://www.vim.org.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- They are sometimes posted in a Vim |maillist|.'] }]
+					},
+					{
+						type: 'listItem',
+						children: [{ type: 'paragraph', children: ['- You could write one yourself, see |write-plugin|.'] }]
+					},
+				]
+			}
+		]))
+	);
+	// }}}
 });
 
 describe("tables of contents", () => {

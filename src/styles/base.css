@@ -430,8 +430,11 @@ li pre {
 
 a {
 	text-decoration: none;
-
 	color: var(--color--anchor--text);
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 /**
