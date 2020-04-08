@@ -1225,6 +1225,18 @@ describe("formatted text blocks", () => {
 	);
 	// }}}
 
+	// Text block with some tabulations inside the lines #4 (usr_05, 633) {{{
+	it("text block with some tabulations inside the lines (4)", () => getAST(`
+
+			set wrap	nowrap ~
+
+		`).should.deep.equal(wrapNodes({
+			type: 'formattedText',
+			children: ['\tset wrap\tnowrap ~'],
+		}))
+	);
+	// }}}
+
 	// Non-indented formatted block (usr_22, 33) {{{
 	it("non-indented formatted block", () => getAST(`
 

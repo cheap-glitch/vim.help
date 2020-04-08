@@ -401,8 +401,8 @@ module.exports = {
 	 */
 	table: {
 		 start: ct => RE_START_TABLE_NO_INDENT.test(ct.line)
-		           || RE_START_TABLE_INDENT_TAB.test(ct.line)
-		           || RE_START_TABLE_INDENT_SPACE.test(ct.line),
+		           || RE_START_TABLE_INDENT_SPACE.test(ct.line)
+		           || RE_START_TABLE_INDENT_TAB.test(ct.line) && (!isEmpty(ct.nextLine) || RE_START_TABLE_INDENT_TAB.test(ct.nextNextLine)),
 
 		end:   ct => isEmpty(ct.nextLine)
 		          && !RE_START_TABLE_INDENT_TAB.test(ct.nextNextLine)
