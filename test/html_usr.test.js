@@ -139,13 +139,34 @@ describe("tables of contents", () => {
  */
 describe("notes", () => {
 
-	// @TODO
+	it("simple note block", () =>
+		build({
+			type: 'note',
+			children: [
+				text('\tNote:'),
+				{
+					type: 'paragraph',
+					children: [
+						text('\tLorem ipsum'),
+						text('\tdolor sit amet'),
+					]
+				}
+			]
+		})
+		.should.equal(`<div class="note"><p>Lorem ipsum dolor sit amet</p></div>`)
+	);
 
 });
 
 describe("paragraphs", () => {
 
-	// @TODO
+	it("warning", () =>
+		build({
+			type: 'paragraph',
+			children: [text('WARNING: do NOT do this without doing that')]
+		})
+		.should.equal(`<p class="warning">WARNING: do NOT do this without doing that</p>`)
+	);
 
 });
 
