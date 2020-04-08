@@ -23,8 +23,9 @@ const tags = getRawFileContents('tags').filter(line => line.length).reduce(funct
 
 // Create a spellchecker
 const fs          = require('fs');
+const path        = require('path');
 const { Nodehun } = require('nodehun');
-const spellcheck  = new Nodehun(fs.readFileSync('/usr/share/hunspell/en_US.aff'), fs.readFileSync('/usr/share/hunspell/en_US.dic'));
+const spellcheck  = new Nodehun(fs.readFileSync(path.resolve(__dirname, '.en_US.aff')), fs.readFileSync(path.resolve(__dirname, '.en_US.dic')));
 
 function formatInlineText(filename, line)
 {
