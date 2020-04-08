@@ -309,6 +309,7 @@ module.exports = {
 				default:         return ct.line == '<'
 				                     || /^\s/.test(ct.nextLine)
 				                     || RE_START_TABLE_NO_INDENT.test(ct.nextLine)
+				                     || RE_START_OL.test(ct.nextLine)
 				                     || RE_START_UL.test(ct.nextLine);
 			}
 		},

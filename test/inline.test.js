@@ -267,10 +267,29 @@ describe("inline code & commands", () => {
  */
 describe("others", () => {
 
+	/**
+	 * Placeholders
+	 */
 	it("should wrap placeholders", () => {
 		format('{word}').should.equal('<span class="placeholder">{word}</span>');
 	});
 
+	/**
+	 * File paths
+	 */
+	it("should parse file paths", () => {
+
+		// usr_05 (457 - 478)
+		format('~/.vim/plugin/'              ).should.equal('<code>~/.vim/plugin/</code>');
+		format('s:vimfiles/plugin'           ).should.equal('<code>s:vimfiles/plugin</code>');
+		format('$VIM:vimfiles:plugin'        ).should.equal('<code>$VIM:vimfiles:plugin</code>');
+		format('$HOME/vimfiles/plugin'       ).should.equal('<code>$HOME/vimfiles/plugin</code>');
+		format('$VIM/vimfiles/pack/dist/opt/').should.equal('<code>$VIM/vimfiles/pack/dist/opt/</code>');
+	});
+
+	/**
+	 * URLs
+	 */
 	it("should turn URLs into anchors", () => {
 
 		// if_perl (46)
@@ -294,6 +313,9 @@ describe("others", () => {
 
 	});
 
+	/**
+	 * Emphasized words (_word_)
+	 */
 	it("should parse words surrounded by underscores", () => {
 		format('_foobar_').should.equal('<strong>foobar</strong>');
 
