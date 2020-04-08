@@ -20,7 +20,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production run-s clean 'build:*' postprocess",
     "build:css": "node src/main.js -- css",
-    "build:html": "run-s lint test && node src/main.js -- html",
+    "build:html": "run-s lint 'test -- --reporter min' && node src/main.js -- html",
     "build:js": "node src/main.js -- js",
     "build:static": "node src/main.js -- static",
     "clean": "rimraf public",
