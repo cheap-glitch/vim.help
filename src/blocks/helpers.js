@@ -10,7 +10,7 @@ module.exports = {
 	 */
 	splitFirstCell(lines)
 	{
-		return [lines[0].split('\t')[0], ...lines[0].split('\t').slice(1), ...lines.slice(1)];
+		return [lines[0].split('\t')[0], ...lines[0].replace(/\t{2,}/g, '\t').split('\t').slice(1), ...lines.slice(1)];
 	},
 
 	/**

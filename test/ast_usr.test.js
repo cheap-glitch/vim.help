@@ -1662,8 +1662,5 @@ function cleanAST(node)
  */
 function wrapNodes(nodes)
 {
-	return {
-		type:     'document',
-		children: wrapArray(nodes),
-	}
+	return { type: 'document', children: wrapArray(nodes) };
 }

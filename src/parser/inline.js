@@ -66,19 +66,12 @@ function formatInlineText(filename, line)
 		 * Else, turn the text in a visual tag and
 		 * an anchor pointing to the corresponding target
 		 */
-		const link = getLinkToTag(filename, tag);
 
-		// Don't create a tag if the target doesn't exist
-		if (!link) return tag;
-
-		// Compute the type of tag
 		let type = 'link';
-		if (tag.startsWith(':'))
-			type = 'command';
-		else if (tag.startsWith("'") && tag.endsWith("'"))
-			type = 'option';
+		if (tag.startsWith(':'))                      type = 'command';
+		if (tag.startsWith("'") && tag.endsWith("'")) type = 'option';
 
-		return wrapHTML(tag.replace(/^'|'$/g, ''), 'a', { href: link, class: `tag ${type}` });
+		return wrapHTML(tag.replace(/^'|'$/g, ''), 'a', { href: getLinkToTag(filename, tag), class: `tag ${type}` });
 	})
 
 	/**
@@ -130,7 +123,7 @@ function formatInlineText(filename, line)
 			|| (extra.length == 3 && keybinding != 'CTRL-V')
 		? null : extra;
 
-		return parsedExtra ? wrapHTML(`${parsedKeybinding} ${parsedExtra}`, 'code') : `${parsedKeybinding} ${extra || ''}`;
+		return parsedExtra ? wrapHTML(`${parsedKeybinding} ${parsedExtra}`, 'code') : `${parsedKeybinding} ${extra}`;
 	})
 
 	/**

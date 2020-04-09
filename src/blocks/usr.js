@@ -39,8 +39,7 @@ module.exports = {
 	 */
 
 	document: {
-		start: () => true,
-		end:   () => false,
+		end: () => false,
 
 		containedBlocks: [
 			'toc',
@@ -113,7 +112,7 @@ module.exports = {
 
 				// Make some words uppercase
 				.replace(/(?:^|\b)(?:i|ms|mswin)(?:\b|^)/i, match => match.toUpperCase())
-				.replace('MS-windows', 'MS-Windows')
+				.replace(/ms-windows/i, 'MS-Windows')
 			);
 		},
 

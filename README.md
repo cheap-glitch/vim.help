@@ -42,7 +42,7 @@ finish.
 <!-- /fragment -->
 
 <!-- fragment:contributing -->
-## 💻 Contributing
+## 💻 Contributing [![codecov](https://codecov.io/gh/cheap-glitch/vim.help/branch/master/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/vim.help)
 Contributions are welcomed! While the parser  for the user manual is functional,
 there are still  plenty of edge cases  to catch. Furthermore, many  pages of the
 reference manual have a unique format and  need a special processor to turn them
