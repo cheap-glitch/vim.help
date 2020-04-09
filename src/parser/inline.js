@@ -71,7 +71,7 @@ function formatInlineText(filename, line)
 		if (tag.startsWith(':'))                      type = 'command';
 		if (tag.startsWith("'") && tag.endsWith("'")) type = 'option';
 
-		return wrapHTML(tag.replace(/^'|'$/g, ''), 'a', { href: getLinkToTag(filename, tag), class: `tag ${type}` });
+		return wrapHTML(solidifyHyphens(tag.replace(/^'|'$/g, '')), 'a', { href: getLinkToTag(filename, tag), class: `tag ${type}` });
 	})
 
 	/**
@@ -89,7 +89,7 @@ function formatInlineText(filename, line)
 		// Don't create a tag if the key binding is not in the list or the target doesn't exists
 		if (!tags[option] || !link) return wrapHTML(option, 'code');
 
-		return wrapHTML(name, 'a', {
+		return wrapHTML(solidifyHyphens(name), 'a', {
 			href:  link,
 			class: 'tag option',
 		});
@@ -100,9 +100,6 @@ function formatInlineText(filename, line)
 	 * =====================================================================
 	 *
 	 * Wrap key bindings in <kbd> tags
-	 *
-	 * Also replace the hyphens with non-breaking hyphens
-	 * to prevent the key bindings from being split between two lines
 	 */
 
 	/**
@@ -132,7 +129,7 @@ function formatInlineText(filename, line)
 	 * If two CTRL key bindings follow each other,
 	 * they are part of a single compound key binding
 	 */
-	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(solidifyHyphens(keybinding), 'kbd'))
 
 	/**
 	 * Inline code & commands
@@ -250,6 +247,15 @@ function getLinkToTag(filename, tag)
 				// Tag anchor
 				+ (tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : '')
 			: null;
+}
+
+/**
+ * Replace the hyphens in a string with non-breaking
+ * hyphens to prevent tags from being split between two lines
+ */
+function solidifyHyphens(str)
+{
+	return str.replace(/-/g, '&#8209;');
 }
 
 module.exports = {
