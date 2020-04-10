@@ -793,8 +793,8 @@ describe("paragraphs", () => {
  */
 describe("tag targets", () => {
 
-	// Before a paragraph {{{
-	it("before a paragraph", () => getAST(`
+	// Single target before a paragraph {{{
+	it("single target before a paragraph", () => getAST(`
 
 		People who contribute to the manuals must agree with the above copyright
 		notice.
@@ -813,6 +813,25 @@ describe("tag targets", () => {
 			{
 				type: 'paragraph',
 				children: ['Parts of the user manual come from the book "Vi IMproved - Vim" by Steve'],
+			},
+		]))
+	);
+	// }}}
+
+	// Multiple targets before a paragraph {{{
+	it("single target before a paragraph", () => getAST(`
+
+						*target-one* *target-two*
+		Lorem ipsum dolor sit amet, etc. Lorem ipsum dolor sit amet, etc.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'tagTarget',
+				children: ['\t\t\t\t*target-one* *target-two*'],
+			},
+			{
+				type: 'paragraph',
+				children: ['Lorem ipsum dolor sit amet, etc. Lorem ipsum dolor sit amet, etc.'],
 			},
 		]))
 	);

@@ -59,7 +59,16 @@ module.exports = {
 	 */
 	toKebabCase(str)
 	{
-		return str.toLowerCase().replace(/[ ,.'?!]+/g, '-').replace(/^-+|-+$/g, '');
+		return str.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '');
+	},
+
+	/**
+	 * Replace the hyphens in a string with non-breaking
+	 * hyphens to prevent tags from being split between two lines
+	 */
+	solidifyHyphens(str)
+	{
+		return str.replace(/-/g, '&#8209;');
 	},
 
 	/**

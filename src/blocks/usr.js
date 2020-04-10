@@ -7,6 +7,7 @@ const { wrapHTML         } = require('../helpers.js');
 const { generateStr      } = require('../helpers.js');
 const { toKebabCase      } = require('../helpers.js');
 const { removeTagTargets } = require('../helpers.js');
+const { solidifyHyphens  } = require('../helpers.js');
 
 const { isEmpty          } = require('./helpers.js');
 const { isSeparator      } = require('./helpers.js');
@@ -335,7 +336,10 @@ module.exports = {
 			const targets = lines[0].trim().split(' ');
 
 			return wrapHTML(
-				wrapHTML(targets.map(t => wrapHTML(t.replace(/\*/g, ''), 'span', { class: 'target' })).join(''), 'div', { class: 'targets-wrapper' }),
+				wrapHTML(
+					targets.map(target => wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'span', { class: 'target', id: toKebabCase(target) })).join(''),
+					'div', { class: 'targets-wrapper' }
+				),
 				'div', { class: 'targets-fixing' }
 			);
 		}

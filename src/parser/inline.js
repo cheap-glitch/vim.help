@@ -8,6 +8,7 @@ const { isUserManual       } = require('../helpers.js');
 const { toKebabCase        } = require('../helpers.js');
 const { wrapHTML           } = require('../helpers.js');
 const { removeTagTargets   } = require('../helpers.js');
+const { solidifyHyphens    } = require('../helpers.js');
 const { getRawFileContents } = require('../helpers.js');
 
 const files = require('../files.js');
@@ -247,15 +248,6 @@ function getLinkToTag(filename, tag)
 				// Tag anchor
 				+ (tag !== `${tags[tag]}.txt` ? `#${encodeURIComponent(tag)}` : '')
 			: null;
-}
-
-/**
- * Replace the hyphens in a string with non-breaking
- * hyphens to prevent tags from being split between two lines
- */
-function solidifyHyphens(str)
-{
-	return str.replace(/-/g, '&#8209;');
 }
 
 module.exports = {
