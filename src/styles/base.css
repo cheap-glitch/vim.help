@@ -377,8 +377,9 @@ p.warning {
  * =============================================================================
  */
 
-p      { margin-top: 20px; }
-h3 + p { margin-top: 10px; }
+p                   { margin-top: 20px; }
+h3 + p              { margin-top: 10px; }
+.targets-fixing + p { margin-top: 10px; }
 
 p.centered {
 	text-align: center;
@@ -534,6 +535,19 @@ kbd          { color: var(--color--keybinding--text);  }
 
 	:not(h3) > .header-anchor {
 		position: static;
+	}
+
+	.targets-fixing {
+		margin-top: 20px;
+	}
+
+	.targets-wrapper {
+		position: static;
+		justify-content: flex-end;
+	}
+
+	.target:first-child {
+		margin: 0;
 	}
 }
 
