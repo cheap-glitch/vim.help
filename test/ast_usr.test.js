@@ -787,6 +787,43 @@ describe("paragraphs", () => {
  */
 
 /**
+ * Tag targets
+ * {{{
+ * =============================================================================
+ */
+describe("tag targets", () => {
+
+	// Before a paragraph {{{
+	it("before a paragraph", () => getAST(`
+
+		People who contribute to the manuals must agree with the above copyright
+		notice.
+									*frombook*
+		Parts of the user manual come from the book "Vi IMproved - Vim" by Steve
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['People who contribute to the manuals must agree with the above copyright', 'notice.'],
+			},
+			{
+				type: 'tagTarget',
+				children: ['\t\t\t\t\t\t\t*frombook*'],
+			},
+			{
+				type: 'paragraph',
+				children: ['Parts of the user manual come from the book "Vi IMproved - Vim" by Steve'],
+			},
+		]))
+	);
+	// }}}
+
+});
+/**
+ * }}}
+ */
+
+/**
  * Command blocks
  * {{{
  * =============================================================================

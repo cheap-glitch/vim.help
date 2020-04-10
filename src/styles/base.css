@@ -179,7 +179,7 @@ body, #button-setting-font {
 	font-size: var(--font-size--body);
 }
 
-pre, code, kbd, .tag, .placeholder {
+pre, code, kbd, .tag, .target, .placeholder {
 	font-family: "Hack", "Fira Mono", monospace;
 	font-size: 1.5rem;
 }
@@ -470,12 +470,12 @@ kbd          { color: var(--color--keybinding--text);  }
  */
 
 /**
- * Tags
+ * Tags & targets
  * {{{
  * =============================================================================
  */
 
-.tag {
+.tag, .target {
 	padding: 2px;
 
 	border: 1px solid var(--color--tag--border);
@@ -489,6 +489,22 @@ kbd          { color: var(--color--keybinding--text);  }
 .tag.option     { color: var(--color--option--text);     }
 .tag.command    { color: var(--color--command--text);    }
 .tag.keybinding { color: var(--color--keybinding--text); }
+
+.targets-fixing {
+	position: relative;
+}
+
+.targets-wrapper {
+	display: flex;
+
+	position: absolute;
+	top: 20px;
+	left: 100%;
+}
+
+.target {
+	margin-left: 20px;
+}
 
 /**
  * }}}

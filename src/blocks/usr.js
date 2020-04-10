@@ -52,6 +52,7 @@ module.exports = {
 			'table',
 
 			'note',
+			'tagTarget',
 			'commandBlock',
 			'formattedText',
 
@@ -318,6 +319,26 @@ module.exports = {
 		transformLines: line => removeCodeMarkers(line).replace(RE_START_OL, '').replace(RE_START_UL, ''),
 
 		wrapper: lines => wrapHTML(lines.join(' '), 'p', { class: lines[0].startsWith('WARNING:') ? 'warning' : null })
+	},
+
+	/**
+	 * Tag target
+	 */
+	tagTarget: {
+		start: ct => /^\t{2,}(?:\*[\w-]+\* *)+/.test(ct.line),
+		end:   () => true,
+
+		containedBlocks: [],
+
+		wrapper(lines)
+		{
+			const targets = lines[0].trim().split(' ');
+
+			return wrapHTML(
+				wrapHTML(targets.map(t => wrapHTML(t.replace(/\*/g, ''), 'span', { class: 'target' })).join(''), 'div', { class: 'targets-wrapper' }),
+				'div', { class: 'targets-fixing' }
+			);
+		}
 	},
 
 	/**
