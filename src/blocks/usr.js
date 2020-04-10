@@ -337,7 +337,11 @@ module.exports = {
 
 			return wrapHTML(
 				wrapHTML(
-					targets.map(target => wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'span', { class: 'target', id: toKebabCase(target) })).join(''),
+					targets.map(target => wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'a', {
+						id:    toKebabCase(target),
+						href:  '#' + toKebabCase(target),
+						class: 'target',
+					})).join(''),
 					'div', { class: 'targets-wrapper' }
 				),
 				'div', { class: 'targets-fixing' }
