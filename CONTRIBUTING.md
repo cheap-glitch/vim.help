@@ -22,6 +22,7 @@ Here are a few suggestions to contribute to the project:
 3. If you modify or add to the  behaviour of the parser, **please write or adapt
    the tests** needed to  cover the newly supported cases.  Tests are absolutely
    essential to the long-term maintenance of the code!
+   Current code coverage: [![codecov](https://codecov.io/gh/cheap-glitch/vim.help/branch/master/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/vim.help)
 
 ## About the parser
 

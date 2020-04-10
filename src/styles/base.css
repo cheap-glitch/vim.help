@@ -179,7 +179,7 @@ body, #button-setting-font {
 	font-size: var(--font-size--body);
 }
 
-pre, code, kbd, .tag, .placeholder {
+pre, code, kbd, .tag, .target, .placeholder {
 	font-family: "Hack", "Fira Mono", monospace;
 	font-size: 1.5rem;
 }
@@ -377,8 +377,9 @@ p.warning {
  * =============================================================================
  */
 
-p      { margin-top: 20px; }
-h3 + p { margin-top: 10px; }
+p                   { margin-top: 20px; }
+h3 + p              { margin-top: 10px; }
+.targets-fixing + p { margin-top: 10px; }
 
 p.centered {
 	text-align: center;
@@ -442,6 +443,48 @@ a:hover {
  */
 
 /**
+ * Tags & targets
+ * {{{
+ * =============================================================================
+ */
+
+.tag, .target {
+	padding: 2px;
+
+	border: 1px solid var(--color--tag--border);
+}
+
+.tag            { border-color: var(--color--tag--border);       }
+.note .tag      { border-color: var(--color--tag--border--note); }
+.target         { border-color: var(--color--target--border);    }
+
+.tag.link       { color: var(--color--anchor--text);             }
+.tag.option     { color: var(--color--option--text);             }
+.tag.command    { color: var(--color--command--text);            }
+.tag.keybinding { color: var(--color--keybinding--text);         }
+.target         { color: var(--color--target--text);             }
+
+.targets-fixing {
+	position: relative;
+}
+
+.targets-wrapper {
+	display: flex;
+
+	position: absolute;
+	top: 20px;
+	left: 100%;
+}
+
+.target {
+	margin-left: 20px;
+}
+
+/**
+ * }}}
+ */
+
+/**
  * Inline code & keybindings
  * {{{
  * =============================================================================
@@ -470,31 +513,6 @@ kbd          { color: var(--color--keybinding--text);  }
  */
 
 /**
- * Tags
- * {{{
- * =============================================================================
- */
-
-.tag {
-	padding: 2px;
-
-	border: 1px solid var(--color--tag--border);
-}
-
-.note .tag {
-	border-color: var(--color--tag--border--note);
-}
-
-.tag.link       { color: var(--color--anchor--text);     }
-.tag.option     { color: var(--color--option--text);     }
-.tag.command    { color: var(--color--command--text);    }
-.tag.keybinding { color: var(--color--keybinding--text); }
-
-/**
- * }}}
- */
-
-/**
  * Mobile
  * {{{
  * =============================================================================
@@ -517,6 +535,19 @@ kbd          { color: var(--color--keybinding--text);  }
 
 	:not(h3) > .header-anchor {
 		position: static;
+	}
+
+	.targets-fixing {
+		margin-top: 20px;
+	}
+
+	.targets-wrapper {
+		position: static;
+		justify-content: flex-end;
+	}
+
+	.target:first-child {
+		margin: 0;
 	}
 }
 

@@ -10,7 +10,7 @@ const blocksUsr = require('../src/blocks/usr.js');
 
 // Helpers
 const text   = str  => ({ type: 'text', text: str });
-const build  = node => buildHTML('usr_01', blocksUsr, { containedBlocks: [], ...node });
+const build  = node => buildHTML('usr_01', blocksUsr, { type: 'document', children: [{ containedBlocks: [], ...node }] });
 const inline = html => html.replace(/\t|\n/g, '').replace(/\[SPACE\]/g, ' ');
 
 describe("html output", () => {
@@ -49,6 +49,12 @@ it("sub-section headers", () => {
 		children: [text('LOREM IPSUM *tag-target*')],
 	})
 	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum</h3>');
+
+	build({
+		type: 'subSectionHeader',
+		children: [text('I HATE MS-WINDOWS')],
+	})
+	.should.equal('<h3 id="i-hate-ms-windows"><a href="#i-hate-ms-windows" class="header-anchor">#</a>I hate MS-Windows</h3>');
 
 });
 /**
@@ -125,7 +131,38 @@ describe("unordered lists", () => {
 
 describe("tables of contents", () => {
 
-	// @TODO
+	it("simple ToC", () =>
+		build({
+			type: 'toc',
+			children: [
+				{
+					type: 'tocItem',
+					children: [text('|01.1|\tTwo manuals')]
+				},
+				{
+					type: 'tocItem',
+					children: [text('|01.2|\tVim installed')]
+				},
+				{
+					type: 'tocItem',
+					children: [text('|01.3|\tUsing the Vim tutor')]
+				},
+				{
+					type: 'tocItem',
+					children: [text('|01.4|\tCopyright')]
+				}
+			]
+		})
+		.should.equal(inline(`
+		<ol class="table-of-contents">
+			<p><strong>Table of contents</strong></p>[SPACE]
+			<li><a href="#01.1">Two manuals</a></li>[SPACE]
+			<li><a href="#01.2">Vim installed</a></li>[SPACE]
+			<li><a href="#01.3">Using the Vim tutor</a></li>[SPACE]
+			<li><a href="#01.4">Copyright</a></li>
+		</ol>
+		`))
+	);
 
 });
 /**
@@ -160,12 +197,31 @@ describe("notes", () => {
 
 describe("paragraphs", () => {
 
+	it("paragraph with code markers", () =>
+		build({
+			type: 'paragraph',
+			children: [
+				text('<'),
+				text('lorem ipsum >'),
+			]
+		})
+		.should.equal(`<p> lorem ipsum</p>`)
+	);
+
 	it("warning", () =>
 		build({
 			type: 'paragraph',
 			children: [text('WARNING: do NOT do this without doing that')]
 		})
 		.should.equal(`<p class="warning">WARNING: do NOT do this without doing that</p>`)
+	);
+
+	it("empty paragraph", () =>
+		build({
+			type: 'paragraph',
+			children: [text('<')]
+		})
+		.should.equal(``)
 	);
 
 });
@@ -217,6 +273,22 @@ describe("formatted text", () => {
 		.should.equal(`<pre>+-----------+\n|           |\n|    VIM    |\n|           |\n+-----------+</pre>`)
 	);
 
+	it("warning message", () =>
+		build({
+			type: 'formattedText',
+			children: [text('\tW123: this is a warning ~')]
+		})
+		.should.equal(`<pre class="message-warning">W123: this is a warning</pre>`)
+	);
+
+	it("warning message", () =>
+		build({
+			type: 'formattedText',
+			children: [text('\tE123: this is an error ~')]
+		})
+		.should.equal(`<pre class="message-error">E123: this is an error</pre>`)
+	);
+
 });
 /**
  * }}}
@@ -229,7 +301,73 @@ describe("formatted text", () => {
  */
 describe("tables", () => {
 
-	// @TODO
+	it("table with single-line rows", () =>
+		build({
+			type: 'table',
+			children: [
+				{
+					type: 'tableRow',
+					children: [text('\t0\tnever')]
+				},
+				{
+					type: 'tableRow',
+					children: [text('\t1\tonly when there are split windows (the default)')]
+				},
+				{
+					type: 'tableRow',
+					children: [text('\t2\talways')]
+				}
+			]
+		}).should.equal(inline(`
+		<table>
+			<tr><td><code>0</code></td><td>never</td></tr>[SPACE]
+			<tr><td><code>1</code></td><td>only when there are split windows (the default)</td></tr>[SPACE]
+			<tr><td><code>2</code></td><td>always</td></tr>
+		</table>
+		`))
+	);
+
+	it("table with multi-line rows", () =>
+		build({
+			type: 'table',
+			children: [
+				{
+					type: 'tableRow',
+					children: [text('\ta\tlorem ipsum'), text('\t\tdolor sit amet')]
+				},
+				{
+					type: 'tableRow',
+					children: [text('\tb\tmemento mori')]
+				}
+			]
+		}).should.equal(inline(`
+		<table>
+			<tr><td><code>a</code></td><td>lorem ipsum dolor sit amet</td></tr>[SPACE]
+			<tr><td><code>b</code></td><td>memento mori</td></tr>
+		</table>
+		`))
+	);
+
+	it("table with headers", () =>
+		build({
+			type: 'table',
+			children: [
+				{
+					type: 'tableHeader',
+					children: [text('\tsystem\t\tplugin directory ~')]
+				},
+				{
+					type: 'tableRow',
+					children: [text('\tUnix or Linux\t\t~/.vim/plugin/')]
+				}
+			]
+		}).should.equal(inline(`
+		<table>
+			<tr><th>system</th><th>plugin directory</th></tr>[SPACE]
+			<tr><td>Unix or Linux</td><td><code>~/.vim/plugin/</code></td></tr>
+		</table>
+		`))
+	);
 
 });
 /**

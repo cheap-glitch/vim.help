@@ -79,24 +79,25 @@ switch ([...process.argv].pop())
 
 			// Optionally apply some corrections to the raw text
 			if (filename in corrections)
+			{
 				for (const [location, correct] of Object.entries(corrections[filename]))
-					switch (typeof location)
+				{
+					// Range of lines
+					if (location.includes('-'))
 					{
-						// Single line
-						case 'number':
-							contents[location - 1] = correct(contents[location - 1]);
-							break;
+						const start = parseInt(location.split('-')[0], 10);
+						const end   = parseInt(location.split('-')[1], 10);
 
-						// Range of lines
-						case 'string':
-							const start = parseInt(location.split('-')[0], 10);
-							const end   = parseInt(location.split('-')[1], 10);
-
-							for (let i = start; i <= end; i++)
-								contents[i - 1] = correct(contents[i - 1]);
-
-							break;
+						for (let i = start; i <= end; i++)
+							contents[i - 1] = correct(contents[i - 1]);
 					}
+					// Single line
+					else
+					{
+						contents[location - 1] = correct(contents[location - 1]);
+					}
+				}
+			}
 
 			writeHTMLPage((isUserManual(filename) ? `${filename.slice(4)}-` : '') + toKebabCase(title), {
 				title:    title,

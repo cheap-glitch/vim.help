@@ -787,6 +787,62 @@ describe("paragraphs", () => {
  */
 
 /**
+ * Tag targets
+ * {{{
+ * =============================================================================
+ */
+describe("tag targets", () => {
+
+	// Single target before a paragraph {{{
+	it("single target before a paragraph", () => getAST(`
+
+		People who contribute to the manuals must agree with the above copyright
+		notice.
+									*frombook*
+		Parts of the user manual come from the book "Vi IMproved - Vim" by Steve
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'paragraph',
+				children: ['People who contribute to the manuals must agree with the above copyright', 'notice.'],
+			},
+			{
+				type: 'tagTarget',
+				children: ['\t\t\t\t\t\t\t*frombook*'],
+			},
+			{
+				type: 'paragraph',
+				children: ['Parts of the user manual come from the book "Vi IMproved - Vim" by Steve'],
+			},
+		]))
+	);
+	// }}}
+
+	// Multiple targets before a paragraph {{{
+	it("single target before a paragraph", () => getAST(`
+
+						*target-one* *target-two*
+		Lorem ipsum dolor sit amet, etc. Lorem ipsum dolor sit amet, etc.
+
+		`).should.deep.equal(wrapNodes([
+			{
+				type: 'tagTarget',
+				children: ['\t\t\t\t*target-one* *target-two*'],
+			},
+			{
+				type: 'paragraph',
+				children: ['Lorem ipsum dolor sit amet, etc. Lorem ipsum dolor sit amet, etc.'],
+			},
+		]))
+	);
+	// }}}
+
+});
+/**
+ * }}}
+ */
+
+/**
  * Command blocks
  * {{{
  * =============================================================================
@@ -1662,8 +1718,5 @@ function cleanAST(node)
  */
 function wrapNodes(nodes)
 {
-	return {
-		type:     'document',
-		children: wrapArray(nodes),
-	}
+	return { type: 'document', children: wrapArray(nodes) };
 }

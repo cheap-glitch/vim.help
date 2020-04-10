@@ -8,6 +8,7 @@ const { isUserManual       } = require('../helpers.js');
 const { toKebabCase        } = require('../helpers.js');
 const { wrapHTML           } = require('../helpers.js');
 const { removeTagTargets   } = require('../helpers.js');
+const { solidifyHyphens    } = require('../helpers.js');
 const { getRawFileContents } = require('../helpers.js');
 
 const files = require('../files.js');
@@ -66,19 +67,12 @@ function formatInlineText(filename, line)
 		 * Else, turn the text in a visual tag and
 		 * an anchor pointing to the corresponding target
 		 */
-		const link = getLinkToTag(filename, tag);
 
-		// Don't create a tag if the target doesn't exist
-		if (!link) return tag;
-
-		// Compute the type of tag
 		let type = 'link';
-		if (tag.startsWith(':'))
-			type = 'command';
-		else if (tag.startsWith("'") && tag.endsWith("'"))
-			type = 'option';
+		if (tag.startsWith(':'))                      type = 'command';
+		if (tag.startsWith("'") && tag.endsWith("'")) type = 'option';
 
-		return wrapHTML(tag.replace(/^'|'$/g, ''), 'a', { href: link, class: `tag ${type}` });
+		return wrapHTML(solidifyHyphens(tag.replace(/^'|'$/g, '')), 'a', { href: getLinkToTag(filename, tag), class: `tag ${type}` });
 	})
 
 	/**
@@ -96,7 +90,7 @@ function formatInlineText(filename, line)
 		// Don't create a tag if the key binding is not in the list or the target doesn't exists
 		if (!tags[option] || !link) return wrapHTML(option, 'code');
 
-		return wrapHTML(name, 'a', {
+		return wrapHTML(solidifyHyphens(name), 'a', {
 			href:  link,
 			class: 'tag option',
 		});
@@ -107,9 +101,6 @@ function formatInlineText(filename, line)
 	 * =====================================================================
 	 *
 	 * Wrap key bindings in <kbd> tags
-	 *
-	 * Also replace the hyphens with non-breaking hyphens
-	 * to prevent the key bindings from being split between two lines
 	 */
 
 	/**
@@ -130,7 +121,7 @@ function formatInlineText(filename, line)
 			|| (extra.length == 3 && keybinding != 'CTRL-V')
 		? null : extra;
 
-		return parsedExtra ? wrapHTML(`${parsedKeybinding} ${parsedExtra}`, 'code') : `${parsedKeybinding} ${extra || ''}`;
+		return parsedExtra ? wrapHTML(`${parsedKeybinding} ${parsedExtra}`, 'code') : `${parsedKeybinding} ${extra}`;
 	})
 
 	/**
@@ -139,7 +130,7 @@ function formatInlineText(filename, line)
 	 * If two CTRL key bindings follow each other,
 	 * they are part of a single compound key binding
 	 */
-	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd'))
+	.replace(/(?:^|\b)CTRL-(?:&quot;|Break|[^& ])(?: CTRL-[A-Z])?/g, keybinding => wrapHTML(solidifyHyphens(keybinding), 'kbd'))
 
 	/**
 	 * Inline code & commands

@@ -7,6 +7,7 @@ const { wrapHTML         } = require('../helpers.js');
 const { generateStr      } = require('../helpers.js');
 const { toKebabCase      } = require('../helpers.js');
 const { removeTagTargets } = require('../helpers.js');
+const { solidifyHyphens  } = require('../helpers.js');
 
 const { isEmpty          } = require('./helpers.js');
 const { isSeparator      } = require('./helpers.js');
@@ -39,8 +40,7 @@ module.exports = {
 	 */
 
 	document: {
-		start: () => true,
-		end:   () => false,
+		end: () => false,
 
 		containedBlocks: [
 			'toc',
@@ -53,6 +53,7 @@ module.exports = {
 			'table',
 
 			'note',
+			'tagTarget',
 			'commandBlock',
 			'formattedText',
 
@@ -113,7 +114,7 @@ module.exports = {
 
 				// Make some words uppercase
 				.replace(/(?:^|\b)(?:i|ms|mswin)(?:\b|^)/i, match => match.toUpperCase())
-				.replace('MS-windows', 'MS-Windows')
+				.replace(/ms-windows/i, 'MS-Windows')
 			);
 		},
 
@@ -319,6 +320,33 @@ module.exports = {
 		transformLines: line => removeCodeMarkers(line).replace(RE_START_OL, '').replace(RE_START_UL, ''),
 
 		wrapper: lines => wrapHTML(lines.join(' '), 'p', { class: lines[0].startsWith('WARNING:') ? 'warning' : null })
+	},
+
+	/**
+	 * Tag target
+	 */
+	tagTarget: {
+		start: ct => /^\t{2,}(?:\*[\w-]+\* *)+/.test(ct.line),
+		end:   () => true,
+
+		containedBlocks: [],
+
+		wrapper(lines)
+		{
+			const targets = lines[0].trim().split(' ');
+
+			return wrapHTML(
+				wrapHTML(
+					targets.map(target => wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'a', {
+						id:    toKebabCase(target),
+						href:  '#' + toKebabCase(target),
+						class: 'target',
+					})).join(''),
+					'div', { class: 'targets-wrapper' }
+				),
+				'div', { class: 'targets-fixing' }
+			);
+		}
 	},
 
 	/**
