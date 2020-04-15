@@ -157,6 +157,10 @@ button svg {
 	text-align: center;
 }
 
+.navlink:hover {
+	text-decoration: none;
+}
+
 button,       .navlink       { color: var(--color--button--text);        }
 button:hover, .navlink:hover { color: var(--color--button--text--hover); }
 
@@ -377,9 +381,8 @@ p.warning {
  * =============================================================================
  */
 
-p                   { margin-top: 20px; }
-h3 + p              { margin-top: 10px; }
-.targets-fixing + p { margin-top: 10px; }
+p      { margin-top: 20px; }
+h3 + p { margin-top: 10px; }
 
 p.centered {
 	text-align: center;
@@ -449,7 +452,7 @@ a:hover {
  */
 
 .tag, .target {
-	padding: 2px;
+	padding: 2px 4px;
 
 	border: 1px solid var(--color--tag--border);
 }
@@ -474,10 +477,14 @@ a:hover {
 	position: absolute;
 	top: 20px;
 	left: 100%;
+
+	margin-left: 10px;
 }
 
 .target {
-	margin-left: 20px;
+	margin-left: 10px;
+
+	font-weight: normal;
 }
 
 /**
@@ -537,8 +544,8 @@ kbd          { color: var(--color--keybinding--text);  }
 		position: static;
 	}
 
-	.targets-fixing {
-		margin-top: 20px;
+	.targets-fixing, .targets-fixing + p {
+		margin-top: 10px;
 	}
 
 	.targets-wrapper {

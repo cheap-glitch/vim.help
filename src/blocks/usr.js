@@ -6,8 +6,8 @@
 const { wrapHTML         } = require('../helpers.js');
 const { generateStr      } = require('../helpers.js');
 const { toKebabCase      } = require('../helpers.js');
-const { removeTagTargets } = require('../helpers.js');
 const { solidifyHyphens  } = require('../helpers.js');
+const { removeTagTargets } = require('../helpers.js');
 
 const { isEmpty          } = require('./helpers.js');
 const { isSeparator      } = require('./helpers.js');
@@ -19,12 +19,12 @@ const STR_FORMATTED_BLOCK_END     = ' ~';
 const RE_HEADER_NB                = /^\*(\d{2}\.\d{1,2})\*\s/;
 const RE_SPECIAL_MESSAGE          = /^[WE]\d{1,3}: /;
 const RE_START_OL                 = /^\t?\d{1,2}[.)] /;
-const RE_START_UL                 = /^- {1,2}(?=\S)/;
-const RE_START_TOC                = /^\|(\d{2}\.\d{1,2})\|\t/;
-const RE_SUB_HEADER               = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
-const RE_START_TABLE_NO_INDENT    = /^[^\t<]+\t{1,2}[^\t]+$/;
-const RE_START_TABLE_INDENT_TAB   = /^<?\t\S[^\t]*\t+\S[^\t]+(?:\t~)?$/;
 const RE_START_TABLE_INDENT_SPACE = /^ {4,}\S+\t{1,2}[^\t]+$/;
+const RE_START_TABLE_INDENT_TAB   = /^<?\t\S[^\t]*\t+\S[^\t]+(?:\t~)?$/;
+const RE_START_TABLE_NO_INDENT    = /^[^\t<]+\t{1,2}[^\t]+$/;
+const RE_START_TOC                = /^\|(\d{2}\.\d{1,2})\|\t/;
+const RE_START_UL                 = /^- {1,2}(?=\S)/;
+const RE_SUB_HEADER               = /^[A-Z][A-Z ,'!?-]+(?:\s+\*.+?\*)*$/;
 
 /**
  * Block definitions
@@ -85,13 +85,13 @@ module.exports = {
 
 		wrapper(lines)
 		{
-			const line = lines[0];
+			const line = lines[0].replace(RE_HEADER_NB, '');
 
 			// Add an anchor with the number of the header
-			const number = line.match(RE_HEADER_NB)[1].trim();
+			const number = lines[0].match(RE_HEADER_NB)[1].trim();
 			const anchor = wrapHTML(number, 'a', { href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + removeTagTargets(line.replace(RE_HEADER_NB, '')), 'h2', { id: number });
+			return wrapHTML(anchor + removeTagTargets(line), 'h2', { id: number }) + parseTagTargets(line);
 		}
 	},
 
@@ -107,20 +107,16 @@ module.exports = {
 
 		transformLines(line)
 		{
-			return removeTagTargets(
-
-				// Fix the capitalisation of the header text
-				(line[0] + line.slice(1).toLowerCase())
-
+			// Fix the capitalisation of the header text
+			return (line[0] + line.slice(1).toLowerCase())
 				// Make some words uppercase
 				.replace(/(?:^|\b)(?:i|ms|mswin)(?:\b|^)/i, match => match.toUpperCase())
-				.replace(/ms-windows/i, 'MS-Windows')
-			);
+				.replace(/ms-windows/i, 'MS-Windows');
 		},
 
 		wrapper(lines)
 		{
-			const line = lines[0];
+			const line = removeTagTargets(lines[0]);
 
 			// Add an anchor before the header text
 			const anchor = wrapHTML('#', 'a', {
@@ -128,7 +124,7 @@ module.exports = {
 				class: 'header-anchor',
 			});
 
-			return wrapHTML(anchor + line, 'h3', { id: toKebabCase(line) });
+			return wrapHTML(anchor + line, 'h3', { id: toKebabCase(line) }) + parseTagTargets(lines[0]);
 		}
 	},
 
@@ -326,27 +322,12 @@ module.exports = {
 	 * Tag target
 	 */
 	tagTarget: {
-		start: ct => /^\t{2,}(?:\*[\w-]+\* *)+/.test(ct.line),
+		start: ct => /^\t{2,}(?:\*[^ ]+?\* *)+$/.test(ct.line),
 		end:   () => true,
 
 		containedBlocks: [],
 
-		wrapper(lines)
-		{
-			const targets = lines[0].trim().split(' ');
-
-			return wrapHTML(
-				wrapHTML(
-					targets.map(target => wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'a', {
-						id:    toKebabCase(target),
-						href:  '#' + toKebabCase(target),
-						class: 'target',
-					})).join(''),
-					'div', { class: 'targets-wrapper' }
-				),
-				'div', { class: 'targets-fixing' }
-			);
-		}
+		wrapper: lines => parseTagTargets(lines[0])
 	},
 
 	/**
@@ -495,9 +476,29 @@ module.exports = {
 };
 
 /**
- * Cleaners
+ * Helpers
  * =============================================================================
  */
+
+/**
+ * Get all the tag targets in a line, wrap each one
+ * in a separate tag and put the whole group inside a wrapper
+ */
+function parseTagTargets(line)
+{
+	const targets = [];
+
+	line.replace(/\*[^ ]+?\*/g, function(target)
+	{
+		targets.push(wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'a', {
+			id:    toKebabCase(target),
+			href:  '#' + toKebabCase(target),
+			class: 'target',
+		}));
+	});
+
+	return targets.length ? wrapHTML(wrapHTML(targets.join(''), 'div', { class: 'targets-wrapper' }), 'div', { class: 'targets-fixing' }) : '';
+}
 
 /**
  * Remove unneeded block indentation

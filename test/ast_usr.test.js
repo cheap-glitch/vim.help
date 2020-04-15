@@ -793,7 +793,7 @@ describe("paragraphs", () => {
  */
 describe("tag targets", () => {
 
-	// Single target before a paragraph {{{
+	// Single target before a paragraph (usr_01, 170) {{{
 	it("single target before a paragraph", () => getAST(`
 
 		People who contribute to the manuals must agree with the above copyright
