@@ -381,9 +381,8 @@ p.warning {
  * =============================================================================
  */
 
-p                   { margin-top: 20px; }
-h3 + p              { margin-top: 10px; }
-.targets-fixing + p { margin-top: 10px; }
+p      { margin-top: 20px; }
+h3 + p { margin-top: 10px; }
 
 p.centered {
 	text-align: center;
@@ -476,14 +475,10 @@ a:hover {
 	display: flex;
 
 	position: absolute;
-	top: 10px;
+	top: 20px;
 	left: 100%;
 
 	margin-left: 10px;
-}
-
-h2 .targets-wrapper, h3 .targets-wrapper {
-	top: 0;
 }
 
 .target {
@@ -549,8 +544,8 @@ kbd          { color: var(--color--keybinding--text);  }
 		position: static;
 	}
 
-	.targets-fixing {
-		margin-top: 20px;
+	.targets-fixing, .targets-fixing + p {
+		margin-top: 10px;
 	}
 
 	.targets-wrapper {

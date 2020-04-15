@@ -91,7 +91,7 @@ module.exports = {
 			const number = lines[0].match(RE_HEADER_NB)[1].trim();
 			const anchor = wrapHTML(number, 'a', { href: `#${number}`, class: 'header-anchor' });
 
-			return wrapHTML(anchor + removeTagTargets(line) + parseTagTargets(line), 'h2', { id: number });
+			return wrapHTML(anchor + removeTagTargets(line), 'h2', { id: number }) + parseTagTargets(line);
 		}
 	},
 
@@ -124,7 +124,7 @@ module.exports = {
 				class: 'header-anchor',
 			});
 
-			return wrapHTML(anchor + line + parseTagTargets(lines[0]), 'h3', { id: toKebabCase(line) });
+			return wrapHTML(anchor + line, 'h3', { id: toKebabCase(line) }) + parseTagTargets(lines[0]);
 		}
 	},
 
@@ -327,7 +327,7 @@ module.exports = {
 
 		containedBlocks: [],
 
-		wrapper: lines => wrapHTML(parseTagTargets(lines[0]), 'div', { class: 'targets-fixing' })
+		wrapper: lines => parseTagTargets(lines[0])
 	},
 
 	/**
@@ -497,7 +497,7 @@ function parseTagTargets(line)
 		}));
 	});
 
-	return targets.length ? wrapHTML(targets.join(''), 'div', { class: 'targets-wrapper' }) : '';
+	return targets.length ? wrapHTML(wrapHTML(targets.join(''), 'div', { class: 'targets-wrapper' }), 'div', { class: 'targets-fixing' }) : '';
 }
 
 /**
