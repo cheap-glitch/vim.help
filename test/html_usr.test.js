@@ -32,7 +32,7 @@ it("section headers", () => {
 		type: 'sectionHeader',
 		children: [text('*01.1* Lorem ipsum *tag-target*')],
 	})
-	.should.equal('<h2 id="01.1"><a href="#01.1" class="header-anchor">01.1</a>Lorem ipsum <a id="tag-target" href="#tag-target" class="target">tag&#8209;target</a></h2>');
+	.should.equal('<h2 id="01.1"><a href="#01.1" class="header-anchor">01.1</a>Lorem ipsum<div class="targets-wrapper"><a id="tag-target" href="#tag-target" class="target">tag&#8209;target</a></div></h2>');
 
 });
 
@@ -48,7 +48,7 @@ it("sub-section headers", () => {
 		type: 'subSectionHeader',
 		children: [text('LOREM IPSUM *tag-target*')],
 	})
-	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum <a id="tag-target" href="#tag-target" class="target">tag&#8209;target</a></h3>');
+	.should.equal('<h3 id="lorem-ipsum"><a href="#lorem-ipsum" class="header-anchor">#</a>Lorem ipsum<div class="targets-wrapper"><a id="tag-target" href="#tag-target" class="target">tag&#8209;target</a></div></h3>');
 
 	build({
 		type: 'subSectionHeader',

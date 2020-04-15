@@ -157,6 +157,10 @@ button svg {
 	text-align: center;
 }
 
+.navlink:hover {
+	text-decoration: none;
+}
+
 button,       .navlink       { color: var(--color--button--text);        }
 button:hover, .navlink:hover { color: var(--color--button--text--hover); }
 
@@ -449,7 +453,7 @@ a:hover {
  */
 
 .tag, .target {
-	padding: 2px;
+	padding: 2px 4px;
 
 	border: 1px solid var(--color--tag--border);
 }
@@ -472,12 +476,20 @@ a:hover {
 	display: flex;
 
 	position: absolute;
-	top: 20px;
+	top: 10px;
 	left: 100%;
+
+	margin-left: 10px;
+}
+
+h2 .targets-wrapper, h3 .targets-wrapper {
+	top: 0;
 }
 
 .target {
-	margin-left: 20px;
+	margin-left: 10px;
+
+	font-weight: normal;
 }
 
 /**
