@@ -1,4 +1,4 @@
-## How to contribute
+## 💻 How to contribute
 
 Here are a few suggestions to contribute to the project:
   * check the pages for any broken formatting and [report it](https://github.com/cheap-glitch/vim.help/issues/new?labels=bug%2C+parser&template=01_broken_formatting.md)
@@ -6,7 +6,7 @@ Here are a few suggestions to contribute to the project:
   * write a parser for some unprocessed help files (cf. [About the parser](#about-the-parser))
   * improve the HTML/CSS wrapper
 
-## Contributing guidelines
+## 📔 Contributing guidelines
 
 1. Consider **opening an issue before submitting any sizable PR**, especially if
    it touches on the internal logic of the parser.
@@ -24,7 +24,7 @@ Here are a few suggestions to contribute to the project:
    essential to the long-term maintenance of the code!
    Current code coverage: [![codecov](https://codecov.io/gh/cheap-glitch/vim.help/branch/master/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/vim.help)
 
-## About the parser
+## 🏭 About the parser
 
 ### General operation
 

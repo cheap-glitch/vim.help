@@ -176,6 +176,8 @@ describe("tables of contents", () => {
  */
 describe("notes", () => {
 
+	// {{{
+
 	it("simple note block", () =>
 		build({
 			type: 'note',
@@ -193,9 +195,13 @@ describe("notes", () => {
 		.should.equal(`<div class="note"><p>Lorem ipsum dolor sit amet</p></div>`)
 	);
 
+	// }}}
+
 });
 
 describe("paragraphs", () => {
+
+	// {{{
 
 	it("paragraph with code markers", () =>
 		build({
@@ -224,9 +230,37 @@ describe("paragraphs", () => {
 		.should.equal(``)
 	);
 
+	// }}}
+
 });
 
 describe("command blocks", () => {
+
+	// {{{
+
+	it("single target", () =>
+		build({
+			type: 'tagTarget',
+			children: [text('\t\t*frombook*')]
+		})
+		.should.equal('<div class="targets-fixing"><div class="targets-wrapper"><a id="frombook" href="#frombook" class="target">frombook</a></div></div>')
+	);
+
+	it("multiple targets", () =>
+		build({
+			type: 'tagTarget',
+			children: [text('\t\t*target* *second-target*')]
+		})
+		.should.equal('<div class="targets-fixing"><div class="targets-wrapper"><a id="target" href="#target" class="target">target</a><a id="second-target" href="#second-target" class="target">second&#8209;target</a></div></div>')
+	);
+
+	// }}}
+
+});
+
+describe("command blocks", () => {
+
+	// {{{
 
 	it("single-line command block", () =>
 		build({
@@ -247,9 +281,13 @@ describe("command blocks", () => {
 		.should.equal(`<pre class="command-block"><code>:command param1 param2\n:otherCommand</code></pre>`)
 	);
 
+	// }}}
+
 });
 
 describe("formatted text", () => {
+
+	// {{{
 
 	it("single-line formatted text block", () =>
 		build({
@@ -288,6 +326,8 @@ describe("formatted text", () => {
 		})
 		.should.equal(`<pre class="message-error">E123: this is an error</pre>`)
 	);
+
+	// }}}
 
 });
 /**
