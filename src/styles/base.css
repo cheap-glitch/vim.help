@@ -38,6 +38,8 @@ body {
 	flex-direction: column;
 	align-items: stretch;
 
+	max-width: calc(var(--layout--max-width) + 40px);
+
 	margin: 0 auto;
 	padding: 10px 20px 40px 20px;
 }
@@ -178,8 +180,12 @@ button:hover, .navlink:hover { color: var(--color--button--text--hover); }
  * =============================================================================
  */
 
+:root {
+	font-size: var(--font-size--root);
+}
+
 body, #button-setting-font {
-	font-family: var(--font--body);
+	font-family: var(--font);
 	font-size: var(--font-size--body);
 }
 
@@ -316,7 +322,9 @@ ul {
 }
 
 li {
-	margin-left: 40px;
+	--layout--li--margin-left: 40px;
+
+	margin-left: var(--layout--li--margin-left);
 }
 
 .table-of-contents li {
@@ -401,6 +409,8 @@ p.centered {
 pre {
 	overflow-x: auto;
 
+	max-width: var(--layout--max-width);
+
 	align-self: flex-start;
 
 	margin-top: 20px;
@@ -411,11 +421,11 @@ pre {
 	border: 1px solid var(--color--pre--border);
 }
 
-/**
- * Fix bug where <pre> blocks are slightly bigger in <li> elements
- */
 li pre {
-	padding: 0 6px 2px 8px;
+	/**
+	 * Prevent <pre> blocks from sticking out of the text column
+	 */
+	max-width: calc(var(--layout--max-width) - var(--layout--li--margin-left));
 }
 
 .command-block   { border-color: var(--color--command-block--border);   }
@@ -531,8 +541,12 @@ kbd          { color: var(--color--keybinding--text);  }
 		display: none;
 	}
 
-	.page__wrapper {
+	.page__wrapper, .li-contents {
 		display: block;
+	}
+
+	li {
+		--layout--li--margin-left: 20px;
 	}
 
 	table {

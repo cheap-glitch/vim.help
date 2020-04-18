@@ -14,7 +14,7 @@
  */
 :root[data-font-family="sans-serif"]
 {
-	--font--body: "Fira Sans", "Open Sans", "Helvetica", sans-serif;
+	--font: "Fira Sans", "Open Sans", "Helvetica", sans-serif;
 
 	--font-size--body: 1.6rem;
 	--font-size--h1:   3.1rem;
@@ -29,7 +29,7 @@
  */
 :root[data-font-family="serif"]
 {
-	--font--body: "Garamond", "EB Garamond", "Palatino", "Georgia", serif;
+	--font: "Garamond", "EB Garamond", "Palatino", "Georgia", serif;
 
 	--font-size--body: 2.0rem;
 	--font-size--h1:   3.5rem;
@@ -44,27 +44,34 @@
  */
 
 /**
- * Font size
+ * Font size & layout
  * {{{
  * =============================================================================
  */
 
-:root[data-font-size="small"]                 { font-size: 62.5%;  }
-:root[data-font-size="normal"]                { font-size: 68.75%; }
-:root[data-font-size="big"]                   { font-size: 75%;    }
+:root[data-font-size="small"] {
+	--layout--max-width: 700px;
+	--font-size--root: 62.5%;
+}
 
-:root[data-font-size="small"]  .page__wrapper { max-width: 700px;  }
-:root[data-font-size="normal"] .page__wrapper { max-width: 750px;  }
-:root[data-font-size="big"]    .page__wrapper { max-width: 800px;  }
+:root[data-font-size="normal"] {
+	--layout--max-width: 750px;
+	--font-size--root: 68.75%;
+}
+
+:root[data-font-size="big"] {
+	--layout--max-width: 800px;
+	--font-size--root: 75%;
+}
 
 /**
  * Slightly reduce the font size on mobile
  */
 @media(max-width: 56.25em)
 {
-	:root[data-font-size="small"]         { font-size: 60%;    }
-	:root[data-font-size="normal"]        { font-size: 66.25%; }
-	:root[data-font-size="big"]           { font-size: 72.5%;  }
+	:root[data-font-size="small"]         { --font-size--root: 60%;    }
+	:root[data-font-size="normal"]        { --font-size--root: 66.25%; }
+	:root[data-font-size="big"]           { --font-size--root: 72.5%;  }
 
 	:root[data-font-family="sans-serif"]  { --line-spacing--body: 1.3; }
 	:root[data-font-family="serif"]       { --line-spacing--body: 1;   }

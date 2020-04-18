@@ -1,12 +1,14 @@
+# CONTRIBUTING.md
+
 ## 💻 How to contribute
 
 Here are a few suggestions to contribute to the project:
   * check the pages for any broken formatting and [report it](https://github.com/cheap-glitch/vim.help/issues/new?labels=bug%2C+parser&template=01_broken_formatting.md)
     (and you'll learn about Vim as a bonus!)
-  * write a parser for some unprocessed help files (cf. [About the parser](#about-the-parser))
+  * write a parser for some unprocessed help files (cf. [About the parser](#-about-the-parser))
   * improve the HTML/CSS wrapper
 
-## 📔 Contributing guidelines
+## 📔 Contribution guidelines
 
 1. Consider **opening an issue before submitting any sizable PR**, especially if
    it touches on the internal logic of the parser.
