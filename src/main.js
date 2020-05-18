@@ -62,7 +62,7 @@ const BUILD_DIR              = path.resolve(__dirname, '../public');
 const HTML_LAYOUT            = fs.readFileSync(path.resolve(__dirname, './layouts/page.html')).toString();
 
 // Do nothing if no argument is given
-if (process.argv.length <= 3) process.exit(0);
+if (process.argv.length <= 3) throw Error('Need a command as the argument');
 
 // Create the build directory if it doesn't exist
 if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
@@ -256,15 +256,13 @@ function getNavLinkNextChapter(filename)
 }
 
 /**
- * Get the number of the next/previous chapter in the user manual
+ * Get the number/title of the next/previous chapter in the user manual
  */
 function getChapterNumber(filename, offset)
 {
 	return Object.keys(files)[Object.keys(files).indexOf(filename) + offset].slice(4);
 }
-/**
- * Get the title of the next/previous chapter in the user manual
- */
+
 function getChapterTitle(filename, offset)
 {
 	return files[Object.keys(files)[Object.keys(files).indexOf(filename) + offset]];
