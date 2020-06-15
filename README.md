@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://vim.help" target="_blank" rel="external nofollow noopener noreferrer">
-		<img src="https://raw.githubusercontent.com/cheap-glitch/vim.help/master/docs/banner.png" alt="banner">
+		<img src="https://raw.githubusercontent.com/cheap-glitch/vim.help/main/docs/banner.png" alt="banner">
 	</a>
 </p>
 
@@ -43,7 +43,7 @@ finish.
 
 <!-- fragment:contributing -->
 ## 💻 Contributing
-[![codecov](https://codecov.io/gh/cheap-glitch/vim.help/branch/master/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/vim.help)
+[![codecov](https://codecov.io/gh/cheap-glitch/vim.help/branch/main/graph/badge.svg)](https://codecov.io/gh/cheap-glitch/vim.help)
 
 Contributions are welcomed! While the parser  for the user manual is functional,
 there are still  plenty of edge cases  to catch. Furthermore, many  pages of the
@@ -56,7 +56,7 @@ Other features that would be nice to have:
   * better a11y (maybe a specific colorscheme?)
 
 If   you're   interested    in   helping   out,   please   take    a   look   at
-[CONTRIBUTING.md](https://github.com/cheap-glitch/vim.help/blob/master/CONTRIBUTING.md).
+[CONTRIBUTING.md](https://github.com/cheap-glitch/vim.help/blob/main/CONTRIBUTING.md).
 <!-- /fragment -->
 
 <!-- fragment:support -->
