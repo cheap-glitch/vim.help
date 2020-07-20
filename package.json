@@ -47,7 +47,7 @@
     "gray-matter": "^4.0.2",
     "html-minifier": "^4.0.0",
     "klaw-sync": "^6.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "markdown-it": "^11.0.0",
     "markdown-it-attrs": "^3.0.3",
     "markdown-it-bracketed-spans": "^1.0.1",
