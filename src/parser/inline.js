@@ -23,10 +23,10 @@ const tags = getRawFileContents('tags').filter(line => line.length).reduce(funct
 }, {});
 
 // Create a spellchecker
-const fs          = require('fs');
-const path        = require('path');
-const { Nodehun } = require('nodehun');
-const spellcheck  = new Nodehun(fs.readFileSync(path.resolve(__dirname, '.en_US.aff')), fs.readFileSync(path.resolve(__dirname, '.en_US.dic')));
+const fs           = require('fs');
+const path         = require('path');
+const { Nodehun }  = require('nodehun');
+const spellchecker = new Nodehun(fs.readFileSync(path.resolve(__dirname, '.en_US.aff')), fs.readFileSync(path.resolve(__dirname, '.en_US.dic')));
 
 function formatInlineText(filename, line)
 {
@@ -116,7 +116,7 @@ function formatInlineText(filename, line)
 		const parsedKeybinding = wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd');
 		const parsedExtra      = !extra
 			// Check that the extra key presses are not a word
-			|| (extra.length >= 2 && spellcheck.spellSync(extra))
+			|| (extra.length >= 2 && spellchecker.spellSync(extra))
 			// Only the CTRL-V key binding can be combined with three extra key presses
 			|| (extra.length == 3 && keybinding != 'CTRL-V')
 		? null : extra;
