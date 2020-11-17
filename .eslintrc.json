@@ -1,22 +1,25 @@
 {
-	"extends": "eslint:recommended",
-
-	"plugins": [
-		"smarter-tabs"
-	],
+	"root": true,
 
 	"parserOptions": {
 		"ecmaVersion": 2018
 	},
 
+	"plugins": [
+		"smarter-tabs"
+	],
+
 	"env": {
 		"node": true
 	},
 
+	"extends": "eslint:recommended",
+
 	"rules": {
-    "no-case-declarations":       "off",
-		"no-mixed-spaces-and-tabs":   ["warn", "smart-tabs"],
-		"smarter-tabs/smarter-tabs":  "warn"
+    "brace-style":               ["warn", "1tbs", { "allowSingleLine": true }],
+    "no-case-declarations":      "off",
+		"no-mixed-spaces-and-tabs":  ["warn", "smart-tabs"],
+		"smarter-tabs/smarter-tabs": "warn"
 	},
 
   "ignorePatterns": ["public/"],

@@ -1692,8 +1692,7 @@ describe("tables", () => {
 /**
  * Build and clean an AST from a snippet of text
  */
-function getAST(text, indentLevel = 2)
-{
+function getAST(text, indentLevel = 2) {
 	return cleanAST(buildAST(blocksUsr, text.split('\n').slice(1, -1).map(line => line.replace(generateStr(indentLevel, '\t'), ''))));
 }
 
@@ -1702,8 +1701,7 @@ function getAST(text, indentLevel = 2)
  * Remove the 'children' property if it's an empty array
  * Turn text nodes into simple strings
  */
-function cleanAST(node)
-{
+function cleanAST(node) {
 	node.children = node.children.map(child => cleanAST(child));
 
 	delete node.parent;
@@ -1716,7 +1714,6 @@ function cleanAST(node)
 /**
  * Wrap the expected nodes into a root node
  */
-function wrapNodes(nodes)
-{
+function wrapNodes(nodes) {
 	return { type: 'document', children: wrapArray(nodes) };
 }

@@ -7,8 +7,7 @@ const blocks    = require('../blocks/usr.js');
 const buildAST  = require('../parser/ast.js');
 const buildHTML = require('../parser/html.js');
 
-module.exports = function(filename, lines)
-{
+module.exports = function(filename, lines) {
 	// Remove the header and footer
 	lines = lines.slice(7, -5);
 

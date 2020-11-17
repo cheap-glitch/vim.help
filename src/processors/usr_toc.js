@@ -7,8 +7,7 @@ const blocks    = require('../blocks/usr_toc.js');
 const buildAST  = require('../parser/ast.js');
 const buildHTML = require('../parser/html.js');
 
-module.exports = function(lines)
-{
+module.exports = function(lines) {
 	// Remove the header and footer
 	lines = lines.slice(56, -4);
 

@@ -15,12 +15,10 @@ const files = {
 }
 
 // Get the title of each help file
-walk('raw').filter(file => file.path.endsWith('.txt')).forEach(function(file)
-{
+walk('raw').filter(file => file.path.endsWith('.txt')).forEach(function(file) {
 	const filename = basename(file.path);
 
-	if (!(filename in files))
-	{
+	if (!(filename in files)) {
 		files[filename] = isUserManual(filename)
 			// For the pages of the user manual, the title is always on the fourth line
 			? getRawFileContents(`${filename}.txt`)[4].trim()

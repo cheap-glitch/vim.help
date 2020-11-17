@@ -83,8 +83,7 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		wrapper(lines)
-		{
+		wrapper(lines) {
 			const line = lines[0].replace(RE_HEADER_NB, '');
 
 			// Add an anchor with the number of the header
@@ -105,8 +104,7 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		transformLines(line)
-		{
+		transformLines(line) {
 			// Fix the capitalisation of the header text
 			return (line[0] + line.slice(1).toLowerCase())
 				// Make some words uppercase
@@ -114,8 +112,7 @@ module.exports = {
 				.replace(/ms-windows/i, 'MS-Windows');
 		},
 
-		wrapper(lines)
-		{
+		wrapper(lines) {
 			const line = removeTagTargets(lines[0]);
 
 			// Add an anchor before the header text
@@ -274,26 +271,22 @@ module.exports = {
 	 * Paragraph
 	 */
 	paragraph: {
-		start(ct)
-		{
+		start(ct) {
 			if (isEmpty(ct.line) || isSeparator(ct.line)) return false;
 
-			switch (ct.current.type)
-			{
+			switch (ct.current.type) {
 				case 'note':     return ct.line != STR_NOTE_START;
 				case 'listItem': return true;
 				default:         return !/^\t/.test(ct.line);
 			}
 		},
-		end(ct)
-		{
+		end(ct) {
 			if (isEmpty(ct.nextLine)
 			 || isSeparator(ct.nextLine)
 			 || ct.line.endsWith(' >') || ct.line == '>'
 			) return true;
 
-			switch(ct.parent.type)
-			{
+			switch(ct.parent.type) {
 				case 'note':     return ct.nextLine.startsWith('\t\t');
 				case 'listItem': return (ct.nextLine.startsWith('\t')
 				                         && !RE_START_UL.test(ct.line)
@@ -355,12 +348,10 @@ module.exports = {
 	 * Formatted text
 	 */
 	formattedText: {
-		start(ct)
-		{
+		start(ct) {
 			if (ct.line.endsWith(STR_FORMATTED_BLOCK_END)) return true;
 
-			switch (ct.current.type)
-			{
+			switch (ct.current.type) {
 				case 'listItem': return ct.line.startsWith('\t')
 				                    && !ct.previousLine.startsWith('\t')
 				                    && !RE_START_OL.test(ct.line)
@@ -384,8 +375,7 @@ module.exports = {
 		transformLines:  line => line.replace(/ ~$/, ''),
 		transformBlock: lines => removeBlockIndentation(lines),
 
-		wrapper(lines)
-		{
+		wrapper(lines) {
 			const text = lines.join('\n');
 
 			return wrapHTML(text, 'pre', RE_SPECIAL_MESSAGE.test(text)
@@ -453,8 +443,7 @@ module.exports = {
 		transformLines:  line => removeCodeMarkers(line),
 		transformBlock: lines => splitFirstCell(lines),
 
-		wrapper(lines)
-		{
+		wrapper(lines) {
 			/**
 			 * Wrap the first line and the rest of the lines in two separated <td> tags
 			 *
@@ -484,12 +473,10 @@ module.exports = {
  * Get all the tag targets in a line, wrap each one
  * in a separate tag and put the whole group inside a wrapper
  */
-function parseTagTargets(line)
-{
+function parseTagTargets(line) {
 	const targets = [];
 
-	line.replace(/\*[^ ]+?\*/g, function(target)
-	{
+	line.replace(/\*[^ ]+?\*/g, function(target) {
 		targets.push(wrapHTML(solidifyHyphens(target.replace(/\*/g, '')), 'a', {
 			id:    toKebabCase(target),
 			href:  '#' + toKebabCase(target),
@@ -503,8 +490,7 @@ function parseTagTargets(line)
 /**
  * Remove unneeded block indentation
  */
-function removeBlockIndentation(lines)
-{
+function removeBlockIndentation(lines) {
 	// If the block is made up of a single line, remove the leading whitespace
 	if (lines.length == 1) return [lines[0].trim()];
 
@@ -519,7 +505,6 @@ function removeBlockIndentation(lines)
 /**
  * Remove code markers ('>' and '<')
  */
-function removeCodeMarkers(line)
-{
+function removeCodeMarkers(line) {
 	return ['&lt;', '&gt;'].includes(line) ? '' : line.replace(/^&lt;(?: |\t)| &gt;$/g, '').trim();
 }

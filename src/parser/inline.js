@@ -14,8 +14,7 @@ const { getRawFileContents } = require('../helpers.js');
 const files = require('../files.js');
 
 // Read the tags file to get the list of tags
-const tags = getRawFileContents('tags').filter(line => line.length).reduce(function(result, line)
-{
+const tags = getRawFileContents('tags').filter(line => line.length).reduce(function(result, line) {
 	const [tag, file] = line.split('\t');
 	result[tag] = basename(file);
 
@@ -28,8 +27,7 @@ const path         = require('path');
 const { Nodehun }  = require('nodehun');
 const spellchecker = new Nodehun(fs.readFileSync(path.resolve(__dirname, '.en_US.aff')), fs.readFileSync(path.resolve(__dirname, '.en_US.dic')));
 
-function formatInlineText(filename, line)
-{
+function formatInlineText(filename, line) {
 	return line
 
 	/**
@@ -37,8 +35,7 @@ function formatInlineText(filename, line)
 	 * =====================================================================
 	 */
 
-	.replace(/\|([^ \t|]+)\|/g, function(_, tag)
-	{
+	.replace(/\|([^ \t|]+)\|/g, function(_, tag) {
 		// Don't do anything if the tag is not in the list
 		if (!tags[tag]) return tag;
 
@@ -48,14 +45,12 @@ function formatInlineText(filename, line)
 		 */
 
 		// Page
-		if (tag.endsWith('.txt') && (tag.slice(0, -4) in files))
-		{
+		if (tag.endsWith('.txt') && (tag.slice(0, -4) in files)) {
 			return '“' + wrapHTML(files[tag.slice(0, -4)], 'a', { href: getLinkToTag(filename, tag) }) + '”';
 		}
 
 		// User manual section
-		if (/^\d{2}\.\d{1,2}$/.test(tag))
-		{
+		if (/^\d{2}\.\d{1,2}$/.test(tag)) {
 			// Get the title of the section from the file contents
 			const file  = tags[tag];
 			const title = removeTagTargets(getRawFileContents(`${file}.txt`).find(line => line.startsWith(`*${tag}*`)));
@@ -83,8 +78,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Option names ('option')
 	 */
-	.replace(/(?:^|(?<= ))'([a-z]+)'/g, function(option, name)
-	{
+	.replace(/(?:^|(?<= ))'([a-z]+)'/g, function(option, name) {
 		const link = getLinkToTag(filename, option);
 
 		// Don't create a tag if the key binding is not in the list or the target doesn't exists
@@ -111,8 +105,7 @@ function formatInlineText(filename, line)
 	/**
 	 * Control-based key bindings followed by extra key presses (CTRL-* **)
 	 */
-	.replace(/(?:^|\b)(CTRL-(?:&quot;|[^& ])) ((?:&quot;|[^ ]){1,3}(?:(?=[ ),.])|$))/g, function(_, keybinding, extra)
-	{
+	.replace(/(?:^|\b)(CTRL-(?:&quot;|[^& ])) ((?:&quot;|[^ ]){1,3}(?:(?=[ ),.])|$))/g, function(_, keybinding, extra) {
 		const parsedKeybinding = wrapHTML(keybinding.replace(/-/g, '&#8209;'), 'kbd');
 		const parsedExtra      = !extra
 			// Check that the extra key presses are not a word
@@ -231,8 +224,7 @@ function formatInlineText(filename, line)
  * Return a link pointing to a target whose ID is the tag
  * If the tag is not in the list, return 'null'
  */
-function getLinkToTag(filename, tag)
-{
+function getLinkToTag(filename, tag) {
 	return tags[tag] == filename
 
 		// The target is in the same file

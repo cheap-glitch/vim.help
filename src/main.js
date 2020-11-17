@@ -67,33 +67,26 @@ if (process.argv.length <= 3) throw Error('Need a command as the argument');
 // Create the build directory if it doesn't exist
 if (!fs.existsSync(BUILD_DIR)) fs.mkdirSync(BUILD_DIR);
 
-switch ([...process.argv].pop())
-{
+switch ([...process.argv].pop()) {
 	/**
 	 * Build HTML pages from the raw help files
 	 */
 	case 'html':
-		for (const [filename, title] of Object.entries(files))
-		{
+		for (const [filename, title] of Object.entries(files)) {
 			const contents = getRawFileContents(`${filename}.txt`);
 
 			// Optionally apply some corrections to the raw text
-			if (filename in corrections)
-			{
-				for (const [location, correct] of Object.entries(corrections[filename]))
-				{
+			if (filename in corrections) {
+				for (const [location, correct] of Object.entries(corrections[filename])) {
 					// Range of lines
-					if (location.includes('-'))
-					{
+					if (location.includes('-')) {
 						const start = parseInt(location.split('-')[0], 10);
 						const end   = parseInt(location.split('-')[1], 10);
 
 						for (let i = start; i <= end; i++)
 							contents[i - 1] = correct(contents[i - 1]);
-					}
 					// Single line
-					else
-					{
+					} else {
 						contents[location - 1] = correct(contents[location - 1]);
 					}
 				}
@@ -134,14 +127,12 @@ switch ([...process.argv].pop())
 		.use(require('markdown-it-attrs'))
 		.use(require('markdown-it-front-matter'), () => {});
 
-		walk(path.resolve(__dirname, './static')).forEach(function(file)
-		{
+		walk(path.resolve(__dirname, './static')).forEach(function(file) {
 			const contents    = fs.readFileSync(file.path).toString();
 			const frontmatter = gm(contents).data;
 
 			// Process the inclusion directives
-			const md = contents.replace(/<!-- include (.+?):(.+?) -->/g, function(_, source, fragment)
-			{
+			const md = contents.replace(/<!-- include (.+?):(.+?) -->/g, function(_, source, fragment) {
 				return fs.readFileSync(path.resolve(file.path, `../${source}`))
 					.toString()
 					.match(RegExp(`<!-- fragment:${fragment} -->((?:.|\n)+?)<!-- /fragment -->`))[1];
@@ -173,8 +164,7 @@ switch ([...process.argv].pop())
 }
 
 // Update the timestamps
-walk(BUILD_DIR).forEach(function(file)
-{
+walk(BUILD_DIR).forEach(function(file) {
 	// In the source code
 	fs.writeFileSync(file.path, fs.readFileSync(file.path).toString().replace(/-\d{13}/g, `-${TIMESTAMP}`));
 
@@ -191,8 +181,7 @@ walk(BUILD_DIR).forEach(function(file)
 /**
  * Inject some content in the HTML and write it to the disk
  */
-function writeHTMLPage(filename, values)
-{
+function writeHTMLPage(filename, values) {
 	const html = Object.keys(values)
 		// Inject each value in the HTML layout
 		.reduce((result, placeholder) => result.replace(`{{ ${placeholder} }}`, values[placeholder]), HTML_LAYOUT)
@@ -205,8 +194,7 @@ function writeHTMLPage(filename, values)
 /**
  * Call the correct processor to convert the raw text to HTML
  */
-function callProcessor(filename, lines)
-{
+function callProcessor(filename, lines) {
 	// User manual
 	if (isUserManual(filename))
 		return require('./processors/usr.js')(filename, lines);
@@ -222,8 +210,7 @@ function callProcessor(filename, lines)
 /**
  * Get the navigation link to the parent page
  */
-function getNavLinkParent(filename)
-{
+function getNavLinkParent(filename) {
 	// User manual page
 	if (isUserManual(filename))
 		return wrapHTML('↑', 'a', { class: 'navlink', title: 'Table of contents', href: '/table-of-contents' });
@@ -235,8 +222,7 @@ function getNavLinkParent(filename)
 /**
  * Get the navigation link to the next/previous chapter (user manual only)
  */
-function getNavLinkPrevChapter(filename)
-{
+function getNavLinkPrevChapter(filename) {
 	return (isUserManual(filename) && filename != 'usr_01')
 		? wrapHTML('←', 'a', {
 			class: 'navlink',
@@ -245,8 +231,7 @@ function getNavLinkPrevChapter(filename)
 		}) : '';
 }
 
-function getNavLinkNextChapter(filename)
-{
+function getNavLinkNextChapter(filename) {
 	return (isUserManual(filename) && filename != 'usr_90')
 		? wrapHTML('→', 'a', {
 			class: 'navlink',
@@ -258,12 +243,10 @@ function getNavLinkNextChapter(filename)
 /**
  * Get the number/title of the next/previous chapter in the user manual
  */
-function getChapterNumber(filename, offset)
-{
+function getChapterNumber(filename, offset) {
 	return Object.keys(files)[Object.keys(files).indexOf(filename) + offset].slice(4);
 }
 
-function getChapterTitle(filename, offset)
-{
+function getChapterTitle(filename, offset) {
 	return files[Object.keys(files)[Object.keys(files).indexOf(filename) + offset]];
 }
