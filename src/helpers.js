@@ -16,16 +16,14 @@ module.exports = {
 	/**
 	 * Wrap a blob of text in an HTML tag
 	 */
-	wrapHTML(text, tag, attrs = {})
-	{
+	wrapHTML(text, tag, attrs = {}) {
 		return `<${tag}${Object.keys(attrs).filter(attr => !!attrs[attr]).map(attr => ` ${attr}="${attrs[attr]}"`).join('')}>${text}</${tag}>`;
 	},
 
 	/**
 	 * Escape sensitive HTML characters
 	 */
-	escapeHTML(text)
-	{
+	escapeHTML(text) {
 		return text
 			.replace(/&/g,  '&amp;')
 			.replace(/</g,   '&lt;')
@@ -41,24 +39,21 @@ module.exports = {
 	/**
 	 * Remove tag targets (*foo-bar*) from a blob of text
 	 */
-	removeTagTargets(text)
-	{
+	removeTagTargets(text) {
 		return text.replace(/\*[^ ]+?\*/g, '').trim();
 	},
 
 	/**
 	 * Generate a string containing the same character repeated n times
 	 */
-	generateStr(n, character)
-	{
+	generateStr(n, character) {
 		return Array(n).fill(character).join('');
 	},
 
 	/**
 	 * Convert a string to kebab-case
 	 */
-	toKebabCase(str)
-	{
+	toKebabCase(str) {
 		return str.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '');
 	},
 
@@ -66,8 +61,7 @@ module.exports = {
 	 * Replace the hyphens in a string with non-breaking
 	 * hyphens to prevent tags from being split between two lines
 	 */
-	solidifyHyphens(str)
-	{
+	solidifyHyphens(str) {
 		return str.replace(/-/g, '&#8209;');
 	},
 
@@ -79,24 +73,21 @@ module.exports = {
 	/**
 	 * Return the array of lines from a raw text file and remove trailing whitespace
 	 */
-	getRawFileContents(filename)
-	{
+	getRawFileContents(filename) {
 		return fs.readFileSync(path.resolve(__dirname, `../raw/${filename}`)).toString().replace(/[ \t]+$/gm, '').split('\n');
 	},
 
 	/**
 	 * Return 'true' if the file is a page of the user manual
 	 */
-	isUserManual(filename)
-	{
+	isUserManual(filename) {
 		return /^usr_\d{2}$/.test(filename);
 	},
 
 	/**
 	 * Strip the path and extension from a filename
 	 */
-	basename(path)
-	{
+	basename(path) {
 		return path.split('/').pop().split('.')[0];
 	},
 
@@ -108,8 +99,7 @@ module.exports = {
 	/**
 	 * Wrap a value in an array if it's not one already
 	 */
-	wrapArray(value)
-	{
+	wrapArray(value) {
 		return Array.isArray(value) ? value : [value];
 	},
 

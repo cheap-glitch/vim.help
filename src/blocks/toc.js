@@ -20,8 +20,7 @@ const blocks = cloneDeep(usrTocBlocks);
 blocks.sectionHeader.wrapper = 'p';
 
 // Wrap the link to each page in a <summary> tag and open a <details> block
-blocks.subSectionHeader.wrapper = function(lines, _, filename)
-{
+blocks.subSectionHeader.wrapper = function(lines, _, filename) {
 	const header = lines[0].split('  ')[1];
 	const number = lines[0].match(RE_SUB_HEADER)[1];
 

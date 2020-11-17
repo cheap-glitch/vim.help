@@ -15,8 +15,7 @@ const BASE_URL     = 'https://vim.help';
 /**
  * Minify and process the source files
  */
-walk(BUILD_DIR).forEach(async function(file)
-{
+walk(BUILD_DIR).forEach(async function(file) {
 	const minify       = require('html-minifier').minify;
 	const terser       = require('terser');
 	const postcss      = require('postcss');
@@ -25,8 +24,7 @@ walk(BUILD_DIR).forEach(async function(file)
 
 	const source = fs.readFileSync(file.path).toString();
 
-	switch(file.path.split('.').pop())
-	{
+	switch(file.path.split('.').pop()) {
 		// Minify the HTML
 		case 'html':
 			try {
@@ -35,8 +33,7 @@ walk(BUILD_DIR).forEach(async function(file)
 					removeComments:     true,
 					collapseWhitespace: true,
 				}));
-			}
-			catch (error) {
+			} catch (error) {
 				console.info(`${file.path}`);
 				console.error(error);
 			}

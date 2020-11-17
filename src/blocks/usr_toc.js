@@ -58,8 +58,7 @@ module.exports = {
 		containedBlocks: [],
 		disableInlineParsing: true,
 
-		wrapper(lines)
-		{
+		wrapper(lines) {
 			const header = lines[0].split('  ')[1];
 			const number = lines[0].match(RE_SUB_HEADER)[1];
 

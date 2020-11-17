@@ -11,16 +11,13 @@ const { formatInlineText } = require('./inline.js');
 /**
  * Build an HTML document from an AST
  */
-module.exports = function(filename, blocks, ast)
-{
+module.exports = function(filename, blocks, ast) {
 	// Recursively build an HTML blob from an AST node
-	const buildNodeHTML = function (node, parentBlock = {})
-	{
+	const buildNodeHTML = function (node, parentBlock = {}) {
 		/**
 		 * Plain text node
 		 */
-		if (node.type == 'text')
-		{
+		if (node.type == 'text') {
 			const text = escapeHTML(node.text);
 
 			return ('transformLines' in parentBlock) ? parentBlock.transformLines(text) : text;

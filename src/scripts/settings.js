@@ -12,11 +12,9 @@ const settings = {
 	'text-align':  ['justify', 'left'],
 };
 
-(function()
-{
+(function() {
 	// Load the user settings
-	Object.keys(settings).forEach(function(setting)
-	{
+	Object.keys(settings).forEach(function(setting) {
 		const option = window.localStorage.getItem(setting);
 
 		// If an option for this setting is saved, set the corresponding data attribute on the <html> tag
